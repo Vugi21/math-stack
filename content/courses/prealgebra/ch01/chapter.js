@@ -1,0 +1,1 @@
+export default { id: 'pre-ch1', n: 1, title: 'Properties of Arithmetic', blurb: 'The rules behind addition, multiplication, negatives, reciprocals and division. They turn long calculations into short ones.' };

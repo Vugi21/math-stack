@@ -1,0 +1,19 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Content gate (answer keys, wrong-answer messages, generators, widgets)
+        run: STRICT=1 npm run validate
+      - name: Engine, store and UI tests
+        run: npx vitest run tests/engine.test.js tests/store.test.js tests/ui.test.js
+      - name: Production build
+        run: npm run build
