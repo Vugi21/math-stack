@@ -2,16 +2,16 @@
 /* global __DEMO__ */
 // Accept a pasted project address with extra path (e.g. /rest/v1/) or spaces; only the origin matters.
 const cleanUrl = (u) => { try { return u ? new URL(/^https?:\/\//i.test(String(u).trim()) ? String(u).trim() : 'https://' + String(u).trim()).origin : ''; } catch { return ''; } };
-const URL = cleanUrl(import.meta.env?.VITE_SUPABASE_URL);
+const SB_URL = cleanUrl(import.meta.env?.VITE_SUPABASE_URL);
 const KEY = (import.meta.env?.VITE_SUPABASE_ANON_KEY || '').trim();
-export const hasSupabase = !__DEMO__ && !!(URL && KEY);
+export const hasSupabase = !__DEMO__ && !!(SB_URL && KEY);
 
 let client = null;
 export async function getClient() {
   if (!hasSupabase) return null;
   if (!client) {
     const { createClient } = await import('@supabase/supabase-js');
-    client = createClient(URL, KEY, { auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+    client = createClient(SB_URL, KEY, { auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
   }
   return client;
 }
