@@ -1,7 +1,9 @@
 // Login. With Supabase configured: Google or emailed link, invite-only. Without it (demo): no login.
 /* global __DEMO__ */
-const URL = import.meta.env?.VITE_SUPABASE_URL;
-const KEY = import.meta.env?.VITE_SUPABASE_ANON_KEY;
+// Accept a pasted project address with extra path (e.g. /rest/v1/) or spaces; only the origin matters.
+const cleanUrl = (u) => { try { return u ? new URL(String(u).trim()).origin : ''; } catch { return ''; } };
+const URL = cleanUrl(import.meta.env?.VITE_SUPABASE_URL);
+const KEY = (import.meta.env?.VITE_SUPABASE_ANON_KEY || '').trim();
 export const hasSupabase = !__DEMO__ && !!(URL && KEY);
 
 let client = null;
