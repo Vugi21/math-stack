@@ -7,7 +7,7 @@ const pip = (done, total, label) => h('span', { class: 'pip' + (total && done >=
 
 export function homeView(app) {
   const { store, course, navigate } = app;
-  const s = store.s, cp = courseProgress(course, s), next = nextUp(course, s), due = dueCount(s), st = streak(s.days, Date.now());
+  const s = store.s, cp = courseProgress(course, s), next = nextUp(course, s), due = dueCount(s, course), st = streak(s.days, Date.now());
 
   const head = h('div', { class: 'hero' },
     h('p', { class: 'eyebrow' }, course.title + ' · Grade ' + course.grade),

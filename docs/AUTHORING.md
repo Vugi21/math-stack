@@ -26,3 +26,14 @@ DSL: `src/content/dsl.js`. Judge rules: header of `src/engine/judge.js`. Markup:
 
 ## Run
 `npx vitest run tests/content.test.js -t "pre-5-"` validates one chapter (replace the prefix). `npx vitest run tests/ui.test.js` smoke-tests the app.
+
+## Young-learner courses (course.js `band: 'young'`, Math 4, ages 8 to 10)
+Same structure and same quality bar, different voice:
+- Short sentences (aim for under 15 words), one idea per paragraph, concrete numbers before symbols. Define every term the first time it appears.
+- Serious tone. No jokes-as-content, mascots, cartoon framing, points or praise inflation. Respect the child's intelligence; difficulty comes from reasoning, not from long text.
+- Problems must be hard in the Beast Academy sense: multi-step, "why" and "what if" questions, puzzles, non-routine setups. Never plain drill only. Each lesson needs at least two problems a strong 9-year-old will have to think about for a few minutes.
+- Numbers stay friendly, contexts are everyday (money, time, rooms, tiles, stairs, trays, teams). No reading-heavy word problems: keep each question under about 40 words unless it is a logic puzzle.
+- Every figure is described fully in words (or shown by a widget) so the question is answerable from the text alone.
+- Widgets only when a picture teaches the idea (arrays, fraction bars, number lines, angles, symmetry, base 2). Moderate: a few controls, a readout. No game mechanics.
+- Course id `math4`; lesson ids `m4-<chapter>-<index>-<slug>` (e.g. `m4-2-1-one-part-at-a-time`); validate with `-t "m4-2-"`.
+- Original problems only. The topic order follows a published curriculum map; no problems, characters or story titles are reused.

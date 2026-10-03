@@ -6,6 +6,9 @@ import * as ratios from './ratios.js';
 import * as geometry from './geometry.js';
 import * as geometry2 from './geometry2.js';
 import * as data from './data.js';
+import * as shapes from './shapes.js';
+import * as numbers4 from './numbers4.js';
+import * as logic from './logic.js';
 
 // Every widget a lesson can use by name: widget('numberLineWalk', {mode:'sub'})
 export const WIDGETS = {
@@ -23,5 +26,5 @@ export const WIDGETS = {
   fractionDivide: fractions.fractionDivide,
   commonDenominator: fractions.commonDenominator,
   simplifyFraction: fractions.simplifyFraction,
-  ...algebra, ...decimals, ...ratios, ...geometry, ...geometry2, ...data,
+  ...algebra, ...decimals, ...ratios, ...geometry, ...geometry2, ...data, ...shapes, ...numbers4, ...logic,
 };

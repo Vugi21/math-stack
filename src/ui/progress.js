@@ -42,4 +42,4 @@ export function nextUp(course, state) {
   return l ? { lid: l.id, tab: 'try', resumed: false } : null;
 }
 
-export const dueCount = (state, now = Date.now()) => dueLessons(state.review, now).length;
+export const dueCount = (state, course, now = Date.now()) => dueLessons(state.review, now).filter((id) => !course || course.lessonById[id]).length;

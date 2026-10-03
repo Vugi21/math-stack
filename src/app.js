@@ -1,7 +1,7 @@
 // App shell: sign-in, header, routing. One Store per signed-in student.
 /* global __DEMO__ */
 import { h } from './ui/dom.js';
-import { course } from './content/index.js';
+import { courses } from './content/index.js';
 import { Store } from './store/store.js';
 import { LocalBackend, SupabaseBackend } from './store/backends.js';
 import { hasSupabase, getClient, currentUser, signInGoogle, signInEmail, signOut, onAuthChange, checkAllowed } from './auth.js';
@@ -16,11 +16,16 @@ import { emptyState } from './store/state.js';
 const CONTENT_VERSION = import.meta.env?.VITE_CONTENT_VERSION || 'dev';
 
 export function createApp(root) {
-  const app = { root, course, store: null, user: null, role: 'student', navigate: (p) => { location.hash = '#' + p; } };
+  const pickCourse = () => {
+    let id = null; try { id = localStorage.getItem('ws.course'); } catch { /* storage unavailable */ }
+    return courses.find((c) => c.id === id && c.lessons.length) || courses.find((c) => c.lessons.length) || courses[0];
+  };
+  const app = { root, courses, course: pickCourse(), store: null, user: null, role: 'student', navigate: (p) => { location.hash = '#' + p; } };
 
   const shell = (main) => {
     const status = h('span', { class: 'sync', id: 'sync' });
     const due = h('span', { class: 'badge', hidden: true });
+    const switcher = courses.filter((c) => c.lessons.length).length > 1 ? h('select', { id: 'course-pick', class: 'coursepick', 'aria-label': 'Course', onchange: (e) => setCourse(e.target.value) }, courses.filter((c) => c.lessons.length).map((c) => h('option', { value: c.id, selected: c.id === app.course.id }, c.title))) : null;
     const nav = (path, label, extra) => h('a', { href: '#' + path, class: 'navlink' + (location.hash.replace('#', '') === path || (path === '/' && !location.hash.replace('#', '')) ? ' on' : '') }, label, extra || null);
     const menu = h('details', { class: 'acct' }, h('summary', {}, app.user.name || 'Account'),
       h('div', { class: 'menu' },
@@ -29,17 +34,24 @@ export function createApp(root) {
         h('button', { class: 'btn ghost small', type: 'button', onclick: resetProgress, id: 'reset' }, 'Reset progress'),
         app.user.guest ? null : h('button', { class: 'btn ghost small', type: 'button', onclick: async () => { await app.store.flushNow(); await signOut(); app.user = null; start(); } }, 'Sign out')));
     const header = h('header', { class: 'topbar' }, h('a', { href: '#/', class: 'brand' }, h('span', { class: 'glyph fr' }, h('span', { class: 'n' }, 'x'), h('span', { class: 'd' }, '2')), h('span', {}, 'Prealgebra Workshop')),
-      h('nav', {}, nav('/', 'Course'), nav('/review', 'Daily Mix', due), nav('/progress', 'Progress'), app.role === 'parent' ? nav('/family', 'Family') : null), status, menu);
+      h('nav', {}, nav('/', 'Course'), nav('/review', 'Daily Mix', due), nav('/progress', 'Progress'), app.role === 'parent' ? nav('/family', 'Family') : null), switcher, status, menu);
     const paint = () => {
       const st = app.store.status;
       status.textContent = __DEMO__ || app.user.guest ? 'Saved in this browser' : st === 'offline' ? 'Offline: will sync' : st === 'saving' ? 'Saving…' : 'Saved';
       status.className = 'sync ' + (st === 'offline' ? 'off' : '');
-      const n = dueCount(app.store.s);
+      const n = dueCount(app.store.s, app.course);
       due.hidden = n === 0; due.textContent = String(n);
     };
     app.paint = paint; paint();
     return h('div', { class: 'wrap' }, header, h('main', { id: 'main' }, main));
   };
+
+  function setCourse(id) {
+    const c = courses.find((x) => x.id === id); if (!c) return;
+    app.course = c; try { localStorage.setItem('ws.course', id); } catch { /* storage unavailable */ }
+    document.documentElement.dataset.band = c.band || '';
+    app.navigate('/'); render();
+  }
 
   const exportProgress = async () => {
     const attempts = await app.store.getAttempts(5000);
@@ -66,10 +78,10 @@ export function createApp(root) {
     const r = parse();
     let main;
     try {
-      if (r.name === 'lesson' && course.lessonById[r.a]) main = lessonView(app, course.lessonById[r.a], r.b);
-      else if (r.name === 'chapter' && course.chapterById[r.a]) main = chapterTestView(app, course.chapterById[r.a]);
+      if (r.name === 'lesson' && app.course.lessonById[r.a]) main = lessonView(app, app.course.lessonById[r.a], r.b);
+      else if (r.name === 'chapter' && app.course.chapterById[r.a]) main = chapterTestView(app, app.course.chapterById[r.a]);
       else if (r.name === 'review') main = reviewView(app);
-      else if (r.name === 'progress') main = dashboardView(course, app.store.s, await app.store.getAttempts(500), null);
+      else if (r.name === 'progress') main = dashboardView(app.course, app.store.s, await app.store.getAttempts(500), null);
       else if (r.name === 'family') main = await familyView();
       else main = homeView(app);
     } catch (err) {
@@ -90,7 +102,7 @@ export function createApp(root) {
     const show = async (id) => {
       holder.replaceChildren(h('p', { class: 'note' }, 'Loading…'));
       const { state, attempts } = await loadStudentData(id);
-      holder.replaceChildren(dashboardView(course, state || emptyState(), attempts, students.find((s) => s.id === id).name));
+      holder.replaceChildren(dashboardView(app.course, state || emptyState(), attempts, students.find((s) => s.id === id).name));
     };
     box.append(h('label', { class: 'note' }, 'Student '), pick, holder);
     await show(students[0].id);
@@ -129,6 +141,7 @@ export function createApp(root) {
     if (user.guest) backend = new LocalBackend('guest');
     else { const client = await getClient(); backend = new SupabaseBackend(client, user.id, { onStatus: (s) => { app.store && app.store.setStatus(s); } }); }
     app.store = new Store(backend, { contentVersion: CONTENT_VERSION });
+    document.documentElement.dataset.band = app.course.band || '';
     await app.store.init();
     app.store.subscribe(() => app.paint && app.paint());
     window.addEventListener('online', () => backend.flush && backend.flush());

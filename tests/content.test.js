@@ -84,7 +84,7 @@ for (const course of courses) {
             if (!p.id || ids.has(p.id)) E.push(group + ': missing or duplicate id ' + p.id);
             ids.add(p.id);
             checkProblem(p, group + '/' + p.id, E);
-            const q = plain(p.q);
+            const q = course.id + '|' + plain(p.q);
             if (seenQuestions.has(q)) E.push(group + '/' + p.id + ': same question as ' + seenQuestions.get(q)); else seenQuestions.set(q, l.id + ' ' + group + '/' + p.id);
           }
         }

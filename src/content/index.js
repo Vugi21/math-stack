@@ -8,7 +8,7 @@ const chapterFiles = import.meta.glob('/content/courses/*/ch*/*.js', { eager: tr
 
 export function loadCourses() {
   const courses = [];
-  for (const [path, mod] of Object.entries(courseFiles).sort()) {
+  for (const [path, mod] of Object.entries(courseFiles).sort(([a], [b]) => a.localeCompare(b))) {
     const dir = path.replace('/course.js', '');
     const meta = mod.default;
     const chapters = [];
@@ -32,5 +32,5 @@ export function loadCourses() {
   return courses;
 }
 
-export const courses = loadCourses();
+export const courses = loadCourses().sort((a, b) => (a.grade || 0) - (b.grade || 0));
 export const course = courses[0];

@@ -231,3 +231,9 @@ select { font: inherit; padding: 8px; border: 2px solid var(--line); background:
   .topbar nav { order: 3; width: 100%; }
 }
 @media (prefers-reduced-motion: no-preference) { .btn, .opt, .step { transition: background-color .12s, border-color .12s; } }
+
+/* course switcher and the younger-learner band: larger type, more air, same serious look */
+.coursepick { font: 700 .9rem var(--body, inherit); padding: 6px 8px; border: 1.5px solid var(--line); border-radius: 4px; background: var(--sheet); color: inherit; }
+:root[data-band="young"] body { font-size: 1.12rem; line-height: 1.65; }
+:root[data-band="young"] .sheet p, :root[data-band="young"] .sheet li { max-width: 60ch; }
+:root[data-band="young"] .ans { font-size: 1.2rem; }
