@@ -4,14 +4,14 @@ import { h } from './ui/dom.js';
 import { courses } from './content/index.js';
 import { Store } from './store/store.js';
 import { LocalBackend, SupabaseBackend } from './store/backends.js';
-import { hasSupabase, getClient, currentUser, signInGoogle, signInEmail, signOut, onAuthChange, checkAllowed } from './auth.js';
+import { hasSupabase, getClient, currentUser, signInGoogle, signInEmail, signOut, onAuthChange, checkAllowed, requestAccess } from './auth.js';
 import { homeView } from './ui/home.js';
 import { lessonView } from './ui/lesson.js';
 import { chapterTestView, reviewView } from './ui/views.js';
 import { dashboardView } from './ui/dashboard.js';
 import { dueCount } from './ui/progress.js';
 import { accountMenu, initials, applyTheme, getTheme } from './ui/account.js';
-import { loadLinkedStudents, loadStudentData } from './parent.js';
+import { loadLinkedStudents, loadStudentData, loadRequests, inviteStudent, denyRequest } from './parent.js';
 import { emptyState } from './store/state.js';
 
 const CONTENT_VERSION = import.meta.env?.VITE_CONTENT_VERSION || 'dev';
@@ -92,20 +92,48 @@ export function createApp(root) {
     window.scrollTo(0, 0);
   }
 
+  async function requestsPanel(refreshStudents) {
+    const box = h('section', { class: 'reqs' });
+    const msg = h('p', { class: 'fb', role: 'status' });
+    const email = h('input', { class: 'ans wide', id: 'invite-email', type: 'email', placeholder: 'student@example.com', autocomplete: 'off', 'aria-label': 'Student email' });
+    const draw = async () => {
+      const { requests, invites } = await loadRequests();
+      const act = async (fn, okText) => { try { await fn(); msg.className = 'fb ok'; msg.textContent = okText; await draw(); refreshStudents && refreshStudents(); } catch (e) { msg.className = 'fb no'; msg.textContent = e.message; } };
+      box.replaceChildren(
+        h('h2', {}, 'Access'),
+        requests.length ? h('div', { class: 'reqlist' }, requests.map((r) => h('div', { class: 'req' },
+          h('div', {}, h('b', {}, r.name || r.email), h('span', { class: 'note' }, ' ' + r.email), r.message ? h('p', { class: 'note' }, '“' + r.message + '”') : null),
+          h('div', { class: 'row' },
+            h('button', { class: 'btn small', type: 'button', onclick: () => act(() => inviteStudent(r.email), r.email + ' can now sign in.') }, 'Approve'),
+            h('button', { class: 'btn ghost small', type: 'button', onclick: () => act(() => denyRequest(r.id), 'Request denied.') }, 'Deny'))))) : h('p', { class: 'note' }, 'No requests waiting.'),
+        h('p', { class: 'note' }, 'Add a student by email. They sign in with that address and are linked to you automatically.'),
+        h('div', { class: 'row' }, email, h('button', { class: 'btn ghost', type: 'button', onclick: () => { const v = email.value.trim(); if (!v) return; act(async () => { await inviteStudent(v); email.value = ''; }, v + ' added.'); } }, 'Add student')),
+        invites.length ? h('p', { class: 'note' }, 'Invited, not signed in yet: ' + invites.map((i) => i.email).join(', ')) : null,
+        msg);
+    };
+    await draw();
+    return box;
+  }
+
   async function familyView() {
-    const students = await loadLinkedStudents();
     const box = h('div', {}, h('h1', {}, 'Family'));
-    if (!students.length) { box.append(h('p', { class: 'note' }, 'No linked students yet. Link accounts with the admin_link_parent step in the setup guide.')); return box; }
     const holder = h('div', {});
-    const cards = h('div', { class: 'students', role: 'group', 'aria-label': 'Students' }, students.map((s) => h('button', { type: 'button', class: 'scard', 'data-id': s.id, onclick: () => show(s.id) }, h('span', { class: 'avatar' }, initials(s.name)), h('b', {}, s.name))));
-    const show = async (id) => {
-      cards.querySelectorAll('.scard').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.id === id)));
+    const chips = h('div', { class: 'students', role: 'group', 'aria-label': 'Students' });
+    let loaded = false;
+    const show = async (id, students) => {
+      chips.querySelectorAll('.scard').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.id === id)));
       holder.replaceChildren(h('p', { class: 'note' }, 'Loading…'));
       const { state, attempts } = await loadStudentData(id);
       holder.replaceChildren(dashboardView(app.course, state || emptyState(), attempts, students.find((s) => s.id === id).name));
     };
-    box.append(cards, holder);
-    await show(students[0].id);
+    const loadStudents = async () => {
+      const students = await loadLinkedStudents();
+      chips.replaceChildren(...students.map((s) => h('button', { type: 'button', class: 'scard', 'data-id': s.id, onclick: () => show(s.id, students) }, h('span', { class: 'avatar' }, initials(s.name)), h('b', {}, s.name))));
+      if (!students.length) holder.replaceChildren(h('p', { class: 'note' }, 'No students linked yet. Add one below.'));
+      else if (!loaded) { loaded = true; await show(students[0].id, students); }
+    };
+    box.append(chips, holder, await requestsPanel(loadStudents));
+    await loadStudents();
     return box;
   }
 
@@ -123,6 +151,23 @@ export function createApp(root) {
         } }, 'Email me a link')), note));
   }
 
+  function requestView(user) {
+    const msg = h('textarea', { class: 'ans wide', id: 'req-msg', rows: '2', maxlength: '300', placeholder: 'Optional note, for example who you are', 'aria-label': 'Note for the parent' });
+    const note = h('p', { class: 'fb', role: 'status' });
+    const send = h('button', { class: 'btn', type: 'button', id: 'req-send', onclick: async () => {
+      send.disabled = true;
+      try {
+        const r = await requestAccess(user.name, msg.value);
+        note.className = 'fb ok';
+        note.textContent = r === 'allowed' ? 'You were just added. Reload the page.' : r === 'pending' ? 'Your request is already waiting. The parent will see it in the Family tab.' : 'Request sent. The parent will see it in the Family tab. Come back after they approve it.';
+      } catch (e) { note.className = 'fb no'; note.textContent = e.message; send.disabled = false; }
+    } }, 'Request access');
+    return h('div', { class: 'wrap narrow' }, h('div', { class: 'sheet signin' },
+      h('h1', {}, 'You are not on the invite list yet'),
+      h('p', {}, 'Signed in as ' + (user.email || 'this account') + '. Send a request and the parent will get it.'),
+      msg, h('div', { class: 'row' }, send, h('button', { class: 'btn ghost', type: 'button', onclick: async () => { await signOut(); start(); } }, 'Use a different account')), note));
+  }
+
   async function start() {
     root.replaceChildren(h('div', { class: 'wrap' }, h('p', { class: 'note' }, 'Loading…')));
     const user = await currentUser();
@@ -131,8 +176,7 @@ export function createApp(root) {
     if (!user.guest) {
       const res = await checkAllowed(user.name);
       if (!res.allowed) {
-        root.replaceChildren(h('div', { class: 'wrap narrow' }, h('div', { class: 'sheet signin' }, h('h1', {}, 'This email is not on the invite list'), h('p', {}, (user.email || '') + ' has not been added yet. Ask the parent to add it, then sign in again.'),
-          h('button', { class: 'btn', type: 'button', onclick: async () => { await signOut(); start(); } }, 'Use a different account'))));
+        root.replaceChildren(requestView(user));
         return;
       }
       app.role = res.role;
@@ -144,10 +188,13 @@ export function createApp(root) {
     document.documentElement.dataset.band = app.course.band || '';
     await app.store.init();
     app.store.subscribe(() => app.paint && app.paint());
-    window.addEventListener('online', () => backend.flush && backend.flush());
-    window.addEventListener('pagehide', () => app.store.flushNow());
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') app.store.flushNow(); });
-    window.addEventListener('hashchange', render);
+    if (!app.bound) { // listen once, even if the person signs out and in again
+      app.bound = true;
+      window.addEventListener('online', () => app.store && app.store.b.flush && app.store.b.flush());
+      window.addEventListener('pagehide', () => app.store && app.store.flushNow());
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && app.store) app.store.flushNow(); });
+      window.addEventListener('hashchange', () => { if (app.user && app.store) render(); });
+    }
     await render();
   }
 

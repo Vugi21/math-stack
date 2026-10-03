@@ -14,6 +14,6 @@ jobs:
       - name: Content gate (answer keys, wrong-answer messages, generators, widgets)
         run: STRICT=1 npm run validate
       - name: Engine, store and UI tests
-        run: npx vitest run tests/engine.test.js tests/store.test.js tests/ui.test.js
+        run: npx vitest run tests/engine.test.js tests/store.test.js tests/ui.test.js tests/access.test.js
       - name: Production build
         run: npm run build

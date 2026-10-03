@@ -57,3 +57,12 @@ export async function checkAllowed(name) {
   const { data: role } = await c.rpc('ensure_profile', { p_name: name || '' });
   return { allowed: true, role: role || 'student' };
 }
+
+/** Someone signed in but not on the invite list asks the parent for access. Returns 'sent' | 'pending' | 'allowed'. */
+export async function requestAccess(name, message) {
+  const c = await getClient();
+  const { data, error } = await c.rpc('request_access', { p_name: name || '', p_message: message || '' });
+  if (error) throw new Error('Could not send the request. Try again in a minute.');
+  if (data === 'sent') c.functions.invoke('notify-access-request').catch(() => {}); // email is best effort
+  return data;
+}
