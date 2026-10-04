@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const par = (n) => (n < 0 ? '(−' + Math.abs(n) + ')' : String(n));
@@ -28,18 +28,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Subtraction turned out to be "add the opposite". Division works the same way, with the reciprocal doing the job the opposite did before.'),
-    rule('<b>Dividing is multiplying by the reciprocal.</b> a ÷ b = a × {1/b}, for any b other than 0. To divide by a fraction, flip it and multiply: {a/b} ÷ {c/d} = {a/b} × {d/c}.'),
+    p('Subtraction turned out to be "add the opposite". Division works the same way, with the reciprocal doing the job the opposite did before. In a ÷ b, the number a is the <b>dividend</b>, the number b is the <b>divisor</b> (the number you divide by), and the result is the <b>quotient</b>.'),
+    def('division', 'Dividing by b means multiplying by the reciprocal of b: a ÷ b = a × {1/b}, for any b other than 0. A division can also be written as a fraction: a ÷ b = {a/b}.'),
+    formula('Dividing by a fraction', '{a/b} ÷ {c/d} = {a/b} × {d/c}', 'Flip the second fraction and multiply. The numbers b, c and d must not be 0.'),
     widget('fractionDivide', { a: 3, b: 1, c: 1, d: 4 }),
     p('The picture counts how many pieces of the second size fit in the first. 3 ÷ {1/4} = 12 because each of 3 wholes holds 4 quarters.'),
-    ex('Dividing by a fraction', ['Find {2/3} ÷ {4/5}.', 'Flip the second fraction and multiply: {2/3} × {5/4}.', 'Tops: 2 × 5 = 10. Bottoms: 3 × 4 = 12.', '{10/12} = {5/6}.']),
-    rule('<b>Signs and zero.</b> Division follows the same sign rules as multiplication: same signs give a positive, different signs give a negative. 0 ÷ b = 0 (when b is not 0). But a ÷ 0 is <b>not allowed</b> (it has no value): no number times 0 gives a nonzero a, since the reciprocal of 0 does not exist.'),
-    ex('Division with negatives', ['Find (−12) ÷ (−{3/4}).', 'Two negatives, so the answer is positive.', '12 ÷ {3/4} = 12 × {4/3} = 16.', 'Answer: 16.']),
-    rule('<b>Careful with grouping.</b> Division is not commutative and not associative: 24 ÷ 6 ÷ 2 is 2 but 24 ÷ (6 ÷ 2) is 8. What always works: a ÷ b ÷ c = a ÷ (b × c), and (a + b) ÷ c = a ÷ c + b ÷ c.'),
-    ex('Splitting the top', ['Find (48 + 72) ÷ 12.', 'Divide each part: 48 ÷ 12 + 72 ÷ 12.', '4 + 6 = 10.']),
+    ex('Dividing by a fraction', ['Find {3/4} ÷ {9/10}.', 'Flip the second fraction and multiply: {3/4} × {10/9}.', 'Tops: 3 × 10 = 30. Bottoms: 4 × 9 = 36.', '{30/36} = {5/6}.']),
+    ex('Working backwards', ['When n is divided by {1/5} the result is 40. What is n?', 'Dividing by {1/5} is multiplying by 5, so n × 5 = 40.', 'Undo the multiplying: n = 40 ÷ 5 = 8.', 'Check: 8 ÷ {1/5} = 8 × 5 = 40.']),
+    rule('<b>Signs.</b> Division follows the same sign rules as multiplication: the same signs give a positive, different signs give a negative. Count the negatives: an even number of them gives a positive quotient.'),
+    ex('Division with negatives', ['Find (−15) ÷ (−{5/6}).', 'Two negatives, so the answer is positive.', '15 ÷ {5/6} = 15 × {6/5} = 18.', 'Answer: 18.']),
+    def('division by zero', 'Dividing by 0 is <b>not allowed</b>, because it has no value. If a ÷ 0 had an answer q, then q × 0 would have to equal a. But anything times 0 is 0, so no q works if a is not 0. (And if a is 0, every q works, so there is no single answer.) This matches the fact that 0 has no reciprocal. By contrast, 0 ÷ b = 0 when b is not 0.'),
+    rule('<b>Careful with grouping.</b> Division is not commutative and not associative: 24 ÷ 6 ÷ 2 is 2 but 24 ÷ (6 ÷ 2) is 8. Without brackets, work from left to right. What always works: a ÷ b ÷ c = a ÷ (b × c), and (a + b) ÷ c = a ÷ c + b ÷ c.'),
+    ex('Splitting the top', ['Find (48 + 72) ÷ 12.', 'Divide each part: 48 ÷ 12 + 72 ÷ 12.', '4 + 6 = 10.', 'Check: 48 + 72 = 120 and 120 ÷ 12 = 10.']),
     tbl(['Division', 'As multiplication', 'Value'], [['20 ÷ 4', '20 × {1/4}', '5'], ['6 ÷ {2/3}', '6 × {3/2}', '9'], ['−8 ÷ 2', '−8 × {1/2}', '−4'], ['5 ÷ 0', 'no reciprocal of 0', 'no value']], 'Division as multiplication'),
+    key('Division is multiplication by the <b>reciprocal</b>. So every property of multiplication helps, as long as you never divide by 0. And the two numbers a ÷ b and b ÷ a are reciprocals of each other, so (a ÷ b) × (b ÷ a) = 1 for any nonzero a and b.'),
+    tip('Dividing by a number smaller than 1 makes the result <b>bigger</b>: 6 ÷ {1/2} = 12. If you divide by a fraction smaller than 1 and get a smaller number, you probably forgot to flip.'),
+    tip('Split a sum on the <b>top</b> to make easy pieces: 450 ÷ 15 = (300 + 150) ÷ 15 = 20 + 10 = 30. To check any division, multiply the quotient by the divisor: you should get the dividend back.'),
     warn('<b>Watch out.</b> You can split a sum on top, (a + b) ÷ c, but you CANNOT split a sum on the bottom: 60 ÷ (3 + 2) = 12, but 60 ÷ 3 + 60 ÷ 2 = 50. And never divide by 0.'),
     mcq('Ben says: "24 ÷ 6 ÷ 2 = 24 ÷ 3 = 8, because 6 ÷ 2 = 3." What is wrong?', ['Nothing, that is the right order.', 'Division goes left to right: 24 ÷ 6 = 4, then 4 ÷ 2 = 2. Ben regrouped 6 ÷ 2 first, which changes the value.', 'The answer should be 12.'], 1, 'Division is not associative. 24 ÷ 6 ÷ 2 means (24 ÷ 6) ÷ 2 = 2. Ben computed 24 ÷ (6 ÷ 2) = 8.', 'Spot the mistake'),
+    recap([['dividend', 'the number being divided'], ['divisor', 'the number you divide by (not 0)'], ['quotient', 'the result of a division'], ['division by 0', 'not allowed, no value']], [['Division', 'a ÷ b = a × {1/b}'], ['Fractions', '{a/b} ÷ {c/d} = {a/b} × {d/c}'], ['Splitting the top', '(a + b) ÷ c = a ÷ c + b ÷ c']]),
   ],
 
   practice: [

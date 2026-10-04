@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, lcm } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, lcm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const lcm3 = (a, b, c) => lcm(lcm(a, b), c);
 const L = (a, b) => lcm(a, b);
@@ -24,15 +24,23 @@ export default lesson({
 
   learn: [
     p('Two things repeat: one every 6 days, the other every 8 days. They both happen today. When will they next happen on the same day? You need a day that is a multiple of 6 <i>and</i> a multiple of 8, a <b>common multiple</b>, and the sooner the better. The first one is the <b>least common multiple</b>, or <b>LCM</b>.'),
+    def('common multiple', 'A number that is a multiple of each of the given numbers. Common multiples of 6 and 8 include 24, 48, 72, … and there are infinitely many of them.'),
+    def('least common multiple (LCM)', 'The smallest positive common multiple of the given numbers. We write LCM(6, 8) = 24. Every other common multiple (48, 72, …) is a multiple of the LCM.'),
     widget('lcmGcd', { a: 12, b: 18 }),
-    rule('<b>LCM.</b> The least common multiple of two numbers is the smallest positive number that is a multiple of both. Write LCM(6, 8) = 24. Every other common multiple (48, 72, …) is a multiple of the LCM.'),
     ex('Method 1: list multiples', ['LCM(4, 10): multiples of 10 are 10, 20, 30, …', 'Check which are multiples of 4: 10 no, 20 yes (4 × 5).', 'So LCM(4, 10) = 20. Tip: list the multiples of the <i>bigger</i> number, there are fewer.']),
     ex('Method 2: prime recipes', ['Find LCM(12, 18). 12 = 2<sup>2</sup> × 3 and 18 = 2 × 3<sup>2</sup>.', 'A multiple of 12 needs two 2s and one 3. A multiple of 18 needs one 2 and two 3s.', 'To cover both, take the <b>larger exponent</b> of each prime: 2<sup>2</sup> × 3<sup>2</sup> = 36.', 'So LCM(12, 18) = 36.']),
+    formula('LCM from recipes', 'LCM = product of each prime to its <i>largest</i> exponent', 'Use every prime that appears in any of the numbers. If a prime is missing from one number, its exponent there is 0.'),
     ex('Three numbers at once', ['LCM(4, 6, 10): 4 = 2<sup>2</sup>, 6 = 2 × 3, 10 = 2 × 5.', 'Largest exponent of 2: 2<sup>2</sup>. Of 3: 3. Of 5: 5.', 'LCM = 4 × 3 × 5 = 60.']),
+    ex('A word problem', ['Two lights flash together now. One flashes every 15 seconds and the other every 20 seconds. When do they flash together again?', '15 = 3 × 5 and 20 = 2<sup>2</sup> × 5. The largest exponents: 2<sup>2</sup>, 3 and 5.', 'LCM = 4 × 3 × 5 = 60.', 'They flash together again after 60 seconds, and then every 60 seconds after that.']),
+    rule('<b>Special cases.</b> If the numbers share no prime factor, the LCM is their product: LCM(7, 11) = 77. If one number is a multiple of the other, the LCM is the bigger one: LCM(6, 12) = 12.'),
     tbl(['Pair', 'Product', 'LCM'], [['4, 9', '36', '36'], ['6, 9', '54', '18'], ['8, 12', '96', '24'], ['6, 12', '72', '12']], 'The LCM is at most the product, and often much smaller'),
     p('<b>Why this matters later.</b> To add {1/6} + {1/8} you need pieces of the same size. The best common piece size is {1/24}, because 24 = LCM(6, 8). Using the LCM keeps the numbers small.'),
-    warn('<b>Watch out.</b> The LCM is <i>not</i> always the product of the two numbers. LCM(6, 9) is 18, not 54: both 6 and 9 share a factor of 3, and the product counts it twice. Use the product only if the numbers share no factor.'),
+    key('A common multiple needs <b>everything both numbers need</b>. The LCM takes each prime at its highest power and nothing more. It is the least such number, so any smaller number would be missing something.'),
+    tip('Before you do any work, check the special cases: sharing no factor (use the product), or one dividing the other (use the larger). Otherwise use the recipe method, and check the answer by dividing it by each number: both divisions must come out exact.'),
+    tip('For a problem such as "groups of 4, 6 or 9 with nobody left over", you want the LCM: LCM(4, 6, 9) = 2<sup>2</sup> × 3<sup>2</sup> = 36. If you are given the LCM and one number, think about which primes the missing number can have: for LCM(12, n) = 60, n must have no prime or exponent bigger than those in 60 = 2<sup>2</sup> × 3 × 5, and it must supply the 5.'),
+    warn('<b>Watch out.</b> The LCM is <i>not</i> always the product of the two numbers. LCM(6, 9) is 18, not 54: both 6 and 9 share a factor of 3, and the product counts it twice. Use the product only if the numbers share no factor. Also do not confuse the LCM with the sum.'),
     mcq('Ava says "LCM(6, 9) = 6 × 9 = 54." What is wrong?', ['Nothing, LCM is always the product.', '18 is also a multiple of both 6 (6 × 3) and 9 (9 × 2) and it is smaller than 54. Shared factors are counted twice by the product.', 'The LCM should be 15, the sum.'], 1, '54 is a common multiple, but not the least: 18 works. LCM(6, 9) = 2 × 3<sup>2</sup> = 18.', 'Spot the mistake'),
+    recap([['common multiple', 'a multiple of every given number'], ['LCM', 'the smallest positive common multiple']], [['LCM from recipes', 'each prime at its largest exponent'], ['No shared factor', 'LCM(a, b) = a × b']]),
   ],
 
   practice: [

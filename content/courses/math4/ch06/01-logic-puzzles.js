@@ -1,4 +1,4 @@
-import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, NAMES } from '../../../../src/content/dsl.js';
+import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, NAMES, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const perms = (a) => (a.length <= 1 ? [a.slice()] : a.flatMap((x, i) => perms([...a.slice(0, i), ...a.slice(i + 1)]).map((q) => [x, ...q])));
 const count = (all, cl) => all.filter((s) => cl.every((k) => k.f(s))).length;
@@ -35,14 +35,20 @@ export default lesson({
 
   learn: [
     p('A <b>clue</b> is a fact. <b>Deduction</b> means using clues to find something that <i>must</i> be true. You do not guess. You show that every other choice fails.'),
+    def('clue', 'A fact given in the puzzle. Some clues say what is true ("Cy owns the dog"). Others say what is not true ("Ava does not own the dog").'),
+    def('deduction', 'Reasoning from clues to a conclusion that <i>must</i> be true. A guess that happens to work is not a deduction.'),
     rule('<b>Elimination.</b> When a choice breaks a clue, cross it out. When only one choice is left, it is the answer.'),
     ex('Who owns what?', ['Dev, Elena and Farid own a bike, a scooter and a skateboard. One each.', 'Clue 1: Dev does not own the bike. Clue 2: Elena owns neither the bike nor the scooter.', 'Elena has only one choice left: the skateboard.', 'Dev cannot have the bike. The skateboard is taken. So Dev owns the scooter.', 'Farid gets the bike.']),
     p('A grid keeps track for you. Each row is a person and each column is a thing. Click a cell once for ✗ (not a match). Click twice for ✓ (a match). Try this puzzle: Ava does not own the dog. Ben owns neither the dog nor the cat.'),
     widget('logicGrid', { rows: ['Ava', 'Ben', 'Cy'], cols: ['cat', 'dog', 'fish'] }),
+    tip('Start with the clue that rules out the most. "Neither this nor that" removes two choices at once and often forces the first answer.'),
+    def('if-then statement', 'A statement of the form "If P, then Q". It says that whenever P is true, Q is true too.'),
     rule('<b>If-then.</b> "If P, then Q" says: whenever P is true, Q is true too. If you know P is true, Q is true. If you know Q is false, P must be false. If you know Q is true, you learn nothing about P.'),
     warn('<b>Do not turn it around.</b> "If it is a dog, then it has four legs." A table has four legs. That does not make it a dog. Knowing Q does not tell you P.'),
-    ex('Exactly one is true', ['A card shows a number from 1 to 5. Three statements: (A) the number is even, (B) the number is more than 3, (C) the number is 1. Exactly one statement is true. Which number?', 'Test 2: A is true, B false, C false. One true. It works.', 'Test 4: A true, B true. Two true. It fails.', 'Test 5: only B is true. One true. It works too.', 'Test 1: only C. It works as well. Test 3: none. It fails.', 'The numbers 1, 2 and 5 all work. This puzzle needs one more clue. Real puzzles must have exactly one answer.']),
+    ex('Exactly one is true', ['A card shows a number from 1 to 5. Three statements: (A) the number is even, (B) the number is more than 3, (C) the number is 5. Exactly one statement is true. Which number?', 'Test 1: none is true. It fails. Test 2: only A is true. It works.', 'Test 3: none is true. It fails. Test 4: A and B are true. Two are true, so it fails.', 'Test 5: B and C are true. Two are true, so it fails.', 'Only 2 works. The card shows 2.']),
+    key('A good puzzle has exactly one answer. Test each possibility against every clue. A possibility that breaks even one clue is out.'),
     mcq('Mia says: "If a number ends in 5, then it is a multiple of 5. The number 40 is a multiple of 5. So 40 ends in 5." What is wrong?', ['Nothing is wrong.', 'The rule only works one way. A multiple of 5 can end in 0.', 'Numbers that end in 5 are not multiples of 5.'], 1, 'The rule says: ends in 5, then multiple of 5. It does not say a multiple of 5 must end in 5. The number 40 is a multiple of 5 and ends in 0.', 'Spot the mistake'),
+    recap([['clue', 'a given fact'], ['deduction', 'reasoning that forces a conclusion'], ['elimination', 'crossing out choices that break a clue'], ['if-then', 'if P is true then Q is true; it does not turn around']], []),
   ],
 
   practice: [

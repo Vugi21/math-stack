@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const C2 = (n) => (n * (n - 1)) / 2;
 
@@ -22,17 +22,29 @@ export default lesson({
   ],
 
   learn: [
-    p('Two lines are <b>parallel</b> if they never meet, no matter how far they go. The distance between them is the same everywhere. Railroad tracks are parallel.'),
-    p('Two lines are <b>perpendicular</b> if they meet at a right angle (90°). The corner of a page is made by perpendicular edges.'),
+    p('Lines can be in different positions compared with each other. Two positions matter most in geometry: lines that never meet, and lines that meet at a perfect corner.'),
+    def('parallel lines', 'Two lines in a flat surface that <b>never meet</b>, however far they go. The distance between them is the same everywhere. Railroad tracks are parallel.'),
+    def('perpendicular lines', 'Two lines that meet at a <b>right angle</b> (90°). The corner of a page is made by perpendicular edges.'),
+    tip('The word <b>parallel</b> has two letters l side by side that stay the same distance apart. For <b>perpendicular</b>, think of the letter T: the two strokes meet at a square corner.'),
     widget('transversal', { a: 90, pick: 2 }),
     rule('<b>A line that is perpendicular to one of two parallel lines is perpendicular to the other too.</b> In the picture, the slanted line has been turned to 90°. Every angle is 90°.'),
-    p('A <b>quadrilateral</b> has 4 sides. We sort quadrilaterals by their parallel sides and their right angles.'),
+    def('quadrilateral', 'A polygon with <b>4 sides</b> and 4 corners. We sort quadrilaterals by their parallel sides, their equal sides and their right angles.'),
+    def('trapezoid', 'A quadrilateral with <b>exactly one</b> pair of parallel sides. (In this course we use that meaning.)'),
+    def('parallelogram', 'A quadrilateral with <b>two</b> pairs of parallel sides.'),
+    def('rhombus', 'A quadrilateral with <b>four equal sides</b>. It is also a parallelogram.'),
+    def('rectangle', 'A quadrilateral with <b>four right angles</b>. It is also a parallelogram.'),
+    def('square', 'A quadrilateral with four equal sides <b>and</b> four right angles. It is both a rhombus and a rectangle.'),
     tbl(['Shape', 'Pairs of parallel sides', 'Right angles', 'Equal sides'], [['trapezoid', 'exactly 1', 'maybe', 'maybe'], ['parallelogram', '2', 'maybe', 'opposite sides'], ['rhombus', '2', 'maybe', 'all 4'], ['rectangle', '2', 'all 4', 'opposite sides'], ['square', '2', 'all 4', 'all 4']], 'Sorting quadrilaterals'),
-    rule('<b>Shapes can be in more than one group.</b> Every square is a rectangle. Every rectangle is a parallelogram. Every rhombus is a parallelogram. In this course a trapezoid has <i>exactly</i> one pair of parallel sides.'),
-    rule('<b>Parallelogram angles.</b> Opposite angles are equal. Two angles that are next to each other add to 180°.'),
-    warn('<b>Watch out.</b> "Has a right angle" does not mean "rectangle." A rectangle needs all four angles to be right angles.'),
-    ex('Angles of a parallelogram', ['One angle of a parallelogram is 70°. Find the other three.', 'The opposite angle is also 70°.', 'The neighbors add to 180° with it: 180 − 70 = 110°.', 'The angles are 70°, 110°, 70°, 110°. They add to 360°.']),
+    key('<b>Shapes can be in more than one group.</b> Every square is a rectangle. Every rectangle is a parallelogram. Every rhombus is a parallelogram. Choose the most specific name that fits, but remember the other names are true too.'),
+    rule('<b>Parallelogram angles.</b> Opposite angles are equal. Two angles that are next to each other add to 180°. Opposite sides are equal and parallel.'),
+    rule('<b>Between two parallel sides.</b> In a trapezoid, look at one of the sides that joins the two parallel sides. The two angles at the ends of that side add to 180°.'),
+    warn('<b>Watch out.</b> "Has a right angle" does not mean "rectangle." A rectangle needs all four angles to be right angles. And four equal sides do not make a square: a pushed-over diamond (a rhombus) has four equal sides but no right angles.'),
+    ex('Angles of a parallelogram', ['One angle of a parallelogram is 65°. Find the other three.', 'The opposite angle is also 65°.', 'The neighbors add to 180° with it: 180 − 65 = 115°.', 'The angles are 65°, 115°, 65°, 115°. They add to 360°.']),
+    ex('A trapezoid with a square corner', ['A trapezoid has parallel top and bottom sides. Its left side makes right angles with both. Its top-right angle is 105°. Find the bottom-right angle.', 'The right side joins the two parallel sides. Its two angles add to 180°.', '180 − 105 = 75°.']),
+    ex('Which name fits?', ['A quadrilateral has 4 equal sides and no right angles. What is it?', 'Four equal sides means a rhombus.', 'Opposite sides of a rhombus are parallel, so it is also a parallelogram. It is not a square, because a square needs right angles.']),
+    tip('<b>Angle check.</b> The four angles of any quadrilateral add to 360°. If your parallelogram angles do not add to 360, one is wrong.'),
     mcq('Lena says: "A rectangle is not a parallelogram, because its angles are right angles." What is wrong?', ['Nothing, she is right.', 'A rectangle has two pairs of parallel sides, so it is a parallelogram. It just has extra right angles.', 'A parallelogram must have no right angles.'], 1, 'A parallelogram only needs two pairs of parallel sides. A rectangle has that, and more.', 'Spot the mistake'),
+    recap([['parallel', 'never meet, same distance apart'], ['perpendicular', 'meet at 90°'], ['trapezoid', 'exactly one pair of parallel sides'], ['parallelogram', 'two pairs of parallel sides'], ['rhombus', 'four equal sides'], ['rectangle', 'four right angles'], ['square', 'four equal sides and four right angles']], [['Parallelogram neighbors', 'add to 180°'], ['Parallelogram opposite angles', 'equal'], ['Quadrilateral angles', 'add to 360°']]),
   ],
 
   practice: [

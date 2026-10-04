@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, fmt } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, fmt, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -22,15 +22,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Changing units does not change how big something is. 3 m and 300 cm are the same length, written in different units. A <b>conversion</b> is just multiplying by 1 in a clever costume.'),
+    p('Changing units does not change how big something is. 3 m and 300 cm are the same length, written in different units. A <b>conversion</b> is multiplication by a fraction that equals 1.'),
+    def('unit conversion', 'Rewriting a measurement in a different unit of the same kind (length to length, time to time) so that the size stays the same and only the number and the unit change.'),
+    def('unit fraction (conversion factor)', 'A fraction equal to 1 whose top and bottom are the same amount in different units, such as {100 cm/1 m}. Multiplying by it changes the unit but not the size.'),
+    tbl(['Prefix', 'Meaning', 'Example'], [['kilo-', '1000 times', '1 km = 1000 m, 1 kg = 1000 g'], ['centi-', 'one hundredth of', '1 cm = {1/100} m, so 1 m = 100 cm'], ['milli-', 'one thousandth of', '1 mm = {1/1000} m, 1 mL = {1/1000} L']], 'Metric prefixes tell you the conversion'),
     tbl(['Length', 'Mass, volume, and long lengths', 'Time'], [['1 km = 1000 m', '1 kg = 1000 g', '1 h = 60 min'], ['1 m = 100 cm', '1 L = 1000 mL', '1 min = 60 s'], ['1 cm = 10 mm', '1 yd = 3 ft', '1 day = 24 h'], ['1 ft = 12 in', '1 mi = 5280 ft', '1 week = 7 days']], 'Facts worth knowing'),
     widget('rateModel', { r: 100, t: 3, per: 'metre', what: 'cm' }),
     rule('<b>Unit fractions.</b> Since 1 m = 100 cm, the fractions {100 cm/1 m} and {1 m/100 cm} both equal 1. To convert, multiply by the one that cancels the unit you have and leaves the unit you want. 3 m × {100 cm/1 m} = 300 cm.'),
     ex('Chaining conversions', ['How many seconds are in 2 hours?', '2 h × {60 min/1 h} = 120 min. The hours cancel.', '120 min × {60 s/1 min} = 7200 s. The minutes cancel.', 'So 2 hours = 7200 seconds.']),
+    ex('Two steps in the metric system', ['Write 2.4 km in centimetres.', 'Kilometres to metres: 2.4 × 1000 = 2400 m.', 'Metres to centimetres: 2400 × 100 = 240 000 cm.', 'Check the direction: cm is a much smaller unit than km, so the number should be huge. It is.']),
+    ex('Feet and inches', ['A door is 6 ft 8 in tall. How many inches is that?', '6 ft = 6 × 12 = 72 in.', 'Add the extra 8 inches: 72 + 8 = 80 in.', 'So the door is 80 inches tall.']),
     rule('<b>Sanity check.</b> A smaller unit means a bigger number (cm instead of m), and a bigger unit means a smaller number (km instead of m). If your answer goes the wrong way, flip the fraction.'),
-    ex('Square units', ['A square is 2 m on each side. What is its area in cm²?', 'Convert first: 2 m = 200 cm.', 'Area = 200 × 200 = 40 000 cm².', 'Notice 1 m² = 100 × 100 = 10 000 cm², not 100 cm². Areas change by the square of the length factor.']),
-    warn('<b>Watch out.</b> Do not multiply or divide by habit. "Divide by 1000 to go from km to m" is wrong: 3 km is 3000 m. Ask first which unit is smaller, then decide whether the number should grow or shrink.'),
+    ex('Square units', ['A square is 3 m on each side. What is its area in cm²?', 'Convert first: 3 m = 300 cm.', 'Area = 300 × 300 = 90 000 cm².', 'Notice 1 m² = 100 × 100 = 10 000 cm², not 100 cm². Areas change by the square of the length factor.']),
+    formula('Area and volume factors', '1 m² = (100)² cm²;  1 m³ = (100)³ cm³', 'Squaring the length factor for area and cubing it for volume. So 1 m² = 10 000 cm² and 1 m³ = 1 000 000 cm³.'),
+    warn('<b>Watch out.</b> Do not multiply or divide by habit. "Divide by 1000 to go from km to m" is wrong: 5 km is 5000 m. Ask first which unit is smaller, then decide whether the number should grow or shrink.'),
+    warn('<b>Watch out: time is not base ten.</b> 1 hour is 60 minutes, not 100. So 2.5 hours is 2 hours 30 minutes (half of 60), not 2 hours 50 minutes. Convert with 60, not 100.'),
+    tip('<b>Write the units with every number and cross them out as you go.</b> If the units you do not want cancel and the one you want is left, the setup is right. If they do not cancel, flip the unit fraction. This one habit prevents most conversion mistakes.'),
+    key('A conversion multiplies by a <b>unit fraction equal to 1</b>. Choose it so the old unit cancels. The size never changes; only the number and the unit change. For area, use the factor twice.'),
     mcq('Sam says: "1 m is 100 cm, so 1 m² is 100 cm²." What is wrong?', ['Nothing, the factor is 100.', 'A square metre is 100 cm by 100 cm, which is 10 000 cm².', 'A square metre is 1000 cm².'], 1, 'Area multiplies two lengths, so the conversion factor gets used twice: 100 × 100.', 'Spot the mistake'),
+    recap([['conversion', 'rewriting a measurement in another unit of the same kind'], ['unit fraction', 'equals 1, for example {100 cm/1 m}'], ['kilo / centi / milli', '1000 times / one hundredth / one thousandth']], [['Convert', 'old amount × unit fraction'], ['Area factor', '(length factor)²'], ['Volume factor', '(length factor)³']]),
   ],
 
   practice: [

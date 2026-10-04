@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const isSq = (n) => Number.isInteger(Math.sqrt(n));
 
@@ -22,15 +22,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Take a number and multiply it by itself. We say the number is <b>squared</b>, and we write 7 × 7 as 7<sup>2</sup>. The small raised 2 is called the <b>exponent</b>, and the 7 is the <b>base</b>. The word "square" is not an accident: 7<sup>2</sup> is the number of tiles in a 7 by 7 square.'),
+    p('Take a number and multiply it by itself. We say the number is <b>squared</b>, and we write 7 × 7 as 7<sup>2</sup>. The word "square" is not an accident: 7<sup>2</sup> is the number of tiles in a 7 by 7 square.'),
+    def('exponent and base', 'In 7<sup>2</sup> the small raised 2 is the <b>exponent</b> and the 7 is the <b>base</b>. The exponent says how many copies of the base are multiplied together. For now the exponent is 2, which is read "squared".'),
     widget('squareRoot', { n: 5 }),
-    rule('<b>Squaring.</b> n<sup>2</sup> means n × n. The results 1, 4, 9, 16, 25, 36, … are called <b>perfect squares</b>.'),
+    def('perfect square', 'A whole number that is the square of a whole number: 1, 4, 9, 16, 25, 36, … Each one is the area of a square whose side is a whole number of units.'),
+    rule('<b>Squaring.</b> n<sup>2</sup> means n × n. The results 1, 4, 9, 16, 25, 36, … are the perfect squares, and squares are never negative for whole numbers n.'),
+    formula('Squaring', 'n<sup>2</sup> = n × n', 'n is the side of the square, and n<sup>2</sup> is its area. 13<sup>2</sup> = 13 × 13 = 169.'),
     tbl(['n', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'], [['n<sup>2</sup>', '1', '4', '9', '16', '25', '36', '49', '64', '81', '100', '121', '144', '169', '196', '225']], 'Perfect squares worth knowing by heart'),
-    p('<b>Square roots run the picture backwards.</b> If a square has area 49, its side is the <b>square root</b> of 49, written sqrt[49] = 7. Squaring and taking a square root undo each other, like putting on and taking off a sock.'),
+    def('square root', 'The square root of a number is the positive number which, multiplied by itself, gives it. If a square has area 49, its side is the square root of 49, written sqrt[49] = 7. Squaring and taking a square root undo each other: sqrt[7<sup>2</sup>] = 7 and (sqrt[49])<sup>2</sup> = 49.'),
     ex('A pattern inside the squares', ['Look at the gaps between neighbouring squares: 4 − 1 = 3, 9 − 4 = 5, 16 − 9 = 7, 25 − 16 = 9.', 'The gaps are the odd numbers 3, 5, 7, 9, …', 'Why? Grow a 4 by 4 square into a 5 by 5 square: you add one new row of 4, one new column of 4, and 1 corner tile. That is 4 + 4 + 1 = 9.', 'So going from n by n to (n + 1) by (n + 1) always adds 2n + 1 tiles, and the first n odd numbers add up to n<sup>2</sup>.']),
-    ex('Not a perfect square? Trap it.', ['Where does sqrt[50] live? 7 × 7 = 49 and 8 × 8 = 64.', '50 is just past 49 and far short of 64.', 'So sqrt[50] is a little more than 7, and certainly less than 8.']),
+    formula('The next square', '(n + 1)<sup>2</sup> = n<sup>2</sup> + 2n + 1', 'To get the next square, add 2n + 1 to the one you have. Going backwards, n<sup>2</sup> = (n − 1)<sup>2</sup> + 2n − 1, a gap of 2n − 1.'),
+    ex('Using the gap', ['Find 41<sup>2</sup> − 40<sup>2</sup> without squaring 41.', 'The gap between 40<sup>2</sup> and 41<sup>2</sup> is 2 × 40 + 1 = 81.', 'So the difference is 81.', 'Check: 1681 − 1600 = 81.']),
+    ex('Doubling a side', ['Square A has side 6 cm and square B has side 12 cm. Compare their areas.', 'A has area 6 × 6 = 36. B has area 12 × 12 = 144.', '144 ÷ 36 = 4.', 'Doubling the side makes the area 4 times as large, not 2 times.']),
+    ex('Not a perfect square? Trap it.', ['Where does sqrt[50] live? 7 × 7 = 49 and 8 × 8 = 64.', '50 is just past 49 and far short of 64.', 'So sqrt[50] is a little more than 7, and certainly less than 8.', 'In the same way, 14 × 14 = 196 and 15 × 15 = 225, so 14 is the largest whole number whose square is less than 200.']),
+    key('Squaring takes a side to an area; the square root takes an area back to a side. Learn the squares up to 15<sup>2</sup> so well that you can use them in both directions.'),
+    tip('To find the square of a number ending in 5, take the tens digits n, multiply n × (n + 1), and write 25 after it. 35<sup>2</sup>: 3 × 4 = 12, so 1225. 15<sup>2</sup>: 1 × 2 = 2, so 225.'),
+    tip('Perfect squares can only end in 0, 1, 4, 5, 6 or 9. A number ending in 2, 3, 7 or 8 is never a perfect square. To estimate a square root, find the two perfect squares on either side.'),
     warn('<b>Watch out.</b> 6<sup>2</sup> is <i>not</i> 6 × 2 = 12. The exponent says how many copies of 6 to multiply, not what to multiply by. 6<sup>2</sup> = 6 × 6 = 36.'),
     mcq('Dev says "sqrt[36 + 64] must be 6 + 8 = 14." What is wrong?', ['Nothing; a square root splits across a sum.', 'He needs to add first: 36 + 64 = 100, and sqrt[100] = 10. A square root does not split over addition.', 'The answer should be 6 × 8 = 48.'], 1, 'The root bar works on the single number underneath it. 36 + 64 = 100 first, then sqrt[100] = 10. (Check: 14 × 14 = 196, not 100.)', 'Spot the mistake'),
+    recap([['exponent', 'how many copies of the base are multiplied'], ['base', 'the number being multiplied by itself'], ['perfect square', 'the square of a whole number'], ['square root', 'the positive number whose square is the given number']], [['Square', 'n<sup>2</sup> = n × n'], ['Next square', '(n + 1)<sup>2</sup> = n<sup>2</sup> + 2n + 1']]),
   ],
 
   practice: [

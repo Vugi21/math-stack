@@ -1,4 +1,4 @@
-import { lesson, num, expr, mc, N, E, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, expr, mc, N, E, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 import { exprEquiv } from '../../../../src/engine/expr.js';
 
@@ -32,15 +32,26 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>variable</b> is a letter that stands for a number. An <b>expression</b> is a recipe that uses numbers, letters and operations, like 3n + 2. It is not a sentence that is true or false: it just <i>is</i> a number as soon as you decide what n is. Writing 3n means 3 × n; the multiplication sign is hidden.'),
-    ex('Evaluating (plugging in)', ['Find 4a − 2b when a = 5 and b = 3.', 'Replace each letter with its number, and put the number in parentheses so nothing sticks together wrongly: 4(5) − 2(3).', 'Multiplication before subtraction: 20 − 6.', 'The value is 14.']),
-    rule('<b>Evaluate = substitute, then use the order of operations.</b> Parentheses, then exponents, then multiplication and division, then addition and subtraction.'),
-    warn('<b>Negative numbers and squares.</b> If x = −3, then x<sup>2</sup> means (−3)(−3) = 9, not −9. Always put the substituted number in parentheses: (−3)<sup>2</sup>. Without them it is easy to square only the 3 and lose the minus sign inside.'),
-    p('<b>Like terms</b> are terms with exactly the same letter part. 5x and 2x are like terms (both are "some x"), but 5x and 5 are not, and neither are 5x and 5x<sup>2</sup>. You can only combine like terms, because only they count the same kind of thing: 5 apples + 2 apples = 7 apples, but 5 apples + 2 oranges stays as it is.'),
-    ex('Combining like terms', ['Simplify 6x + 4 − 2x − 9.', 'Collect the x-terms: 6x − 2x = 4x. Each term keeps the sign in front of it.', 'Collect the plain numbers: 4 − 9 = −5.', 'The simplified expression is 4x − 5.']),
-    rule('<b>The distributive property.</b> A multiplier outside parentheses multiplies <i>every</i> term inside: a(b + c) = ab + ac. For example 3(x + 4) = 3x + 12. Think of 3 bags, each holding one x and 4 coins: you have 3 x\'s and 12 coins.'),
+    p(`Algebra begins when a letter stands in for a number. This lets you write a rule once and use it for every case: "$4 per ticket" becomes 4t for any number t of tickets. This lesson covers the three basic skills with such rules: plugging numbers in, tidying them up, and multiplying through parentheses.`),
+    def('variable', `A letter that stands for a number. Writing 3n means 3 × n; the multiplication sign is hidden. The letter can take different values in different situations, and you may choose any letter.`),
+    def('expression', `A recipe that uses numbers, letters and operations, like 3n + 2. It is not a sentence that is true or false: it just <i>is</i> a number as soon as you decide what n is. Expressions have no equals sign.`),
+    def('term and coefficient', `A <b>term</b> is one part of an expression that is added or subtracted. In 6x + 4 − 9y the terms are 6x, 4 and −9y (each keeps the sign in front of it). The number multiplying the letter is the <b>coefficient</b>: 6 in 6x, and −9 in −9y. A term with no letter, like 4, is a <b>constant</b>.`),
+    ex('Evaluating (plugging in)', [`Find 4a − 2b when a = 6 and b = 2.`, `Replace each letter with its number, and put the number in parentheses so nothing sticks together wrongly: 4(6) − 2(2).`, `Multiplication before subtraction: 24 − 4.`, `The value is 20.`]),
+    rule(`<b>Evaluate = substitute, then use the order of operations.</b> Parentheses, then exponents, then multiplication and division, then addition and subtraction.`),
+    ex('Evaluating with a negative', [`Find x<sup>2</sup> − 2x when x = −5.`, `Substitute with parentheses: (−5)<sup>2</sup> − 2(−5).`, `(−5)<sup>2</sup> = 25 and 2(−5) = −10, so we have 25 − (−10).`, `Subtracting a negative adds: 25 + 10 = 35.`]),
+    warn(`<b>Negative numbers and squares.</b> If x = −3, then x<sup>2</sup> means (−3)(−3) = 9, not −9. Always put the substituted number in parentheses: (−3)<sup>2</sup>. Without them it is easy to square only the 3 and lose the minus sign inside.`),
+    def('like terms', `Terms with exactly the same letter part. 5x and 2x are like terms (both are "some x"), but 5x and 5 are not, and neither are 5x and 5x<sup>2</sup>. Only like terms can be combined.`),
+    formula('Combining like terms', `ax + bx = (a + b)x`, `This is the distributive property read backwards. Add the coefficients and keep the letter part. 5x + 2x = 7x, and 6x − 2x = 4x. In words: 5 apples + 2 apples = 7 apples, but 5 apples + 2 oranges stays as it is.`),
+    ex('Combining like terms', [`Simplify 6x + 4 − 2x − 9.`, `Collect the x-terms: 6x − 2x = 4x. Each term keeps the sign in front of it.`, `Collect the plain numbers: 4 − 9 = −5.`, `The simplified expression is 4x − 5.`]),
+    formula('Distributive property', `a(b + c) = ab + ac`, `A multiplier outside parentheses multiplies <i>every</i> term inside. For example 3(x + 4) = 3x + 12. Think of 3 bags, each holding one x and 4 coins: you have 3 x's and 12 coins. It works for subtraction too: a(b − c) = ab − ac.`),
+    ex('Distribute, then combine', [`Simplify 4(x + 1) + 3(x − 2).`, `Distribute each: 4x + 4 and 3x − 6.`, `Put the pieces together: 4x + 4 + 3x − 6.`, `Combine: 4x + 3x = 7x and 4 − 6 = −2, so the answer is 7x − 2.`]),
     tbl(['Before', 'Distribute', 'Simplified'], [['2(x + 5)', '2x + 10', '2x + 10'], ['4(3x − 2)', '12x − 8', '12x − 8'], ['3(x + 1) + 2(x − 4)', '3x + 3 + 2x − 8', '5x − 5'], ['−(x − 6)', '−x + 6', '−x + 6']], 'A minus sign in front of parentheses flips every sign inside'),
-    mcq('Ravi writes 3(x + 4) = 3x + 4. What is wrong?', ['Nothing, that is the distributive property.', 'The 3 has to multiply the 4 too: the correct result is 3x + 12.', 'The answer should be 3x + 7 because 3 + 4 = 7.'], 1, 'Test it with x = 1: 3(1 + 4) = 15, but 3(1) + 4 = 7. The 3 multiplies everything inside, so it is 3x + 12 (which gives 15).', 'Spot the mistake'),
+    key(`<b>An expression is a number in disguise.</b> Evaluating finds the number. Simplifying rewrites it in a shorter form that has the <i>same value for every choice of the letter</i>. Combining like terms and distributing never change the value, only the look.`),
+    ex('Perimeter as an expression', [`A rectangle has width x and length 3x − 1. Write its perimeter in simplest form.`, `The perimeter is 2 × width + 2 × length: 2x + 2(3x − 1).`, `Distribute: 2x + 6x − 2.`, `Combine: 8x − 2. Check with x = 3: sides 3 and 8 give 2(3) + 2(8) = 22, and 8(3) − 2 = 22. ✓`]),
+    tip(`<b>Test any simplification with a number.</b> Pick an easy value like x = 1 or x = 2 and evaluate the original and your answer: they must match. 3(x + 4) and 3x + 12 both give 15 at x = 1, but 3x + 4 gives 7, so that one is wrong. Another trick: a minus sign before parentheses is the same as multiplying by −1.`),
+    warn(`<b>Watch out.</b> You can only combine <i>like</i> terms: 4x + 3 is not 7x. And the multiplier must reach <i>every</i> term in the parentheses, including the last one and including its sign: 5 − 2(x − 3) = 5 − 2x + 6, not 5 − 2x − 6.`),
+    mcq(`Ravi writes 3(x + 4) = 3x + 4. What is wrong?`, [`Nothing, that is the distributive property.`, `The 3 has to multiply the 4 too: the correct result is 3x + 12.`, `The answer should be 3x + 7 because 3 + 4 = 7.`], 1, `Test it with x = 1: 3(1 + 4) = 15, but 3(1) + 4 = 7. The 3 multiplies everything inside, so it is 3x + 12 (which gives 15).`, 'Spot the mistake'),
+    recap([['variable', 'a letter standing for a number'], ['expression', 'numbers, letters and operations with no equals sign'], ['coefficient', 'the number multiplying a letter'], ['like terms', 'terms with the same letter part'], ['evaluate', 'substitute a value and compute']], [['Combine', 'ax + bx = (a + b)x'], ['Distribute', 'a(b + c) = ab + ac']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -21,15 +21,23 @@ export default lesson({
   ],
 
   learn: [
-    p('A percent change tells how much something grew or shrank <i>compared with where it started</i>. Going from 40 to 50 is a rise of 10, and 10 is 25% of the starting 40.'),
+    p('Prices rise, populations shrink, and sale signs say "30% off". Each of these is a <b>percent change</b>. It tells how much something grew or shrank <i>compared with where it started</i>. Going from 60 to 75 is a rise of 15, and 15 is 25% of the starting 60.'),
+    def('percent change', 'The change in an amount, written as a percent of the <b>original</b> amount. A positive result is an increase and a negative result is a decrease.'),
+    def('original amount', 'The starting amount, the "before". It is the whole for a percent change, so it is always the number you divide by.'),
     widget('percentChange', { base: 80, pct: 25 }),
-    rule('<b>Percent change = change ÷ original × 100%.</b> The change is the difference between the new and the old amount. Always divide by the <i>original</i> (the "before"), never the new amount.'),
+    formula('Percent change', 'percent change = (new − old) ÷ old × 100%', 'The change is new − old. Dividing by the old amount tells you how big the change is compared with the start.'),
+    ex('Finding a percent change', ['A number falls from 60 to 42. By what percent did it decrease?', 'The change is 60 − 42 = 18.', 'Divide by the original: 18 ÷ 60 = 0.30.', 'It decreased by 30%. Check: 30% of 60 is 18, and 60 − 18 = 42.']),
+    warn('<b>Watch out.</b> Divide by the original, not by the new amount. From 60 to 42, dividing by 42 gives about 43%, which is wrong. The percent always compares with the "before".'),
     rule('<b>Multipliers.</b> Increasing by p% means the new amount is (100 + p)% of the old, so multiply by 1 + p/100. A 15% increase: × 1.15. Decreasing by p% multiplies by 1 − p/100: a 30% discount is × 0.70. One multiplication does the whole job.'),
-    ex('A sale', ['A $120 jacket is 30% off.', 'The multiplier is 1 − 0.30 = 0.70.', 'Sale price: 120 × 0.70 = 84 dollars.', 'Check: 30% of 120 is 36, and 120 − 36 = 84. ✓']),
-    ex('Working backward', ['After a 20% discount a bike costs $68. What did it cost before?', 'After a 20% discount you pay 80% of the original, so 0.80 × original = 68.', 'Original = 68 ÷ 0.80 = 85 dollars.', 'Check: 20% of 85 is 17, and 85 − 17 = 68. ✓']),
+    formula('Multiplier', 'new = old × (1 ± p/100)', 'Use plus for an increase and minus for a decrease. Increase of 8%: × 1.08. Decrease of 8%: × 0.92. Decrease of 100%: × 0, which leaves nothing.'),
+    ex('A sale', ['A $150 jacket is 20% off.', 'The multiplier is 1 − 0.20 = 0.80.', 'Sale price: 150 × 0.80 = 120 dollars.', 'Check: 20% of 150 is 30, and 150 − 30 = 120.']),
+    tip('<b>Two ways to the same answer.</b> Either find the change and add or subtract it (60 + 15% of 60 = 60 + 9), or use one multiplier (60 × 1.15). Use whichever you trust. The multiplier is faster, and the two-step way is a good check.'),
+    ex('Working backward', ['After a 30% discount a coat costs $77. What did it cost before?', 'After a 30% discount you pay 70% of the original, so 0.70 × original = 77.', 'Original = 77 ÷ 0.70 = 110 dollars.', 'Check: 30% of 110 is 33, and 110 − 33 = 77.']),
+    key('When you know the <b>new</b> amount and want the old one, <b>divide</b> by the multiplier. Do not take 30% of 77 and add it back. The 30% was taken from the original price, not from 77.'),
     ex('Up and down is not back to the start', ['Start with 100. Increase by 20%: 100 × 1.20 = 120.', 'Now decrease by 20%: 120 × 0.80 = 96.', 'You end below 100, because the 20% fell on a bigger number than the 20% rise.']),
-    warn('<b>Watch out.</b> The percent of what? A 50% rise followed by a 50% fall: 80 → 120 → 60, not back to 80. Percents of different amounts do not cancel. To undo a +25% you need −20%, because you must remove the same <i>dollar</i> amount from a larger number.'),
+    warn('<b>Watch out.</b> A 50% rise followed by a 50% fall: 60 → 90 → 45, not back to 60. Percents of different amounts do not cancel. To undo a +100% (doubling) you need −50%, because you must remove the same <i>amount</i> that was added: 40 → 80 → 40.'),
     mcq('A price goes up 10% and then comes down 10%. Lia says: "So it is exactly the same price as before." What is wrong?', ['Nothing, +10% and −10% cancel.', 'The 10% fall is of the higher price, so it removes more than the rise added. 100 → 110 → 99.', 'The price ends higher than it began.'], 1, 'The two percents are of different amounts. 10% of 100 is 10, but 10% of 110 is 11.', 'Spot the mistake'),
+    recap([['percent change', 'change as a percent of the original'], ['original', 'the "before" amount; always the divisor'], ['multiplier', '1 + p/100 for a rise, 1 − p/100 for a fall']], [['Percent change', '(new − old) ÷ old × 100%'], ['New amount', 'old × multiplier'], ['Old amount', 'new ÷ multiplier']]),
   ],
 
   practice: [

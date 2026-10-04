@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 const fr = (a, b) => { const g = gcd(a, b) || 1; return b / g === 1 ? String(a / g) : (a / g) + '/' + (b / g); };
@@ -28,15 +28,21 @@ export default lesson({
 
   learn: [
     p('A <b>probability</b> is a number that tells how likely something is. It is a fraction. 0 means impossible. 1 means certain.'),
-    rule('<b>Probability of an event</b> = (number of results that make it happen) ÷ (number of all equally likely results). The top counts the <i>favorable</i> results. The bottom counts <i>all</i> results.'),
+    def('probability', 'A number from 0 to 1 that tells how likely an event is. It is written as a fraction or a decimal.'),
+    def('event', 'The result or group of results we are asking about, like "the spinner lands on blue". The <b>favorable</b> results are the ones that make the event happen.'),
+    formula('Probability of an event', 'P(event) = {favorable results/all equally likely results}', 'The top counts the results that make the event happen. The bottom counts all the results. This works only when all results are equally likely.'),
     widget('spinner', { s0: 3, s1: 2, s2: 1 }),
     ex('Reading the spinner', ['The spinner has 3 blue, 2 yellow and 1 green slice. All slices are equal.', 'Total slices: 3 + 2 + 1 = 6.', 'P(blue) = {3/6}. Divide top and bottom by 3: {1/2}.', 'P(yellow) = {2/6} = {1/3}. P(green) = {1/6}.']),
     rule('<b>Simplest form.</b> Divide the top and the bottom by the same number until you cannot. {6/10} becomes {3/5}.'),
     tbl(['Probability', 'Means'], [['0', 'Impossible'], ['{1/4}', 'Unlikely'], ['{1/2}', 'Even chance'], ['{3/4}', 'Likely'], ['1', 'Certain']], 'The probability scale'),
-    rule('<b>The complement.</b> The chance something does NOT happen is 1 minus the chance that it does. P(not A) = 1 − P(A). If P(rain) = {3/10}, then P(no rain) = {7/10}.'),
-    ex('Tickets', ['Tickets are numbered 1 to 20. One is drawn. What is the probability that it is NOT a multiple of 5?', 'Multiples of 5: 5, 10, 15, 20. That is 4 tickets.', 'P(multiple of 5) = {4/20} = {1/5}.', 'P(not a multiple of 5) = 1 − {1/5} = {4/5}.']),
-    warn('<b>Do not divide by the "others".</b> A bag has 3 red and 5 blue marbles. The probability of red is {3/8}, not {3/5}. The bottom number counts every marble, red ones too.'),
-    mcq('Dev says: "A bag has 2 red and 6 blue marbles. P(red) = {2/6} = {1/3}." What is wrong?', ['Nothing is wrong.', 'The bottom number should be all the marbles, 8. P(red) = {2/8} = {1/4}.', 'The probability must be a whole number.'], 1, 'The total is 2 + 6 = 8. Red is 2 of 8, which is {2/8} = {1/4}. Dev left the red marbles out of the total.', 'Spot the mistake'),
+    key('A probability is never less than 0 and never more than 1. If you get {7/5} or a negative number, a count is wrong. Also, the probabilities of all the possible results of one action add up to 1.'),
+    def('complement', 'The opposite of an event. "Not A" is the complement of A. It happens exactly when A does not happen.'),
+    formula('Complement', 'P(not A) = 1 − P(A)', 'If P(rain) = {3/10}, then P(no rain) = 1 − {3/10} = {7/10}.'),
+    ex('Tickets', ['Tickets are numbered 1 to 30. One is drawn. What is the probability that it is NOT a multiple of 6?', 'Multiples of 6: 6, 12, 18, 24, 30. That is 5 tickets.', 'P(multiple of 6) = {5/30} = {1/6}.', 'P(not a multiple of 6) = 1 − {1/6} = {5/6}.']),
+    tip('Use the complement when "not" is easier to count. And as a check, add the probability of an event and its complement. The total must be 1.'),
+    warn('<b>Do not divide by the "others".</b> A bag has 4 red and 7 blue marbles. The probability of red is {4/11}, not {4/7}. The bottom number counts every marble, red ones too.'),
+    mcq('Dev says: "A bag has 3 red and 9 blue marbles. P(red) = {3/9} = {1/3}." What is wrong?', ['Nothing is wrong.', 'The bottom number should be all the marbles, 12. P(red) = {3/12} = {1/4}.', 'The probability must be a whole number.'], 1, 'The total is 3 + 9 = 12. Red is 3 of 12, which is {3/12} = {1/4}. Dev left the red marbles out of the total.', 'Spot the mistake'),
+    recap([['probability', 'a number from 0 to 1 telling how likely an event is'], ['favorable result', 'a result that makes the event happen'], ['complement', 'the event "not A"'], ['simplest form', 'top and bottom have no common factor but 1']], [['Probability', 'P = {favorable/all}'], ['Complement', 'P(not A) = 1 − P(A)']]),
   ],
 
   practice: [

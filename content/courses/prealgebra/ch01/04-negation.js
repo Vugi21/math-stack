@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const par = (n) => (n < 0 ? '(−' + Math.abs(n) + ')' : String(n)); // negatives in brackets
@@ -24,18 +24,25 @@ export default lesson({
   ],
 
   learn: [
-    p('You already know the opposite of a number is the one on the other side of 0 at the same distance. The minus sign in front of a number is the instruction <b>"flip to the other side"</b>. We call that <b>negation</b>.'),
-    rule('<b>Negation.</b> −a means the opposite of a. It does NOT mean "a negative number". If a is negative, −a is positive: −(−5) = 5. Flipping twice returns you home: −(−a) = a.'),
+    p('You already know that the opposite of a number is the one on the other side of 0 at the same distance. The minus sign in front of a number is the instruction <b>"flip to the other side"</b>. We call that <b>negation</b>.'),
+    def('negation', '−a means the opposite of a. It does NOT mean "a negative number". If a is negative, −a is positive: −(−5) = 5. Flipping twice returns you home: −(−a) = a.'),
     widget('numberLineWalk', { a: 4, b: -4 }),
-    p('Above, a number and its opposite end up back at 0: a + (−a) = 0. That is how you can recognise an opposite. It is the number you add to get to zero.'),
-    rule('<b>Negation is multiplying by −1.</b> −a = (−1) × a. Negating changes the sign and keeps the size. So the sign rules for products are really just "flip once for each negative factor".'),
-    rule('<b>Sign rules.</b> positive × positive = positive. Positive × negative = negative. Negative × negative = positive. Count the negative factors: an <i>even</i> number of them gives a positive product, an <i>odd</i> number gives a negative product (if no factor is 0).'),
+    p('Above, a number and its opposite end up back at 0: a + (−a) = 0. That is how you can recognise an opposite: it is the number you add to get to zero.'),
+    formula('Negation is multiplying by −1', '−a = (−1) × a', 'Negating changes the sign and keeps the size. This is why the sign rules for products are really "flip once for each negative factor".'),
+    p('Start with something you can see. 3 × (−4) means three copies of −4 added together: (−4) + (−4) + (−4) = −12. A positive times a negative is a negative. By the commutative property, (−4) × 3 = −12 as well.'),
+    rule('<b>Sign rules for products.</b> positive × positive = positive. Positive × negative = negative. Negative × negative = positive. Count the negative factors: an <i>even</i> number of them gives a positive product, an <i>odd</i> number gives a negative product (as long as no factor is 0).'),
     ex('Why is a negative times a negative positive?', ['Start with something we know: (−4) × (6 + (−6)) = (−4) × 0 = 0.', 'Distribute: (−4) × 6 + (−4) × (−6) = 0.', 'We know (−4) × 6 = −24. So −24 + (−4) × (−6) = 0.', 'The only number that cancels −24 is 24. So (−4) × (−6) = 24.']),
-    ex('Counting negatives', ['Find (−2) × 5 × (−3) × (−1).', 'There are three negative factors, an odd number, so the answer is negative.', 'The sizes multiply as usual: 2 × 5 × 3 × 1 = 30.', 'Answer: −30.']),
-    rule('<b>Negating a sum.</b> −(a + b) = −a + (−b). The minus flips every piece inside the brackets, because −(a + b) = (−1) × (a + b) and we distribute.'),
+    ex('Counting negatives', ['Find (−4) × 2 × (−5) × (−1).', 'There are three negative factors, an odd number, so the answer is negative.', 'The sizes multiply as usual: 4 × 2 × 5 × 1 = 40.', 'Answer: −40.']),
+    ex('A long run of the same factor', ['Multiply 51 copies of −1 together.', 'There are 51 negative factors, and 51 is odd.', 'So the product is negative. The sizes are all 1, so the size is 1.', 'The product is −1. With 52 copies it would be +1.']),
+    def('negating a sum', 'The minus sign in front of brackets flips every piece inside: −(a + b) = −a + (−b). It is the distributive property with the factor −1: −(a + b) = (−1) × (a + b).'),
+    ex('Negating a sum', ['Simplify −(15 + (−6)).', 'Flip each piece: −15 + 6.', 'The result is −9.', 'Check by working inside first: 15 + (−6) = 9, and the opposite of 9 is −9.']),
     tbl(['Product', 'Negative factors', 'Sign'], [['(−3)(4)', '1', 'negative'], ['(−3)(−4)', '2', 'positive'], ['(−3)(−4)(−1)', '3', 'negative'], ['(−3)(4)(0)', '1', 'zero']], 'Count the negatives'),
-    warn('<b>Watch out.</b> −x is not always negative. If x is −8, then −x is 8. Also, −5 + −5 is −10, but (−5) × (−5) is +25. Adding and multiplying negatives behave differently.'),
+    key('A minus sign is a <b>flip</b>. Two flips cancel. So a product of integers is positive when it has an even number of negative factors, negative when it has an odd number, and 0 as soon as any factor is 0.'),
+    tip('Do products of integers in two separate jobs. First decide the <b>sign</b> by counting negatives. Then multiply the <b>sizes</b> as if all the numbers were positive.'),
+    tip('If a product list contains a 0, stop: the answer is 0. The product of all the integers from −5 to 5 is 0 because 0 is one of them.'),
+    warn('<b>Watch out.</b> −x is not always negative. If x is −8, then −x is 8. Also, (−5) + (−5) is −10, but (−5) × (−5) is +25. Adding negatives and multiplying negatives behave differently.'),
     mcq('Dev says: "−(3 + 4) = −3 + 4 = 1." What went wrong?', ['Nothing, that is the right way to remove brackets.', 'The minus must flip both numbers inside: −(3 + 4) = −3 + (−4) = −7.', 'The answer should be 7 because brackets make everything positive.'], 1, 'Negating a sum negates every part: −(3 + 4) = −7. Dev flipped only the 3.', 'Spot the mistake'),
+    recap([['negation', '−a, the opposite of a'], ['double negation', '−(−a) = a'], ['sign rule', 'an even number of negative factors gives a positive product'], ['zero factor', 'any product with a factor 0 is 0']], [['Negation', '−a = (−1) × a'], ['Negating a sum', '−(a + b) = −a + (−b)'], ['Double flip', '−(−a) = a']]),
   ],
 
   practice: [

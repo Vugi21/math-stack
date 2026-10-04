@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, sub, mul, fmt, fm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, sub, mul, fmt, fm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -25,17 +25,23 @@ export default lesson({
   ],
 
   learn: [
-    p('In everyday English, "of" often means multiply. "Half <b>of</b> a pizza" is {1/2} × pizza. "Half of a half" is {1/2} × {1/2}. We found in the warm-up that it equals {1/4}. Multiplying by a fraction means <b>taking a part of</b> something.'),
+    p(`In everyday English, "of" often means multiply. "Half <b>of</b> a pizza" is {1/2} × pizza. "Half of a half" is {1/2} × {1/2}, and we found in the warm-up that it equals {1/4}. Multiplying by a fraction means <b>taking a part of</b> something.`),
+    def('product', `The result of multiplying. The product of {1/2} and {1/3} is {1/6}. Each number being multiplied is called a <b>factor</b>.`),
+    def('unit fraction', `A fraction that has 1 on top, like {1/5}. Multiplying by {1/5} means taking one of 5 equal parts, which is the same as dividing by 5.`),
     widget('fractionProduct', { a: 2, b: 3, c: 3, d: 4 }),
-    p('The picture is an <b>area model</b>. The whole is a square. One fraction cuts it into columns and the other cuts it into rows. The overlap of the shaded columns and shaded rows is the answer. Count the small cells in the overlap, then count the cells in the whole square.'),
-    rule('<b>Multiply fractions.</b> Multiply the tops and multiply the bottoms. {a/b} × {c/d} = {(a × c)/(b × d)}. The bottom b × d is the number of little cells in the whole square. The top a × c is the number of cells in the overlap.'),
-    ex('Multiplying straight across', ['Find {3/4} × {2/5}.', 'Tops: 3 × 2 = 6. Bottoms: 4 × 5 = 20.', 'That gives {6/20}. Both numbers share a factor of 2, so divide both by 2.', '{3/4} × {2/5} = {3/10}.']),
-    rule('<b>Cancel before you multiply.</b> If a top and a bottom (from <i>different</i> fractions) share a factor, divide both by it first. The numbers stay small and the answer comes out already simplified.'),
-    ex('Cancelling first', ['Find {8/15} × {5/12}.', '8 (top) and 12 (bottom) share a factor of 4. Divide both: 8 → 2, 12 → 3.', '5 (top) and 15 (bottom) share a factor of 5. Divide both: 5 → 1, 15 → 3.', 'Now we have {2/3} × {1/3} = {2/9}.']),
-    p('<b>Whole numbers</b> are fractions in disguise. Write 6 as {6/1} and then multiply as usual: 6 × {2/9} = {6/1} × {2/9} = {12/9} = {4/3}. In words: 6 groups of two-ninths is twelve ninths.'),
-    tbl(['Multiply by', 'Effect on the number', 'Example'], [['a fraction less than 1', 'gets smaller', F(3, 4) + ' × 20 = 15'], ['exactly 1', 'stays the same', F(5, 5) + ' × 20 = 20'], ['a fraction greater than 1', 'gets bigger', F(5, 4) + ' × 20 = 25']], 'What multiplying does'),
-    warn('<b>Watch out.</b> You do <i>not</i> need a common denominator to multiply (that is for adding). And you cannot cancel inside one fraction across an addition. Also, "multiplying makes bigger" is only true for factors greater than 1. A fraction of something is <i>less</i> than the something.'),
-    mcq('Maya says: "{1/2} × {1/3} must be bigger than {1/3} because multiplying makes things bigger." What is wrong?', ['Nothing, she is right.', 'Multiplying by {1/2} means taking half of {1/3}, which is less than {1/3}. Multiplying by a number below 1 makes things smaller.', 'You cannot multiply two fractions.'], 1, 'Half of a third is a sixth, and {1/6} is smaller than {1/3}.', 'Spot the mistake'),
+    p(`The picture is an <b>area model</b>. The whole is a square. One fraction cuts it into columns and the other cuts it into rows. The overlap of the shaded columns and shaded rows is the answer. Count the small cells in the overlap, then count the cells in the whole square.`),
+    formula('Multiplying fractions', `{a/b} × {c/d} = {(a × c)/(b × d)}`, `Multiply the tops and multiply the bottoms. The bottom b × d is the number of little cells in the whole square. The top a × c is the number of cells in the overlap. Neither b nor d may be 0.`),
+    ex('Multiplying straight across', [`Find {3/4} × {2/5}.`, `Tops: 3 × 2 = 6. Bottoms: 4 × 5 = 20.`, `That gives {6/20}. Both numbers share a factor of 2, so divide both by 2.`, `{3/4} × {2/5} = {3/10}.`]),
+    key(`Multiplying fractions needs <b>no common denominator</b>. Just multiply across. Common denominators belong to adding and subtracting, where pieces of one size are counted together. In multiplying, you are cutting pieces into smaller pieces.`),
+    rule(`<b>Cancel before you multiply.</b> If a top and a bottom (from <i>different</i> fractions) share a factor, divide both by it first. The numbers stay small and the answer comes out already simplified.`),
+    ex('Cancelling first', [`Find {8/15} × {5/12}.`, `8 (top) and 12 (bottom) share a factor of 4. Divide both: 8 → 2, 12 → 3.`, `5 (top) and 15 (bottom) share a factor of 5. Divide both: 5 → 1, 15 → 3.`, `Now we have {2/3} × {1/3} = {2/9}.`]),
+    p(`<b>Whole numbers</b> are fractions in disguise. Write 6 as {6/1} and then multiply as usual: 6 × {2/9} = {6/1} × {2/9} = {12/9} = {4/3}. In words: 6 groups of two-ninths is twelve ninths.`),
+    ex('A fraction of a fraction of a number', [`What is {3/5} of {5/6} of 36?`, `"Of" means multiply: {3/5} × {5/6} × 36.`, `Cancel the 5s and the 3 with the 6: {3/5} × {5/6} = {1/2}.`, `{1/2} × 36 = 18. Check the story: {5/6} of 36 is 30, and {3/5} of 30 is 18.`]),
+    tbl(['Multiply by', 'Effect on the number', 'Example'], [['a fraction less than 1', 'gets smaller', '{3/4} × 20 = 15'], ['exactly 1', 'stays the same', '{5/5} × 20 = 20'], ['a fraction greater than 1', 'gets bigger', '{5/4} × 20 = 25']], 'What multiplying does'),
+    tip(`Before calculating, <b>estimate</b>. If both fractions are below 1, the product must be smaller than each of them. {3/5} × {2/7} has to be less than {2/7}. If your answer is bigger than a factor, check for a mistake. Also, when numbers are large, cancel first and multiply last.`),
+    warn(`<b>Watch out.</b> You do <i>not</i> need a common denominator to multiply (that is for adding). Cancelling works only between factors that are multiplied: you cannot cancel across an addition. And "multiplying makes bigger" is only true for factors greater than 1. A fraction of something is <i>less</i> than the something.`),
+    mcq(`Maya says: "{1/2} × {1/3} must be bigger than {1/3} because multiplying makes things bigger." What is wrong?`, [`Nothing, she is right.`, `Multiplying by {1/2} means taking half of {1/3}, which is less than {1/3}. Multiplying by a number below 1 makes things smaller.`, `You cannot multiply two fractions.`], 1, `Half of a third is a sixth, and {1/6} is smaller than {1/3}.`, 'Spot the mistake'),
+    recap([['product', 'the result of multiplying'], ['area model', 'a square cut into columns and rows; the overlap is the product'], ['cancelling', 'dividing a top and a bottom by a shared factor before multiplying'], ['whole number as a fraction', '6 = {6/1}']], [['Multiplying fractions', '{a/b} × {c/d} = {(a × c)/(b × d)}'], ['Fraction of a quantity', '{a/b} × N = {(a × N)/b}']]),
   ],
 
   practice: [

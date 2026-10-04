@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const c = (n) => n.toLocaleString('en-US');
 // keep only wrong answers that are whole numbers, different from the right answer and from each other
@@ -25,17 +25,21 @@ export default lesson({
 
   learn: [
     p('Division has two meanings. Take 12 ÷ 3 = 4.'),
+    def('dividend, divisor, quotient', 'In 12 ÷ 3 = 4, the <b>dividend</b> is 12 (the amount being divided), the <b>divisor</b> is 3 (what we divide by) and the <b>quotient</b> is 4 (the answer).'),
     p('<b>Sharing.</b> Share 12 things equally among 3 people. Each person gets 4. <b>Grouping.</b> Put 12 things into groups of 3. You make 4 groups. Both ways give the same answer.'),
     widget('arrayModel', { r: 3, c1: 4, c2: 2 }),
     p('The dots above make 3 equal rows. This shows 18 ÷ 3 = 6, because each row has 4 + 2 = 6 dots. It also shows 18 ÷ 6 = 3, because the dots make 6 columns of 3.'),
-    p('A <b>fact family</b> is a group of facts that use the same three numbers. 3 × 6 = 18 and 6 × 3 = 18. Also 18 ÷ 3 = 6 and 18 ÷ 6 = 3. Every division fact comes from a multiplication fact.'),
-    rule('<b>Three special quotients.</b> Dividing by 1 changes nothing: 9 ÷ 1 = 9. A number (not 0) divided by itself is 1: 9 ÷ 9 = 1. Dividing 0 by a number (not 0) gives 0: 0 ÷ 9 = 0.'),
-    ex('Why 0 ÷ 9 = 0', ['Use the fact family idea. 0 ÷ 9 = ? means ? × 9 = 0.', 'Only 0 works: 0 × 9 = 0.', 'Share 0 things among 9 people. Everyone gets 0. Same answer.']),
-    rule('<b>You cannot divide by 0.</b> Try 12 ÷ 0 = ?. That would mean ? × 0 = 12. But any number times 0 is 0, never 12. So no number works. We say 12 ÷ 0 has <i>no answer</i>: it is not allowed.'),
+    def('fact family', 'A group of facts that use the same three numbers. 3 × 6 = 18 and 6 × 3 = 18. Also 18 ÷ 3 = 6 and 18 ÷ 6 = 3. Every division fact comes from a multiplication fact.'),
+    tip('When you do not know a division fact, turn it into a multiplication: for 56 ÷ 7, ask "7 times what is 56?" You can always check a quotient by multiplying it by the divisor.'),
+    rule('<b>Three special quotients.</b> Dividing by 1 changes nothing: 6 ÷ 1 = 6. A number (not 0) divided by itself is 1: 6 ÷ 6 = 1. Dividing 0 by a number (not 0) gives 0: 0 ÷ 6 = 0.'),
+    ex('Why 0 ÷ 6 = 0', ['Use the fact family idea. 0 ÷ 6 = ? means ? × 6 = 0.', 'Only 0 works: 0 × 6 = 0.', 'Share 0 things among 6 people. Everyone gets 0. Same answer.']),
+    key('<b>You cannot divide by 0.</b> Dividing by 0 has no answer. We say it is <i>not allowed</i>.'),
+    ex('Why 12 ÷ 0 has no answer', ['Try 12 ÷ 0 = ?. That would mean ? × 0 = 12.', 'But any number times 0 is 0, never 12.', 'So no number works. We say 12 ÷ 0 has <i>no answer</i>: it is not allowed.']),
     p('What about 0 ÷ 0? That would mean ? × 0 = 0. Now every number works: 1 × 0 = 0 and 7 × 0 = 0. There is no single answer. So 0 ÷ 0 has no answer too.'),
     tbl(['Division', 'Answer', 'Reason'], [['25 ÷ 1', '25', '25 × 1 = 25'], ['25 ÷ 25', '1', '1 × 25 = 25'], ['0 ÷ 25', '0', '0 × 25 = 0'], ['25 ÷ 0', 'no answer', 'no ? makes ? × 0 = 25']], 'Four quotients with 25 and 0'),
     warn('<b>Watch out.</b> 0 ÷ 5 and 5 ÷ 0 look alike, but they are very different. 0 ÷ 5 = 0 is fine. 5 ÷ 0 cannot be done.'),
     mcq('Leo says: "8 ÷ 0 = 0, because there is nothing to share it with." What is wrong?', ['Nothing, he is right.', 'If 8 ÷ 0 = 0, then 0 × 0 would have to be 8. But 0 × 0 = 0. No number works, so 8 ÷ 0 cannot be done.', '8 ÷ 0 = 8, because dividing by 0 changes nothing.'], 1, 'Check any division with multiplication. If 8 ÷ 0 were 0, then 0 × 0 would be 8. It is not. The same check fails for every possible answer.', 'Spot the mistake'),
+    recap([['dividend', 'the number being divided'], ['divisor', 'the number you divide by'], ['quotient', 'the answer to a division'], ['fact family', 'multiplication and division facts with the same three numbers'], ['not allowed', 'has no answer, like dividing by 0']], [['n ÷ 1', 'n'], ['n ÷ n (n not 0)', '1'], ['0 ÷ n (n not 0)', '0'], ['n ÷ 0', 'not allowed']]),
   ],
 
   practice: [

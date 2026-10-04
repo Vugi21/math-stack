@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const isPrime = (n) => { if (n < 2) return false; for (let i = 2; i * i <= n; i++) if (n % i === 0) return false; return true; };
 const primesIn = (a, b) => { const o = []; for (let i = a; i <= b; i++) if (isPrime(i)) o.push(i); return o; };
@@ -25,17 +25,24 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>prime</b> number has exactly two factors: 1 and itself. 7 is prime because only 1 and 7 divide it.'),
-    p('A <b>composite</b> number has more than two factors. 12 is composite. Its factors are 1, 2, 3, 4, 6, 12.'),
+    p('Some numbers can be split into equal groups in many ways. Others can be split only in the most boring way. Sorting numbers by how many factors they have gives us the most important family in arithmetic: the primes.'),
+    def('prime number', 'A number with <b>exactly two</b> factors: 1 and itself. 7 is prime because only 1 and 7 divide it.'),
+    def('composite number', 'A number with <b>more than two</b> factors. 12 is composite. Its factors are 1, 2, 3, 4, 6, 12.'),
     rule('<b>The number 1 is neither.</b> It has only one factor, itself. A prime needs exactly two factors. A composite needs more than two. So 1 is neither prime nor composite.'),
-    p('Here is a way to find all the primes up to 100. It is called the <b>sieve of Eratosthenes</b>. Cross out 1. Keep 2 and cross out its other multiples. Keep 3 and cross out its other multiples. Keep going.'),
+    tbl(['Number', 'Factors', 'Kind'], [['1', '1', 'neither'], ['2', '1, 2', 'prime'], ['9', '1, 3, 9', 'composite'], ['13', '1, 13', 'prime'], ['15', '1, 3, 5, 15', 'composite']], 'Sorting numbers by their factors'),
+    p('The primes up to 30 are 2, 3, 5, 7, 11, 13, 17, 19, 23 and 29. A prime number of dots can be arranged only in one straight row. A composite number of dots can also be arranged in a rectangle with two or more rows.'),
+    def('sieve of Eratosthenes', 'A way to find all the primes up to a limit. Cross out 1. Keep 2 and cross out its other multiples. Keep the next number that is not crossed out, and cross out its other multiples. Keep going. The numbers left are the primes.'),
     widget('sieve', {}),
     p('Use the slider. After 2, 3, 5, and 7 are used, the numbers left are the primes up to 100. There are 25.'),
+    tip('For the sieve up to 100 you only need to cross out multiples of 2, 3, 5 and 7. The next prime is 11, and 11 × 11 = 121 is already past 100.'),
     rule('<b>Testing one number.</b> To see if n is prime, try dividing by the primes 2, 3, 5, 7, … You can stop when the prime you try, times itself, is bigger than n. If none divides n, then n is prime.'),
     ex('Is 97 prime?', ['Try 2: 97 is odd. Try 3: 9 + 7 = 16, not a multiple of 3.', 'Try 5: it does not end in 0 or 5. Try 7: 7 × 13 = 91, 7 × 14 = 98. No.', 'Next prime is 11. But 11 × 11 = 121 is bigger than 97. Stop.', 'No prime up to 7 divides 97, so 97 is prime.']),
     p('Why can we stop? Suppose 97 = a × b with a smaller than b. Then a × a is less than 97. So the smaller factor is a number whose square is under 97, and we have already tested all of those.'),
+    ex('Is 119 prime?', ['Try 2: 119 is odd. Try 3: 1 + 1 + 9 = 11, not a multiple of 3. Try 5: it ends in 9.', 'Try 7: 7 × 17 = 119. It divides exactly.', 'So 119 = 7 × 17 and it is composite. It looks prime, but it is not.']),
+    key('A number is composite as soon as you find <b>one</b> factor besides 1 and itself. To prove a number is prime you must test every prime up to the stopping point.'),
     warn('<b>Watch out.</b> 2 is the only even prime. Every other even number has the factor 2. Also, odd does not mean prime: 9, 15, 21, 25 are odd and composite.'),
     mcq('Ravi says: "51 is prime. It is not even, and it does not end in 5." What is wrong?', ['Nothing. 51 is prime.', '3 × 17 = 51, so 51 has a factor besides 1 and itself.', '51 is even.'], 1, 'Add the digits: 5 + 1 = 6, a multiple of 3. So 3 divides 51. Always test 3.', 'Spot the mistake'),
+    recap([['prime', 'exactly two factors: 1 and itself'], ['composite', 'more than two factors'], ['1', 'neither prime nor composite'], ['sieve', 'cross out multiples to leave the primes']], [['Primes up to 30', '2, 3, 5, 7, 11, 13, 17, 19, 23, 29'], ['Primes up to 100', '25 of them'], ['Prime test', 'try primes p while p × p ≤ n']]),
   ],
 
   practice: [

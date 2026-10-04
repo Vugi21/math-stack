@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const SF = [2, 3, 5, 6, 7, 10, 11, 13]; // square-free radicands
 const rad = (a, b) => (a === 1 ? '' : a) + 'sqrt[' + b + ']';
@@ -23,17 +23,23 @@ export default lesson({
   ],
 
   learn: [
-    p('Since 4 × 9 = 36, we found that sqrt[4] × sqrt[9] = sqrt[36]. That is no accident. It is a rule you can use in both directions.'),
+    p('Since 4 × 9 = 36, we found that sqrt[4] × sqrt[9] = 2 × 3 = 6 = sqrt[36]. That is no accident. It is a rule you can use in both directions, and it lets you tidy up roots such as sqrt[72] that are not whole numbers.'),
     rule('<b>Product rule.</b> sqrt[a] × sqrt[b] = sqrt[a × b] for non-negative a and b. Read it backwards to split a root: sqrt[a × b] = sqrt[a] × sqrt[b].'),
-    ex('Simplifying sqrt[72]', ['We want a perfect square hiding inside 72. Try 36: 72 = 36 × 2.', 'Split: sqrt[72] = sqrt[36] × sqrt[2] = 6 × sqrt[2].', 'We write 6sqrt[2], meaning "6 times the root of 2". Nothing under the root is left with a square factor.', 'Check: 6sqrt[2] squared is 36 × 2 = 72. Yes.']),
+    def('simplest form (of a root)', 'A root written as a·sqrt[b], where b is a whole number with no perfect-square factor other than 1. The number a in front is called the coefficient. 6sqrt[2] is simplest form. sqrt[72] is not, because 72 hides the factor 36.'),
+    def('perfect-square factor', 'A factor of a number that is itself a perfect square, such as 4, 9, 16, 25 or 36. In 72 = 36 × 2 the factor 36 is a perfect-square factor, and it can step out of the root as its square root 6.'),
+    key('To simplify a root, <b>find a perfect-square factor, take its root out in front, and leave the rest under the root</b>. Repeat until the number under the root has no perfect-square factor left.'),
+    ex('Simplifying sqrt[72]', ['We want a perfect square hiding inside 72. Try 36: 72 = 36 × 2.', 'Split: sqrt[72] = sqrt[36] × sqrt[2] = 6 × sqrt[2].', 'We write 6sqrt[2], meaning "6 times the root of 2". Nothing under the root has a square factor left.', 'Check: (6sqrt[2])^[2] = 36 × 2 = 72.']),
     widget('factorTree', { n: 72 }),
-    p('<b>The pairs trick.</b> The factor tree above gives 72 = 2 × 2 × 2 × 3 × 3. Every <i>pair</i> of equal primes steps out of the root as one copy. The pair of 3s becomes a 3 outside, and the pair of 2s becomes a 2 outside, leaving a single 2 inside: 3 × 2 = 6 outside, 2 inside. So sqrt[72] = 6sqrt[2].'),
-    rule('<b>Simplest form.</b> Write sqrt[N] as a·sqrt[b] where b has no perfect-square factor (other than 1). Use the biggest perfect square factor, or keep pulling pairs out until none are left.'),
-    p('<b>Adding roots.</b> 3sqrt[2] + 5sqrt[2] works like 3 apples + 5 apples: the "apple" is sqrt[2], so the total is 8sqrt[2]. Only <i>like</i> roots combine. sqrt[8] + sqrt[2] looks stuck until you simplify: 2sqrt[2] + sqrt[2] = 3sqrt[2].'),
+    p('<b>The pairs trick.</b> The factor tree gives 72 = 2 × 2 × 2 × 3 × 3. Every <i>pair</i> of equal primes steps out of the root as one copy. The pair of 3s becomes a 3 outside, and one pair of 2s becomes a 2 outside, leaving a single 2 inside: 3 × 2 = 6 outside, 2 inside. So sqrt[72] = 6sqrt[2].'),
+    tip('<b>Look for the biggest square factor.</b> Test the perfect squares 49, 36, 25, 16, 9, 4 on the number, largest first. If you use a smaller one (sqrt[72] = 3sqrt[8]) you are not finished, so look again inside the 8. The pairs trick never leaves a square behind.'),
+    ex('A bigger one', ['Simplify sqrt[180].', '180 = 36 × 5, and 36 is a perfect square.', 'sqrt[180] = sqrt[36] × sqrt[5] = 6sqrt[5].', 'Check: (6sqrt[5])^[2] = 36 × 5 = 180.']),
+    p('<b>Adding roots.</b> 3sqrt[2] + 5sqrt[2] works like 3 apples + 5 apples. The "apple" is sqrt[2], so the total is 8sqrt[2]. Only <i>like</i> roots (the same number under the root) combine, and you add just the coefficients. sqrt[8] + sqrt[2] looks stuck until you simplify: 2sqrt[2] + sqrt[2] = 3sqrt[2].'),
     ex('Combining after simplifying', ['Find sqrt[18] + sqrt[50].', 'sqrt[18] = sqrt[9 × 2] = 3sqrt[2].', 'sqrt[50] = sqrt[25 × 2] = 5sqrt[2].', 'Add the like roots: 3sqrt[2] + 5sqrt[2] = 8sqrt[2].']),
-    rule('<b>Division and squaring.</b> sqrt[a] ÷ sqrt[b] = sqrt[a ÷ b]. And (sqrt[a])^[2] = a, so (3sqrt[5])^[2] = 3^[2] × 5 = 45.'),
-    warn('<b>Watch out.</b> sqrt[a] + sqrt[b] is NOT sqrt[a + b], and 3sqrt[2] + 5sqrt[3] cannot be combined into one term. Different roots are different "fruits". Also 3sqrt[2] is 3 × sqrt[2], not sqrt[6].'),
-    mcq('Elena simplifies sqrt[48] and writes 4sqrt[3] ... then Ben writes 2sqrt[12]. Both are true (check by squaring!). Which one is in simplest form?', ['2sqrt[12], because 12 is smaller than 48.', '4sqrt[3], because 3 has no perfect-square factor, while 12 still hides a 4.', 'Both are simplest form.'], 1, 'sqrt[12] = 2sqrt[3], so 2sqrt[12] = 4sqrt[3]. Ben stopped one step early. Simplest form means nothing under the root can be pulled out.', 'Spot the mistake'),
+    formula('Multiplying and dividing roots', 'sqrt[a] × sqrt[b] = sqrt[a × b]      sqrt[a] ÷ sqrt[b] = sqrt[a ÷ b]', 'Valid for a ≥ 0, and b > 0 when dividing. Example: sqrt[6] × sqrt[24] = sqrt[144] = 12.'),
+    ex('Squaring a root term', ['Find (2sqrt[7])^[2].', 'Square each factor: 2^[2] × (sqrt[7])^[2].', 'Since (sqrt[7])^[2] = 7, we get 4 × 7.', 'The answer is 28.']),
+    warn('<b>Watch out.</b> sqrt[a] + sqrt[b] is NOT sqrt[a + b], and 3sqrt[2] + 5sqrt[3] cannot be combined into one term, because the roots are different. Also 3sqrt[2] means 3 × sqrt[2], not sqrt[6]. When you pull a square out, take its <i>root</i>: from sqrt[180] pull out 6, not 36.'),
+    mcq('Elena simplifies sqrt[48] and writes 4sqrt[3]. Ben writes 2sqrt[12]. Both are true (check by squaring!). Which one is in simplest form?', ['2sqrt[12], because 12 is smaller than 48.', '4sqrt[3], because 3 has no perfect-square factor, while 12 still hides a 4.', 'Both are simplest form.'], 1, 'sqrt[12] = 2sqrt[3], so 2sqrt[12] = 4sqrt[3]. Ben stopped one step early. Simplest form means nothing under the root can be pulled out.', 'Spot the mistake'),
+    recap([['simplest form', 'a·sqrt[b] with no square factor left in b'], ['coefficient', 'the number multiplying the root'], ['like roots', 'the same number under the root; only these add']], [['Product rule', 'sqrt[a × b] = sqrt[a] × sqrt[b]'], ['Quotient rule', 'sqrt[a] ÷ sqrt[b] = sqrt[a ÷ b]'], ['Squaring a root', '(sqrt[a])^[2] = a']]),
   ],
 
   practice: [

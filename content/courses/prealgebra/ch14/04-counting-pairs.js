@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const c2 = (n) => (n * (n - 1)) / 2;
@@ -24,16 +24,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Last lesson, <i>order mattered</i>: gold-then-silver is different from silver-then-gold. Sometimes order does not matter. A handshake between Ana and Bo is the same as a handshake between Bo and Ana. We are counting <b>groups</b>.'),
+    p('So far, <i>order has mattered</i>: choosing a president and then a vice-president is different from choosing them the other way round. Sometimes order does not matter. A handshake between Ana and Bo is the same as a handshake between Bo and Ana. Then we are counting <b>groups</b>, and the multiplication principle alone over-counts.'),
+    def('ordered count', 'A count in which two picks in a different order are different outcomes. Choosing a president then a vice-president is ordered.'),
+    def('group (combination)', 'A choice of items where order does not matter, so the same items in any order are one outcome. A pair of co-captains is a group.'),
     rule('<b>The ordered-then-divide trick.</b> Count the ordered ways first (the multiplication principle). Each group was counted once for every order it can be written in. So divide by the number of orders.'),
-    rule('<b>Pairs.</b> The number of ways to choose 2 things from n different things, ignoring order, is <b>n × (n − 1) ÷ 2</b>. This is also the number of handshakes among n people, and the number of games in a round robin where every two teams play once.'),
+    formula('Pairs', 'n × (n − 1) ÷ 2', 'The number of ways to choose 2 things from n different things, ignoring order. Also the number of handshakes among n people, and the number of games in a round robin where every two teams meet once.'),
     widget('arrangements', { n: 6, k: 2, nlabel: 'people', klabel: 'in the pair' }),
-    p('The picture shows the ordered count: 6 × 5 = 30. Every pair appears twice (Ana-Bo, Bo-Ana), so the number of pairs is 30 ÷ 2 = 15.'),
+    p('The picture shows the ordered count: 6 × 5 = 30. Every pair appears twice (Ana-Bo and Bo-Ana), so the number of pairs is 30 ÷ 2 = 15.'),
     tbl(['People n', '2', '3', '4', '5', '6', '7', '8', '9', '10'], [['Pairs', '1', '3', '6', '10', '15', '21', '28', '36', '45']], 'Each new person adds n−1 new pairs'),
+    p('The table has a pattern worth seeing. When a new person joins a group, they make one new pair with each person already there. Going from 5 people to 6 adds 5 pairs: 10 + 5 = 15. So the number of pairs is 1 + 2 + 3 + ... + (n − 1), which agrees with the formula.'),
+    ex('Handshakes', ['At a meeting of 8 people, everyone shakes hands once with everyone else. How many handshakes?', 'Ordered count: each of 8 people shakes 7 hands, so 8 × 7 = 56.', 'Each handshake was counted twice (once from each person).', '56 ÷ 2 = 28 handshakes.']),
     ex('Triples', ['How many ways to choose a group of 3 from 6 people?', 'Ordered picks: 6 × 5 × 4 = 120.', 'A group of 3 can be written in 3 × 2 × 1 = 6 orders.', '120 ÷ 6 = 20 groups.']),
+    tip('For a group of k things, divide by k × (k − 1) × ... × 1, the number of ways to order those k things. For pairs that is 2, for triples 6, for groups of four 24.'),
     ex('Diagonals', ['How many diagonals does a hexagon have? (A diagonal joins two corners that are not neighbors.)', 'Pairs of corners: 6 × 5 ÷ 2 = 15 segments.', 'But 6 of those are the sides of the hexagon.', '15 − 6 = 9 diagonals.']),
-    warn('<b>Order or no order?</b> Ask: "If I swap the two picks, do I get a different outcome?" President and vice-president: yes (n × (n−1)). A pair of co-captains: no (n × (n−1) ÷ 2). Reading the situation is the hard part of the problem.'),
+    ex('A committee with a role', ['From 5 students, choose 2 to be co-captains, and a different student of the other 3 to be the treasurer. How many ways?', 'Co-captains are a pair, order ignored: 5 × 4 ÷ 2 = 10.', 'Treasurer: 3 choices after the pair is chosen.', 'By the multiplication principle: 10 × 3 = 30.']),
+    warn('<b>Order or no order?</b> Ask: "If I swap the two picks, do I get a different outcome?" President and vice-president: yes, count n × (n − 1). A pair of co-captains: no, count n × (n − 1) ÷ 2. Reading the situation is the hard part of the problem.'),
+    warn('<b>Dividing too early or not at all.</b> The division by 2 (or 6, or 24) happens once, to the whole ordered count. Do not divide each factor separately, and do not forget to divide at all.'),
+    key('Ordered count ÷ number of orders of each group = number of groups. This works because every group is counted the <b>same</b> number of times.'),
     mcq('Ava counts handshakes among 5 people: "Each of 5 people shakes 4 hands, so 5 × 4 = 20." What did she forget?', ['Nothing, 20 is right.', 'Each handshake involves two people, so it was counted twice. The answer is 20 ÷ 2 = 10.', 'She should have added 5 + 4 = 9.'], 1, 'Counting each person\'s handshakes counts every handshake twice (once for each of the two people). Divide by 2: 10.', 'Spot the mistake'),
+    recap([['ordered count', 'different order is a different outcome'], ['group', 'order does not matter'], ['round robin', 'every team plays every other team once']], [['Pairs', 'n × (n − 1) ÷ 2'], ['Groups of 3', 'n × (n − 1) × (n − 2) ÷ 6']]),
   ],
 
   practice: [

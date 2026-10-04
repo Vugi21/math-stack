@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const c = (n) => n.toLocaleString('en-US');
 const wr = (ans, list) => { const seen = new Set([String(ans)]); return list.filter(([v]) => { if (!Number.isInteger(v) || v < 0 || seen.has(String(v))) return false; seen.add(String(v)); return true; }); };
@@ -28,6 +28,8 @@ export default lesson({
 
   learn: [
     p('A number is <b>divisible</b> by 4 when 4 divides it exactly, with remainder 0. Divisibility tests let you decide this without dividing.'),
+    def('divisible', 'A number is divisible by another number when dividing leaves remainder 0. 36 is divisible by 4, because 36 = 4 × 9. We also say 36 is a multiple of 4, and 4 is a factor of 36.'),
+    def('divisibility test', 'A quick rule that looks at the digits of a number to tell whether it is divisible by a certain number, without doing the division.'),
     rule('<b>Tests for 2, 5 and 10.</b> Look at the last digit. Divisible by 2 if it is 0, 2, 4, 6 or 8. Divisible by 5 if it is 0 or 5. Divisible by 10 if it is 0.'),
     p('Why does the last digit decide? Every number is some tens plus some ones. Tens are always multiples of 2, 5 and 10. So only the ones can change the answer.'),
     rule('<b>Tests for 3 and 9.</b> Add the digits. If the digit sum is divisible by 3, the number is divisible by 3. If the digit sum is divisible by 9, the number is divisible by 9.'),
@@ -36,8 +38,12 @@ export default lesson({
     rule('<b>Tests for 4 and 8.</b> For 4, look at the last two digits. For 8, look at the last three digits. This works because 100 is a multiple of 4, and 1,000 is a multiple of 8. Everything before those digits is a multiple.'),
     rule('<b>Test for 6.</b> A number is divisible by 6 when it passes both the test for 2 and the test for 3.'),
     tbl(['Number', 'Test', 'Result'], [['1,236', 'last two digits 36 = 4 × 9', 'divisible by 4'], ['1,236', 'last three digits 236 ÷ 8 = 29 R 4', 'not divisible by 8'], ['1,236', 'digit sum 12', 'divisible by 3, not by 9']], 'Three tests on 1,236'),
+    ex('Is 5,418 divisible by 6?', ['Test for 2: the last digit is 8, so yes.', 'Test for 3: 5 + 4 + 1 + 8 = 18, and 18 is divisible by 3. So yes.', 'It passes both tests, so 5,418 is divisible by 6.', 'Check: 6 × 903 = 5,418.']),
+    tip('Use the tests to build numbers too. To make the 3-digit number 47□ divisible by 9, the digits so far add to 11, and the next multiple of 9 is 18. So the missing digit is 7, giving 477.'),
+    key('You only need part of the number. Use the last digit for 2, 5 and 10, the last two digits for 4, and the last three digits for 8. For 3 and 9, use all the digits, added together.'),
     warn('<b>Watch out.</b> The test for 6 is "divisible by 2 AND by 3". It is not "the digit sum is 6". And passing the test for 4 does not mean passing the test for 8. 12 is divisible by 4 but not by 8.'),
     mcq('Hana says: "1,236 is divisible by 4, so it is also divisible by 8." What is wrong?', ['Nothing. 8 is twice 4.', 'Being divisible by 4 only tells you about the last two digits. For 8 you must check the last three: 236 ÷ 8 leaves 4, so 1,236 is not divisible by 8.', 'You cannot test 1,236 for 4 and 8.'], 1, '1,236 ÷ 8 = 154 R 4. A number that 4 divides can leave a remainder of 0 or 4 when divided by 8.', 'Spot the mistake'),
+    recap([['divisible', 'divides with remainder 0'], ['digit sum', 'the sum of all digits; used for 3 and 9'], ['divisibility test', 'a digit rule that avoids dividing']], [['2', 'last digit even'], ['5', 'last digit 0 or 5'], ['10', 'last digit 0'], ['3 and 9', 'digit sum divisible by 3 or 9'], ['4', 'last two digits divisible by 4'], ['8', 'last three digits divisible by 8'], ['6', 'passes the tests for 2 and 3']]),
   ],
 
   practice: [

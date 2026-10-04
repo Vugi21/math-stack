@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => String(x[0]) !== String(ans));
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
@@ -25,16 +25,27 @@ export default lesson({
   ],
 
   learn: [
-    p('When a problem asks about something huge ("the 1000th term", "50 triangles"), you do not want to build it. The mathematician\'s move: <b>do small cases, find the pattern, then predict the big case.</b>'),
+    p('When a problem asks about something huge ("the 1000th term", "a figure made of 50 triangles"), you do not want to build it. The mathematician\'s move is: <b>do small cases, find the pattern, then predict the big case.</b> This lesson shows how to do that carefully, and how to avoid being fooled by a pattern that stops working.'),
+    def('sequence', 'A list of numbers in a definite order. Each number in the list is a <b>term</b>. The first term, second term, and n-th term are written in order of position.'),
+    def('common difference', 'The amount added at each step of a sequence such as 4, 7, 10, 13. Here the difference is 3. Subtracting each term from the next one shows the differences.'),
     rule('<b>The pattern method.</b> (1) Work out the answer for n = 1, 2, 3, 4, ... carefully. (2) Put them in a table. (3) Look at differences, ratios, or a familiar sequence. (4) State the rule. (5) <b>Test it</b> on a case you did not use. (6) Use it for the big case.'),
-    tbl(['Squares in a row (n)', '1', '2', '3', '4', '5'], [['Matchsticks', '4', '7', '10', '13', '16']], 'Each new square adds 3 sticks'),
-    ex('From table to rule', ['The sticks go 4, 7, 10, 13, 16: each step adds 3.', 'So for n squares: 4 + 3 × (n − 1), which simplifies to 3n + 1.', 'Test with n = 5: 3 × 5 + 1 = 16. It matches the table.', 'For 100 squares: 3 × 100 + 1 = 301 sticks.']),
-    rule('<b>Arithmetic sequence.</b> If a list starts at a and each step adds d, the n-th term is <b>a + (n − 1) × d</b>. It is "start, plus one fewer than n jumps".'),
+    tbl(['Tables in a row (n)', '1', '2', '3', '4', '5'], [['Seats', '4', '6', '8', '10', '12']], 'Each new table adds 2 seats'),
+    ex('From table to rule', ['Square tables are pushed together in a row, end to end. The seats go 4, 6, 8, 10, 12: each step adds 2.', 'So for n tables: 4 + 2 × (n − 1), which simplifies to 2n + 2.', 'Test with n = 5: 2 × 5 + 2 = 12. It matches the table.', 'For 100 tables: 2 × 100 + 2 = 202 seats.']),
+    p('It helps to ask <i>why</i> the pattern works. Each new table is joined to the end of the row and brings one seat on each long side, so it adds only 2 seats, not 4. The two end seats stay at the two ends. A rule that you can explain is much safer than one you only noticed.'),
+    formula('Arithmetic sequence', 'n-th term = a + (n − 1) × d', 'A list that starts at a and adds d each step. The n-th term is the start plus one fewer than n jumps of size d, because the first term needs no jump.'),
+    ex('Finding a far term', ['The sequence 7, 11, 15, 19, ... adds 4 each time. What is the 30th term?', 'Start a = 7 and difference d = 4.', '30th term = 7 + 29 × 4 = 7 + 116 = 123.', 'Check the rule on the 3rd term: 7 + 2 × 4 = 15. Correct.']),
+    tip('The "n − 1" is the usual stumbling block. Test your rule on n = 1: it must give the first term. If your rule gives a + d for n = 1, you have one jump too many.'),
     ex('Gauss\'s pairing trick', ['Add 1 + 2 + 3 + ... + 100.', 'Write it forwards and backwards: 1 + 100 = 101, 2 + 99 = 101, ... every pair makes 101.', 'There are 100 numbers, so 50 pairs: 50 × 101 = 5050.', 'Same idea for any evenly spaced list: sum = (first + last) × (how many) ÷ 2.']),
-    p('<b>Cycles.</b> Some patterns repeat. The last digit of powers of 3 goes 3, 9, 7, 1, 3, 9, 7, 1, ... It repeats every 4 steps. To find the last digit of 3^50, ask where 50 falls in the cycle: 50 ÷ 4 leaves remainder 2, so it is the second item: 9.'),
-    tbl(['Power of 3', '3^1', '3^2', '3^3', '3^4', '3^5', '3^6', '3^7', '3^8'], [['Last digit', '3', '9', '7', '1', '3', '9', '7', '1']], 'A cycle of length 4'),
+    formula('Sum of an evenly spaced list', '(first + last) × (how many) ÷ 2', 'Works for any list with a constant difference. Count the terms first, with last − first divided by the difference, plus 1.'),
+    ex('A sum with a different start', ['Add 5 + 8 + 11 + ... + 50.', 'The difference is 3, so the number of terms is (50 − 5) ÷ 3 + 1 = 15 + 1 = 16.', 'Sum = (5 + 50) × 16 ÷ 2 = 55 × 8 = 440.']),
+    p('<b>When the difference is not constant.</b> Look at the differences of the differences. For the dot triangles 1, 3, 6, 10, the differences are 2, 3, 4, so they grow by 1 each time. The next difference is 5, giving 15, then 6, giving 21. The 10th triangle is 1 + 2 + ... + 10 = 55 dots.'),
+    p('<b>Cycles.</b> Some patterns repeat. The last digit of powers of 3 goes 3, 9, 7, 1, 3, 9, 7, 1, ... It repeats every 4 steps. To find the last digit of 3^[50], ask where 50 falls in the cycle: 50 ÷ 4 leaves remainder 2, so it is the second item of the cycle: 9. A remainder of 0 means the <i>last</i> item of the cycle.'),
+    tbl(['Power of 3', '3^[1]', '3^[2]', '3^[3]', '3^[4]', '3^[5]', '3^[6]', '3^[7]', '3^[8]'], [['Last digit', '3', '9', '7', '1', '3', '9', '7', '1']], 'A cycle of length 4'),
     warn('<b>A pattern is a guess until you test it.</b> Points on a circle joined by all chords split it into regions. For 1, 2, 3, 4, 5 points the counts are 1, 2, 4, 8, 16: looks like doubling! But with 6 points the count is 31, not 32. Always test with one more case, and ask <i>why</i> the pattern should continue.'),
+    warn('<b>Off by one.</b> "The 50th term" is 49 jumps from the first, not 50. And the number of terms from 5 to 50 in steps of 3 is one more than the number of jumps.'),
+    key('A pattern earns trust in three steps: it fits <b>every</b> case you computed, it predicts a new case correctly, and you can explain <b>why</b> it continues.'),
     mcq('Ben sees the list 1, 2, 4, 7, ... and says: "It doubles, so next is 8." What is the problem?', ['Nothing, the next term is 8.', '1, 2, 4 fits doubling, but 7 does not. The differences are 1, 2, 3, so the next difference is 4 and the next term is 11.', 'The next term is 14.'], 1, 'Check the pattern against every term you have, not just the first few. Differences 1, 2, 3 are a better fit, giving 1, 2, 4, 7, 11, 16, ...', 'Spot the mistake'),
+    recap([['sequence', 'an ordered list of terms'], ['common difference', 'the amount added at each step'], ['cycle', 'a pattern that repeats; use the remainder to find the position'], ['test case', 'a case you did not use to find the rule']], [['n-th term', 'a + (n − 1) × d'], ['Sum of an evenly spaced list', '(first + last) × (how many) ÷ 2']]),
   ],
 
   practice: [

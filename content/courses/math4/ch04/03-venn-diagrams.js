@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (ans, list) => {
   const seen = new Set([ans]);
@@ -27,14 +27,19 @@ export default lesson({
 
   learn: [
     p('A <b>Venn diagram</b> shows two groups as two overlapping circles. The middle part belongs to both groups. The area outside both circles is for everyone in neither group.'),
-    widget('venn', { A: 'dog', B: 'cat', onlyA: 12, both: 6, onlyB: 8, neither: 4 }),
-    p('The diagram has four parts: only dog, both, only cat, neither. The four parts never overlap. Every person is in exactly one part.'),
-    rule('<b>The whole circle.</b> The number in a group counts the "only" part and the "both" part. If 18 have a dog and 6 of them also have a cat, then 12 have only a dog.'),
-    rule('<b>At least one.</b> (number in the first group) + (number in the second group) − (number in both) = number in at least one group. Subtract the overlap, since adding the two groups counted it twice.'),
-    ex('Finding the overlap', ['A club has 40 children. 25 play chess. 22 play checkers. 10 play neither.', 'At least one game: 40 − 10 = 30.', 'Add the two groups: 25 + 22 = 47.', '47 is 17 more than 30. Those 17 are the ones counted twice.', 'So 17 play both.']),
+    def('Venn diagram', 'A picture of groups drawn as circles. Where circles overlap, things belong to both groups.'),
+    def('overlap', 'The part of the diagram that is in both circles. It holds everyone who is in both groups.'),
+    widget('venn', { A: 'piano', B: 'violin', onlyA: 9, both: 4, onlyB: 7, neither: 5 }),
+    p('The diagram has four parts: only piano, both, only violin, neither. The four parts never overlap. Every person is in exactly one part, so the four numbers add up to the whole group: 9 + 4 + 7 + 5 = 25.'),
+    rule('<b>The whole circle.</b> The number in a group counts the "only" part and the "both" part. If 13 play piano and 4 of them also play violin, then 9 play only piano.'),
+    formula('At least one group', 'first + second − both = at least one', 'Adding the two groups counts the overlap twice, so subtract it once. Here: 13 + 11 − 4 = 20 play piano or violin or both.'),
+    key('A number such as "25 play chess" counts the <b>whole</b> chess circle, including those who play both games. To find the "only" part, take away the overlap.'),
+    ex('Finding the overlap', ['A club has 45 children. 27 play chess. 24 play checkers. 9 play neither.', 'At least one game: 45 − 9 = 36.', 'Add the two groups: 27 + 24 = 51.', '51 is 15 more than 36. Those 15 are the ones counted twice.', 'So 15 play both.']),
     ex('Exactly one', ['In the same club, how many play exactly one game?', 'Chess only: 25 − 17 = 8. Checkers only: 22 − 17 = 5.', '8 + 5 = 13 play exactly one game.', 'Check: 8 + 5 + 17 + 10 = 40.']),
+    tip('Fill in the diagram from the inside out: first the overlap, then the "only" parts, then "neither". Finish by checking that all four parts add up to the whole group.'),
     warn('<b>Watch out.</b> "Neither" means outside both circles. And "25 play chess" means 25 in the whole chess circle, not only the part that is chess alone.'),
     mcq('A group of 40 has 25 who like tea and 20 who like juice. Ana says: "25 + 20 = 45 is more than 40, so the numbers must be wrong." What do you think?', ['Ana is right. The numbers cannot be true.', 'The numbers can be true. At least 5 people like both, and they are counted in each number.', 'The numbers are true only if nobody likes both.'], 1, 'The overlap can make the sum bigger than the total. 45 − 40 = 5, so at least 5 like both. If some like neither, even more must like both.', 'Spot the mistake'),
+    recap([['Venn diagram', 'overlapping circles that show groups'], ['overlap', 'in both groups'], ['only', 'in one group and not the other'], ['neither', 'outside both circles']], [['At least one', 'first + second − both'], ['Whole group', 'only + both + only + neither']]),
   ],
 
   practice: [

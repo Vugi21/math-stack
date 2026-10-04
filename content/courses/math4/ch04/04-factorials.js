@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (ans, list) => {
   const seen = new Set([ans]);
@@ -28,15 +28,20 @@ export default lesson({
 
   learn: [
     p('To line up different things, fill the places one at a time. Each place has one fewer choice than the one before, since the used things are gone.'),
+    def('arrangement', 'One way to put things in order. Lining up Ann, Bo, Cy is a different arrangement from Bo, Ann, Cy.'),
     widget('arrangements', { n: 5, k: 5, nlabel: 'people', klabel: 'places in line' }),
-    rule('<b>Factorial.</b> The number of ways to line up n different things is n × (n − 1) × (n − 2) × … × 2 × 1. We call this <b>n!</b> and read it "n factorial". For example 4! = 4 × 3 × 2 × 1 = 24.'),
+    def('factorial', 'The product of all whole numbers from n down to 1. It is written <b>n!</b> and read "n factorial". It tells how many ways n different things can be lined up.'),
+    formula('Factorial', 'n! = n × (n − 1) × (n − 2) × … × 2 × 1', 'For example 4! = 4 × 3 × 2 × 1 = 24. By agreement 1! = 1.'),
     tbl(['n', '1', '2', '3', '4', '5', '6', '7', '8'], [['n!', '1', '2', '6', '24', '120', '720', '5040', '40320']], 'The first factorials'),
-    p('Each factorial is the one before, times n. So 6! = 6 × 5!. This also means 7! ÷ 5! = 7 × 6 = 42, because the 5! cancels.'),
-    ex('A rule about one person', ['5 kids line up. Mia must be first.', 'Mia has 1 choice for first place.', 'The other 4 kids fill the other 4 places in 4! = 24 ways.', 'So there are 1 × 24 = 24 lines.']),
-    ex('Two kids who must stand together', ['5 kids line up. Dev and Eli must stand next to each other.', 'Glue Dev and Eli into one block. Now there are 4 things to line up: the block and 3 kids.', '4! = 24 ways to line up the 4 things.', 'Inside the block, Dev and Eli can swap: 2 ways.', '24 × 2 = 48 lines.']),
-    rule('<b>"Not together" is "all" minus "together".</b> For Dev and Eli not next to each other: 5! − 48 = 120 − 48 = 72.'),
+    p('Each factorial is the one before, times n. So 6! = 6 × 5!. This also means 9! ÷ 7! = 9 × 8 = 72, because the 7! cancels.'),
+    tip('To compute a factorial, build up from the table: 5! = 120, so 6! = 6 × 120 = 720. To divide factorials, cancel the common part first instead of multiplying everything out.'),
+    ex('A rule about one person', ['7 kids line up. Tom must be first.', 'Tom has 1 choice for first place.', 'The other 6 kids fill the other 6 places in 6! = 720 ways.', 'So there are 1 × 720 = 720 lines.']),
+    ex('Two kids who must stand together', ['7 kids line up. Dev and Eli must stand next to each other.', 'Glue Dev and Eli into one block. Now there are 6 things to line up: the block and 5 kids.', '6! = 720 ways to line up the 6 things.', 'Inside the block, Dev and Eli can swap: 2 ways.', '720 × 2 = 1440 lines.']),
+    rule('<b>"Not together" is "all" minus "together".</b> For Dev and Eli not next to each other: 7! − 1440 = 5040 − 1440 = 3600.'),
+    key('Handle a rule first: place the person with a fixed spot, or glue the pair into a block. Then line up what is left with a factorial, and remember the block can turn around.'),
     warn('<b>Watch out.</b> Factorials grow very quickly. 10! is already 3,628,800. Do not guess. Multiply it out, or cancel before multiplying.'),
     mcq('Sam says: "4 kids line up, and Ann and Bo must be together. 4! × 2 = 48." What is wrong?', ['Nothing. 48 is right.', 'Gluing Ann and Bo leaves 3 things to line up, not 4. The answer is 3! × 2 = 12.', 'He should add 24 + 2.'], 1, 'Ann and Bo form 1 block. With the other 2 kids that is 3 things: 3! = 6 orders. The block can face 2 ways: 6 × 2 = 12.', 'Spot the mistake'),
+    recap([['arrangement', 'one way to put things in order'], ['factorial', 'n! counts the ways to line up n different things'], ['block', 'a pair glued together; it can swap inside']], [['Factorial', 'n! = n × (n − 1) × … × 1'], ['Pair together', '(n − 1)! × 2'], ['Pair not together', 'n! − (n − 1)! × 2']]),
   ],
 
   practice: [

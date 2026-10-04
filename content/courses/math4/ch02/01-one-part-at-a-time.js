@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 
@@ -22,17 +22,26 @@ export default lesson({
   ],
 
   learn: [
-    p('A big multiplication is easier in pieces. Split one number into parts. Multiply each part. Add the results. Each result is a <b>partial product</b>.'),
+    p('A big multiplication is easier in pieces. Split one number into parts. Multiply each part. Add the results. This lesson shows why that always works and how to choose pieces that are easy.'),
+    def('factor', 'A number that is multiplied. In 7 × 38 = 266, the factors are 7 and 38.'),
+    def('product', 'The answer to a multiplication. In 7 × 38 = 266, the product is 266.'),
+    def('partial product', 'One of the smaller products you get when you split a factor into parts. You add the partial products to get the whole product.'),
     p('Look at 6 rows of dots. Split the columns into a left group and a right group. The whole picture has the same dots as the two groups together.'),
     widget('arrayModel', { r: 6, c1: 7, c2: 3 }),
-    rule('<b>Split and add.</b> a × (b + c) = a × b + a × c. You may split either number into any parts you like. The answer does not change.'),
+    formula('Split and add', 'a × (b + c) = a × b + a × c', 'You may split either factor into any parts you like. The product does not change.'),
     ex('Split one number: 7 × 38', ['Split 38 into 30 and 8.', '7 × 30 = 210.', '7 × 8 = 56.', 'Add: 210 + 56 = 266.']),
-    p('Split both numbers and you get a rectangle cut into four boxes. This is an <b>area model</b>. Each box is one partial product. The whole rectangle is the answer.'),
+    tip('<b>Split by place value.</b> Splitting a number into hundreds, tens and ones is always safe: 346 = 300 + 40 + 6. The partial products 7 × 300, 7 × 40 and 7 × 6 are all easy.'),
+    def('area model', 'A rectangle cut into boxes. Each factor is split along one side, and each box shows one partial product. The whole rectangle is the answer.'),
     tbl(['23 × 46', '40', '6'], [['20', '20 × 40 = 800', '20 × 6 = 120'], ['3', '3 × 40 = 120', '3 × 6 = 18']], 'Add all four boxes: 800 + 120 + 120 + 18 = 1058'),
     warn('<b>Four boxes, four products.</b> When both numbers have two digits, there are four partial products. Skipping the two "cross" boxes is the most common mistake. 20 × 40 + 3 × 6 is not 23 × 46.'),
-    ex('Choose smart parts: 48 × 25', ['25 × 4 = 100, so 25 is friendly with 4.', 'Halve 48 and double 25 does not change the product: 24 × 50.', 'Do it again: 12 × 100.', 'The answer is 1200.']),
+    ex('Two two-digit numbers: 34 × 52', ['Split 34 into 30 and 4. Split 52 into 50 and 2.', '30 × 50 = 1500. 30 × 2 = 60. 4 × 50 = 200. 4 × 2 = 8.', 'Add: 1500 + 60 + 200 + 8 = 1768.', 'Estimate check: 30 × 50 = 1500, and 1768 is a little bigger. That is sensible.']),
+    key('Every multiplication can be turned into easy multiplications by tens and ones. The skill is choosing parts that make the pieces easy to do in your head.'),
+    ex('Choose smart parts: 44 × 25', ['25 × 4 = 100, so 25 is friendly with 4.', 'Halve 44 and double 25 does not change the product: 22 × 50.', 'Do it again: 11 × 100.', 'The answer is 1100.']),
     rule('<b>Halve and double.</b> If you halve one number and double the other, the product stays the same. Use it to make one number friendly, like 10, 50 or 100.'),
+    ex('Split with subtraction: 8 × 197', ['197 is just 3 less than 200.', '8 × 200 = 1600. 8 × 3 = 24.', 'Take the extra away: 1600 − 24 = 1576.']),
+    tip('<b>Nearly round numbers.</b> If a factor is just below a round number (like 99, 198 or 297), multiply by the round number and subtract the small extra part. Be sure to subtract, not add.'),
     mcq('Priya says: "To find 6 × 47, I do 6 × 40 and 6 × 7. That gives 240 + 42 = 282." Is that right?', ['No. You cannot split 47.', 'Yes. 47 = 40 + 7, and each part is multiplied by 6.', 'No. You should do 6 × 4 and 6 × 7.'], 1, '47 is 40 and 7 together, so 47 sixes is 40 sixes and 7 sixes. 240 + 42 = 282. Doing 6 × 4 would only count 4 tens as 4 ones.', 'Check the split'),
+    recap([['factor', 'a number being multiplied'], ['product', 'the answer to a multiplication'], ['partial product', 'a product of one part of a split number'], ['area model', 'a rectangle cut into boxes, one partial product each']], [['Split and add', 'a × (b + c) = a × b + a × c'], ['Halve and double', 'product stays the same'], ['Two two-digit factors', 'four partial products']]),
   ],
 
   practice: [

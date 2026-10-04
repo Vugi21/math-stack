@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 const rnd10 = (n) => Math.round(n / 10) * 10;
@@ -24,14 +24,21 @@ export default lesson({
 
   learn: [
     p('The written method for multiplying is just the partial-products idea, stacked in a neat column. Nothing new is happening. It is a short way to write the same boxes.'),
-    ex('A 3-digit number times one digit: 346 × 7', ['6 × 7 = 42. Write 2 in the ones place. Carry 4 tens.', '4 × 7 = 28, plus the carried 4 gives 32 tens. Write 2 in the tens place. Carry 3 hundreds.', '3 × 7 = 21, plus the carried 3 gives 24 hundreds. Write 24.', 'The answer is 2422.']),
+    def('standard algorithm', 'A fixed set of steps that always gives the answer. For multiplication, you multiply the top number by each digit of the bottom number, starting from the ones, and add the rows.'),
+    def('carrying', 'Moving extra tens (or hundreds, and so on) into the next column to the left. It is also called regrouping.'),
     rule('<b>Carrying is regrouping.</b> 42 ones is 4 tens and 2 ones. You keep the 2 where it belongs and move the 4 tens to the tens column.'),
-    ex('Two digits times two digits: 47 × 36', ['Multiply by the ones digit 6: 47 × 6 = 282.', 'Multiply by the tens digit 3. That is really 30, so 47 × 30 = 1410.', 'The second row ends in a 0. Write that 0 first. It holds the ones place.', 'Add the rows: 282 + 1410 = 1692.']),
-    tbl(['Row', 'What it means', 'Value'], [['first', '47 × 6', '282'], ['second', '47 × 30', '1410'], ['sum', '47 × 36', '1692']], 'Two rows are two partial products'),
-    warn('<b>Do not skip the place-holder zero.</b> The second row is 47 × 30, not 47 × 3. Without the zero you would add 282 + 141 and get 423. That is much too small.'),
-    rule('<b>Check by estimating.</b> Round each number, multiply the rounded numbers, and compare. 47 × 36 is about 50 × 40 = 2000. An answer of 423 or 16,920 is clearly wrong. 1692 is believable.'),
+    ex('A 3-digit number times one digit: 346 × 7', ['6 × 7 = 42. Write 2 in the ones place. Carry 4 tens.', '4 × 7 = 28, plus the carried 4 gives 32 tens. Write 2 in the tens place. Carry 3 hundreds.', '3 × 7 = 21, plus the carried 3 gives 24 hundreds. Write 24.', 'The answer is 2422.']),
+    tip('<b>Add the carry after you multiply.</b> First do the multiplication for the digit (4 × 7 = 28). Only then add the carried number (28 + 4). If you add the carry first you will multiply the wrong thing.'),
+    key('Each row in the written method is a partial product. The row for the tens digit really means tens, so it must be shifted one place to the left.'),
+    ex('Two digits times two digits: 58 × 34', ['Multiply by the ones digit 4: 58 × 4 = 232.', 'Multiply by the tens digit 3. That is really 30, so 58 × 30 = 1740.', 'The second row ends in a 0. Write that 0 first. It holds the ones place.', 'Add the rows: 232 + 1740 = 1972.']),
+    tbl(['Row', 'What it means', 'Value'], [['first', '58 × 4', '232'], ['second', '58 × 30', '1740'], ['sum', '58 × 34', '1972']], 'Two rows are two partial products'),
+    warn('<b>Do not skip the place-holder zero.</b> The second row is 58 × 30, not 58 × 3. Without the zero you would add 232 + 174 and get 406. That is much too small.'),
+    ex('Three digits times two digits: 253 × 24', ['Row 1, the ones digit 4: 253 × 4 = 1012.', 'Row 2, the tens digit 2 is really 20: 253 × 20 = 5060.', 'Add: 1012 + 5060 = 6072.', 'Estimate: 250 × 24 = 6000. Our answer is a little more, which fits.']),
+    rule('<b>Check by estimating.</b> Round each number, multiply the rounded numbers, and compare. 58 × 34 is about 60 × 30 = 1800. An answer of 406 or 19,720 is clearly wrong. 1972 is believable.'),
+    tip('<b>Count the digits.</b> A 2-digit number times a 2-digit number has 3 or 4 digits, because 10 × 10 = 100 and 99 × 99 = 9801. A 3-digit number times a 1-digit number has 3 or 4 digits as well.'),
     p('Estimating catches big errors such as a missing zero. It cannot catch small slips like 1692 versus 1693. For those, the next lesson gives a second check.'),
     mcq('Priya works out 52 × 34. She writes 208 for the first row (52 × 4) and 156 for the second row (52 × 3), then adds to get 364. What is the mistake?', ['52 × 4 is not 208.', 'The second row should be 1560, because the 3 in 34 means 30.', 'She should have subtracted the rows.'], 1, 'The 3 is in the tens place, so the row is 52 × 30 = 1560. Then 208 + 1560 = 1768. An estimate, 50 × 30 = 1500, would have shown 364 is far too small.', 'Spot the mistake'),
+    recap([['standard algorithm', 'column method with partial-product rows'], ['carrying', 'regrouping extra tens or hundreds to the next column'], ['place-holder zero', 'the 0 that starts every row after the first']], [['Tens digit row', 'multiply by the digit, then shift one place left'], ['Estimate check', 'round both numbers, then multiply']]),
   ],
 
   practice: [

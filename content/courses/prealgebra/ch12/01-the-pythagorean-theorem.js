@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const ws = (ans, list) => list.filter(([v], i) => v !== ans && v > 0 && list.findIndex((x) => x[0] === v) === i);
 const TRI = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41]];
@@ -23,17 +23,27 @@ export default lesson({
   ],
 
   learn: [
-    p('In a <b>right triangle</b> one angle is a right angle (a square corner). The two sides that form it are the <b>legs</b>. The side opposite the right angle, which is always the longest, is the <b>hypotenuse</b>.'),
+    def('right triangle', 'A triangle with one right angle (a square corner, 90°). The other two angles are smaller than 90° and add up to 90°.'),
+    def('legs and hypotenuse', 'The two sides that form the right angle are the <b>legs</b>. The side opposite the right angle is the <b>hypotenuse</b>. It is always the longest side of a right triangle.'),
     widget('pythagoras', { a: 3, b: 4 }),
-    rule('<b>The Pythagorean theorem.</b> If the legs are a and b and the hypotenuse is c, then a² + b² = c². The square on the long side has the same area as the other two squares combined.'),
+    formula('The Pythagorean theorem', 'a² + b² = c²', 'a and b are the legs and c is the hypotenuse. The square built on the hypotenuse has exactly the same area as the two squares on the legs put together.'),
+    p('Look at the picture with legs 3 and 4. The small squares have areas 9 and 16, and 9 + 16 = 25, the area of the square on the hypotenuse. So the hypotenuse is 5, because 5 × 5 = 25. The theorem works for <i>every</i> right triangle, large or small, and only for right triangles.'),
     ex('Finding the hypotenuse', ['The legs are 5 and 12. Find c.', 'c² = 5² + 12² = 25 + 144 = 169.', 'What number times itself is 169? c = 13.']),
-    ex('Finding a leg', ['The hypotenuse is 17 and one leg is 8. Find the other leg.', 'Rearrange: a² = c² − b² = 289 − 64 = 225.', 'a = 15. For a leg, you subtract. The hypotenuse is always the biggest.']),
-    tbl(['Legs', 'Hypotenuse', 'Check'], [['3, 4', '5', '9 + 16 = 25'], ['5, 12', '13', '25 + 144 = 169'], ['8, 15', '17', '64 + 225 = 289'], ['7, 24', '25', '49 + 576 = 625']], 'Pythagorean triples worth remembering. Multiply all three by the same number and you get another: 6, 8, 10 or 9, 12, 15.'),
+    ex('Finding a leg', ['The hypotenuse is 26 and one leg is 10. Find the other leg.', 'Rearrange: a² = c² − b² = 676 − 100 = 576.', 'a = 24. For a leg, you subtract. The hypotenuse is always the biggest.']),
+    ex('When the answer is not a whole number', ['The legs are 3 and 6. Find the hypotenuse.', 'c² = 9 + 36 = 45.', 'No whole number squares to 45. Since 6² = 36 and 7² = 49, c is a little less than 7. We write c = √45, which is about 6.71.', 'An exact answer is √45. A decimal like 6.71 is an approximation.']),
+    tbl(['Legs', 'Hypotenuse', 'Check'], [['3, 4', '5', '9 + 16 = 25'], ['5, 12', '13', '25 + 144 = 169'], ['8, 15', '17', '64 + 225 = 289'], ['7, 24', '25', '49 + 576 = 625'], ['20, 21', '29', '400 + 441 = 841']], 'Pythagorean triples worth remembering. Multiply all three by the same number and you get another: 6, 8, 10 or 9, 12, 15.'),
     widget('pythagoras', { a: 5, b: 12 }),
-    rule('<b>The converse.</b> If three sides satisfy a² + b² = c² (c the longest), the triangle must be a right triangle. This is how builders check a corner: measure 3 and 4 along the edges, and see whether the corners are 5 apart.'),
-    p('Distance on a grid: to find how far apart two points are, draw a right triangle between them. The legs are the horizontal and vertical differences, and the distance is the hypotenuse.'),
-    warn('<b>Watch out.</b> a² + b² = c² uses <i>squares</i>, not the sides themselves. 3 + 4 is 7, not 5. And only the hypotenuse goes alone on one side: it is not an a or b.'),
+    def('Pythagorean triple', 'Three whole numbers a, b, c with a² + b² = c². The side lengths of a right triangle that happen to be whole numbers.'),
+    rule('<b>The converse.</b> If three sides satisfy a² + b² = c² (c the longest), the triangle must be a right triangle. If the squares do not match, it is not a right triangle. This is how builders check a corner: measure 3 and 4 along the edges, and see whether the corners are 5 apart.'),
+    ex('Is it a right triangle?', ['Sides 9, 40, 41. The longest is 41, so test 9² + 40² against 41².', '81 + 1600 = 1681, and 41² = 1681. They match, so the triangle is a right triangle.', 'For sides 7, 8, 11 the test gives 49 + 64 = 113, which is not 121, so that triangle is not right.']),
+    p('<b>Distance on a grid.</b> To find how far apart two points are, draw a right triangle between them. The legs are the horizontal and vertical differences, and the distance is the hypotenuse. From (2, 1) to (7, 13) the legs are 5 and 12, so the distance is 13.'),
+    p('<b>Rectangle diagonals.</b> A diagonal cuts a rectangle into two right triangles whose legs are the sides of the rectangle. A 15 by 20 rectangle has diagonal √(225 + 400) = √625 = 25.'),
+    tip('<b>Reasonableness check.</b> The hypotenuse is longer than either leg but shorter than the two legs added together. For legs 3 and 6, c must be between 6 and 9, and 6.71 fits. If your answer for a hypotenuse is smaller than a leg, you subtracted by mistake.'),
+    tip('<b>Spot a triple by scaling.</b> Legs 9 and 12? Divide both by 3 to get 3 and 4, so the hypotenuse is 3 × 5 = 15. Learn 3-4-5, 5-12-13, 8-15-17 and 7-24-25 and look for multiples of them.'),
+    warn('<b>Watch out.</b> a² + b² = c² uses <i>squares</i>, not the sides themselves. 3 + 4 is 7, not 5. The hypotenuse goes alone on one side: it is never one of the added terms. Finding a leg means <i>subtracting</i> squares.'),
+    key('The theorem links the <b>three sides</b> of a right triangle through their squares. Know two sides, and you can always find the third. It only works when the triangle has a right angle.'),
     mcq('Sam has a triangle with sides 7, 9, and 12. He says: "7 + 9 = 16, which is more than 12, so it must be a right triangle." What is wrong?', ['Nothing, it is a right triangle.', 'Adding sides is not the test. You need 7² + 9² = 12², and 49 + 81 = 130 is not 144, so it is not a right triangle.', 'The test is 7 × 9 = 12.'], 1, 'Adding two sides just tells you a triangle exists. For a right triangle the squares must match: 130 ≠ 144.', 'Spot the mistake'),
+    recap([['hypotenuse', 'longest side, opposite the right angle'], ['legs', 'the two sides that form the right angle'], ['Pythagorean triple', 'whole numbers with a² + b² = c²'], ['converse', 'if a² + b² = c², the triangle is right']], [['Pythagorean theorem', 'a² + b² = c²'], ['Hypotenuse', 'c = √(a² + b²)'], ['A leg', 'a = √(c² − b²)'], ['Common triples', '3-4-5, 5-12-13, 8-15-17, 7-24-25']]),
   ],
 
   practice: [

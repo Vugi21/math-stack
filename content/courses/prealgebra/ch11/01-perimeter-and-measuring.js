@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 // keep only wrong answers that really differ from the right one
 const ws = (ans, list) => list.filter(([v], i) => v !== ans && v > 0 && list.findIndex((x) => x[0] === v) === i);
@@ -23,15 +23,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Measuring a <b>length</b> means asking "how many units long?" When pieces of a line are placed end to end, their lengths <b>add</b>. If A, B, C sit on a line in that order, then AB + BC = AC.'),
-    rule('<b>Overlaps count twice.</b> If two longer segments share a piece, adding them counts that shared piece two times. To get the total span, add the two lengths and subtract the overlap once.'),
-    p('The <b>perimeter</b> of a shape is the total length of its boundary: the distance you would walk going once around the edge. Perimeter is measured in length units (cm, m, ft), never in squares.'),
+    p('Measuring a <b>length</b> answers the question "how many units long is this?" A unit is an agreed size, such as a centimeter, a meter, or a foot. A length is always a number <i>and</i> a unit: "12 cm" means something, "12" alone does not. Perimeter, the main idea of this lesson, is built entirely from lengths that you add.'),
+    def('segment', 'The part of a straight line between two points, called its endpoints. The length of segment AB is written AB.'),
+    rule('<b>Segments end to end add.</b> If points A, B, C lie on a line in that order, then AB + BC = AC. The whole is the sum of the parts, and each part is the whole minus the other parts: BC = AC − AB.'),
+    rule('<b>Overlaps count twice.</b> If two segments share a piece, adding their lengths counts the shared piece two times. To get the total span, add the lengths and subtract the overlap once.'),
+    ex('Points on a line', ['Points P, Q, R, S lie on a line in that order. PR = 14, QS = 17, and QR = 6. Find PS.', 'PR covers PQ and QR. QS covers QR and RS. The piece QR is counted in both.', 'Add and subtract the overlap once: PS = 14 + 17 − 6 = 25.', 'Check by parts: PQ = 14 − 6 = 8 and RS = 17 − 6 = 11, so PS = 8 + 6 + 11 = 25.']),
+    def('perimeter', 'The total length of the boundary of a shape: the distance you would walk going once around the edge and ending where you started. Perimeter is measured in length units (cm, m, ft), never in square units.'),
     widget('unitSquare', { w: 5, h: 3 }),
-    rule('<b>Rectangles.</b> Opposite sides match, so the perimeter of a rectangle is 2 × (length + width). A square of side s has perimeter 4s.'),
+    p('For any shape made of straight sides, find the perimeter by adding <b>every</b> side. The only real work is making sure you have every side exactly once and that you know each length. Walking around the figure and marking each side as you pass it prevents skips and repeats.'),
+    formula('Rectangle perimeter', 'P = 2 × (length + width)', 'Opposite sides of a rectangle are equal, so there are two lengths and two widths. For a square of side s, all four sides match and P = 4 × s.'),
     ex('Finding a missing side from the perimeter', ['A rectangle has perimeter 30 and length 11. Find the width.', 'The perimeter is two lengths plus two widths. Two lengths use 22.', 'That leaves 30 − 22 = 8 for the two widths together.', 'One width is half of that: 4. Check: 11 + 4 + 11 + 4 = 30.']),
-    rule('<b>The staircase trick.</b> A shape whose sides all run left-right or up-down, and which has only "steps" (no holes or dents going inward), has the same perimeter as the smallest rectangle that boxes it in. The rights and lefts of the steps add up to the width, and the ups and downs add up to the height.'),
-    warn('<b>Watch out.</b> Perimeter is not area. A 3 by 5 rectangle has perimeter 16 (a length around it) and area 15 (squares inside it). Two shapes can have the same perimeter and very different areas.'),
+    ex('Fencing against a wall', ['A rectangular pen uses 50 m of fence. One long side is a wall that needs no fence, and the two short sides are 12 m each. How long is the side opposite the wall?', 'The fence covers two short sides and one long side.', 'The short sides use 12 + 12 = 24 m, so the long side is 50 − 24 = 26 m.', 'Only three sides are fenced here, so do not use the formula 2 × (l + w).']),
+    rule('<b>The staircase trick.</b> Suppose every side of a shape runs left-right or up-down, and the edge only steps (it never doubles back or has a dent in the middle of a side). Then its perimeter equals the perimeter of the smallest rectangle that boxes it in. The sideways steps add up to the full width, and the up-and-down steps add up to the full height.'),
+    ex('Using the staircase trick', ['Start with a 12 by 9 rectangle and cut a notch 3 wide and 4 tall out of its top-right corner. Find the perimeter of what is left.', 'The new edge is a staircase, so the perimeter equals that of the 12 by 9 box.', 'P = 2 × (12 + 9) = 42.', 'Check by walking: 12 + 9 + 9 + 4 + 3 + 5 = 42.']),
+    tip('<b>A border adds 8t.</b> A border of width t around a rectangle makes each side 2t longer, because the border sits on both ends. The perimeter goes up by 4 × 2t = 8t, whatever the size of the rectangle.'),
+    warn('<b>Watch out.</b> Perimeter is not area. A 3 by 5 rectangle has perimeter 16 (a length around it) and area 15 (squares inside it). Two shapes can have the same perimeter and very different areas, and a shape with less area can even have more perimeter.'),
+    tip('For a fixed area, a long skinny rectangle has a much longer perimeter than a squarish one. A 6 by 6 and a 1 by 36 both cover 36 square units, but their perimeters are 24 and 74. The same idea works backward: a fixed amount of fence encloses the most room when the shape is close to a square.'),
+    key('Perimeter is a <b>sum of lengths</b>. Whenever a problem hands you the perimeter, think "all the sides add to this number", then subtract what you know and share what is left among the sides you do not know.'),
     mcq('Ava has a 10 by 8 rectangle. She cuts a small rectangular notch out of one corner and says: "I removed some of the shape, so the perimeter must be smaller now." What happens?', ['She is right: removing paper always shortens the perimeter.', 'The perimeter stays exactly the same, because the notch just replaces the corner path with a staircase going the same total distance across and up.', 'The perimeter gets longer by the area of the notch.'], 1, 'The new edge walks the same total distance left-right and the same total up-down as the old corner did. That is the staircase trick: perimeter equals the bounding box, 2(10 + 8) = 36, before and after.', 'Spot the mistake'),
+    recap([['length', 'how far, in units such as cm or m'], ['perimeter', 'total length around the boundary of a shape'], ['segment', 'part of a line between two endpoints'], ['staircase trick', 'a stepped shape has the perimeter of its bounding box']], [['Rectangle perimeter', 'P = 2(l + w)'], ['Square perimeter', 'P = 4s'], ['Segments end to end', 'AB + BC = AC'], ['Overlapping segments', 'total span = sum of lengths − overlap']]),
   ],
 
   practice: [

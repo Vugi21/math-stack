@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 const zs1 = (n) => n + ' zero' + (n === 1 ? '' : 's');
@@ -26,16 +26,24 @@ export default lesson({
   ],
 
   learn: [
-    p('Three numbers behave in a special way when you multiply. They are 0, 1 and 10.'),
+    p('Three numbers behave in a special way when you multiply. They are 0, 1 and 10. Knowing exactly what they do saves a lot of work, and it explains where the zeros at the end of a product come from.'),
+    def('multiple of 10', 'A number you get by multiplying a whole number by 10, such as 30, 600 or 4,500. It ends in at least one zero.'),
     rule('<b>Zero and one.</b> Any number times 0 is 0. Any number times 1 is itself. No other numbers do this.'),
+    def('place value', 'The value a digit has because of where it sits. In 3,500 the 3 is in the thousands place, so it is worth 3000, and the 5 is worth 500.'),
     rule('<b>Times 10.</b> Multiplying by 10 moves every digit one place to the left and puts a 0 in the ones place. 10 × 10 = 100, so ×100 moves digits two places. 36 × 100 = 3600.'),
     p('This is not "adding a zero". It is a shift in place value. Each digit becomes worth ten times as much.'),
-    ex('Zeros in the factors: 600 × 50', ['Ignore the zeros: 6 × 5 = 30.', 'Count the zeros you ignored: two in 600 and one in 50, three in all.', 'Put them back: 30 followed by three zeros is 30,000.']),
-    warn('<b>Watch for a zero that is already there.</b> 6 × 5 already ends in a zero: 30. So 600 × 50 has four zeros at the end, not three. The product is 30,000 with four zeros.'),
+    ex('Zeros in the factors: 400 × 50', ['Ignore the zeros: 4 × 5 = 20.', 'Count the zeros you ignored: two in 400 and one in 50, three in all.', 'Put them back: 20 followed by three zeros is 20,000.']),
+    warn('<b>Watch for a zero that is already there.</b> 4 × 5 already ends in a zero: 20. So the product 20,000 ends in four zeros, not three. The three counted zeros come after the 20.'),
+    tip('<b>Times 5, 50 and 25 are halves and quarters.</b> To multiply by 5, multiply by 10 and halve: 12 × 5 = 120 ÷ 2 = 60. To multiply by 25, multiply by 100 and divide by 4: 48 × 25 = 4800 ÷ 4 = 1200.'),
+    ex('Times a multiple of 10: 35 × 20', ['20 is 2 × 10.', '35 × 2 = 70.', 'Times 10 shifts it one place: 700.']),
     p('Some products end in zeros even if the factors do not. Look at 25 × 4 = 100. Neither 25 nor 4 ends in 0.'),
     rule('<b>Where zeros come from.</b> Every 10 in a product gives one zero. And 10 = 2 × 5. So each pair of one 2 and one 5 hiding in the factors makes one zero at the end.'),
+    key('The number of zeros at the end of a product equals the number of (2, 5) <b>pairs</b> that you can make from the 2s and 5s inside the factors. A product with plenty of 2s but only two 5s has exactly two zeros.'),
     ex('Count zeros: 15 × 16 × 25', ['15 = 3 × 5. 16 = 2 × 2 × 2 × 2. 25 = 5 × 5.', 'The product has three 5s and four 2s.', 'Pair them: three pairs of (2, 5). That gives three zeros.', 'Check: 15 × 16 = 240. 240 × 25 = 6000. Three zeros.']),
+    ex('Count zeros: 20 × 25 × 8', ['20 = 2 × 2 × 5. 25 = 5 × 5. 8 = 2 × 2 × 2.', 'There are five 2s and three 5s.', 'The pairs are limited by the 5s: three pairs, so three zeros.', 'Check: 20 × 25 = 500. 500 × 8 = 4000. Three zeros.']),
+    tip('<b>Look for 2s and 5s.</b> Even numbers carry 2s. Numbers that end in 5 or 0 carry 5s. Count the 5s first, because a 5 with no 2 to pair with makes no zero.'),
     mcq('Sam says: "15 × 16 × 25. Only 15 × 16 = 240 gives a zero, and 25 has no zeros, so the product has one zero at the end." What went wrong?', ['Nothing. One zero is right.', 'The 25 pairs with the 4s hidden in 240 to make more tens. 240 × 25 = 6000, which has three zeros.', 'He should have counted the zeros in 15.'], 1, '25 = 5 × 5 and 240 has plenty of 2s. Each 5 can pair with a 2. The real answer is 6000 with three zeros.', 'Spot the mistake'),
+    recap([['place value', 'the worth of a digit from its position'], ['times 10', 'every digit moves one place left'], ['zero property', 'any number times 0 is 0'], ['identity', 'any number times 1 is itself']], [['Ending zeros', 'one zero for every (2, 5) pair'], ['Times 5', 'times 10, then halve'], ['Times 25', 'times 100, then divide by 4']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, add, cmp, fmt } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, add, cmp, fmt, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const D = (k, places) => {
   const neg = k < 0, s = String(Math.abs(k)).padStart(places + 1, '0');
@@ -31,16 +31,26 @@ export default lesson({
 
   learn: [
     p('A decimal <i>is</i> a fraction in disguise. The places after the point are tenths, hundredths, thousandths. So 0.37 means 37 hundredths, and 0.6 means 6 tenths. Reading a decimal aloud tells you its fraction: "thirty-seven hundredths" is {37/100}.'),
-    rule('<b>Decimal to fraction.</b> Read the decimal as tenths, hundredths or thousandths, write it over 10, 100 or 1000, then reduce. 0.64 = {64/100} = {16/25}. 0.125 = {125/1000} = {1/8}.'),
-    ex('Count the places carefully', ['Write 0.0125 as a fraction.', 'The last digit is in the ten-thousandths place (4 places), so the denominator is 10 000.', '0.0125 = {125/10000}.', 'Divide top and bottom by 125: {1/80}.', 'Notice 0.125 is {1/8}; the extra zero makes the number 10 times smaller, so it is {1/80}.']),
-    rule('<b>Fraction to decimal.</b> A fraction is a division: {3/8} means 3 ÷ 8. Divide the top by the bottom: 3 ÷ 8 = 0.375. Or scale the denominator up to 10, 100 or 1000: {3/20} = {15/100} = 0.15.'),
+    def('terminating decimal', 'A decimal that ends after a finite number of digits, such as 0.25 or 0.375. It is always a fraction with denominator 10, 100, 1000, …'),
+    def('lowest terms', 'A fraction is in lowest terms when its top and bottom have no common factor except 1. Divide both by their greatest common factor to get there: {16/40} = {2/5}.'),
+    formula('Decimal as a fraction', 'decimal with k places = {N/10^[k]}', 'k is the number of places after the point and N is the whole number made by those digits. 0.0375 has k = 4 and N = 375, so it equals {375/10000}.'),
+    rule('<b>Decimal to fraction.</b> Read the decimal as tenths, hundredths or thousandths, write it over 10, 100 or 1000, then reduce. 0.48 = {48/100} = {12/25}. 0.125 = {125/1000} = {1/8}.'),
+    ex('Count the places carefully', ['Write 0.0375 as a fraction.', 'The last digit is in the ten-thousandths place (4 places), so the denominator is 10 000.', '0.0375 = {375/10000}.', 'Divide top and bottom by 125: {3/80}.', 'Notice 0.375 is {3/8}; the extra zero makes the number 10 times smaller, so it is {3/80}.']),
+    ex('A decimal with a whole part', ['Write 2.6 as a fraction and as a mixed number.', '0.6 is 6 tenths, so 2.6 = 2 + {6/10} = 2 + {3/5}.', 'As a mixed number it is 2 {3/5}. As an improper fraction it is {13/5}, because 2 × 5 + 3 = 13.', 'Check: 13 ÷ 5 = 2.6.']),
+    rule('<b>Fraction to decimal.</b> A fraction is a division: {3/8} means 3 ÷ 8. Divide the top by the bottom: 3 ÷ 8 = 0.375. Or scale the denominator up to 10, 100 or 1000: {7/20} = {35/100} = 0.35.'),
+    ex('Long division of 3 ÷ 8', ['Write 3 as 3.000 and divide by 8.', '30 ÷ 8 = 3 remainder 6, so the first digit after the point is 3.', '60 ÷ 8 = 7 remainder 4, then 40 ÷ 8 = 5 remainder 0.', 'The remainder is 0, so the division stops: {3/8} = 0.375.']),
     widget('repeatingDecimal', { n: 3, d: 8 }),
-    p('<b>Which fractions give decimals that stop?</b> A decimal that stops is a fraction over a power of ten, and 10, 100, 1000… are built only from 2s and 5s (10 = 2·5, 100 = 2²·5²). So a fraction in lowest terms stops exactly when its denominator has no prime factor other than 2 and 5. {7/40} stops (40 = 2³·5). {5/12} does not (12 has a 3).'),
+    ex('Scaling the denominator', ['Write {7/40} as a decimal.', 'We want a denominator of 10, 100 or 1000. 40 × 25 = 1000.', 'Multiply top and bottom by 25: {7/40} = {175/1000}.', 'So {7/40} = 0.175. Check: 7 ÷ 40 = 0.175.']),
+    p('<b>Which fractions give decimals that stop?</b> A decimal that stops is a fraction over a power of ten, and 10, 100, 1000… are built only from 2s and 5s (10 = 2·5, 100 = 2^[2]·5^[2]). So a fraction in lowest terms stops exactly when its denominator has no prime factor other than 2 and 5. {7/40} stops (40 = 2^[3]·5). {5/12} does not (12 has a 3).'),
     rule('<b>Test:</b> reduce the fraction first, then look at the denominator. Only 2s and 5s means it terminates. Any other prime factor means it repeats forever.'),
     tbl(['Fraction', 'Decimal', 'Memory hook'], [['{1/2}', '0.5', 'half'], ['{1/4}', '0.25', 'a quarter of a dollar'], ['{1/5}', '0.2', 'five fifths in 1.0'], ['{1/8}', '0.125', 'half of 0.25'], ['{1/10}', '0.1', 'a tenth'], ['{1/20}', '0.05', 'half of 0.1']], 'Benchmarks to know cold'),
+    tip('<b>Build the eighths from one fact.</b> {1/8} = 0.125, so {3/8} = 3 × 0.125 = 0.375, {5/8} = 0.625 and {7/8} = 0.875. Likewise {3/4} = 3 × 0.25 = 0.75 and {2/5} = 2 × 0.2 = 0.4. Learning one unit fraction gives you all its multiples.'),
     warn('<b>Watch out.</b> {1/8} is 0.125, not 0.18. The bottom number is not a string of digits to put after the point. And 0.5 and 0.05 are different: 0.05 is {5/100} = {1/20}, tiny next to {1/2}.'),
+    warn('<b>Watch out: reduce before you test.</b> {3/15} has a 3 in its denominator, but it is {1/5} in lowest terms, which stops: 0.2. Test the reduced fraction, not the one you were given.'),
     ex('Compare {3/8} and 0.4', ['Turn both into the same form. {3/8} = 0.375.', 'Compare 0.375 and 0.400 digit by digit: 3 tenths < 4 tenths.', 'So 0.4 is larger.', 'Or use fractions: 0.4 = {2/5} = {16/40} and {3/8} = {15/40}.']),
+    key('A decimal and a fraction are two ways to write the same number. <b>Decimal to fraction:</b> put it over 10, 100, 1000… and reduce. <b>Fraction to decimal:</b> divide top by bottom. It stops exactly when the reduced denominator has only the factors 2 and 5.'),
     mcq('Ben says "{1/8} = 0.18 because it is 1 and 8." What should he do?', ['Nothing, he is right.', 'Divide: 1 ÷ 8 = 0.125. Or notice {1/8} is half of {1/4} = 0.25.', 'Write 0.8 instead, because the bottom is 8.'], 1, '{1/8} is one piece when 1 is cut into 8, so it is small: 0.125. 0.18 is close but not equal.', 'Spot the mistake'),
+    recap([['terminating decimal', 'a decimal that ends; a fraction over a power of 10'], ['lowest terms', 'top and bottom share no factor except 1'], ['benchmark fractions', '{1/2} = 0.5, {1/4} = 0.25, {1/5} = 0.2, {1/8} = 0.125, {1/20} = 0.05']], [['Decimal to fraction', '{N/10^[k]}, then reduce'], ['Fraction to decimal', 'top ÷ bottom'], ['Stops when', 'reduced denominator has only 2 and 5']]),
   ],
 
   practice: [

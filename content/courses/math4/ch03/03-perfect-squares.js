@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 const isSq = (n) => Number.isInteger(Math.sqrt(n));
@@ -23,17 +23,25 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>perfect square</b> is a number you get by multiplying a whole number by itself. 36 is a perfect square because 6 × 6 = 36. We also say 6^[2] = 36.'),
+    p('Squares appear all over math, so it pays to know them well. This lesson covers what a square number is, the squares worth remembering, and some patterns that help you spot them.'),
+    def('perfect square', 'A number you get by multiplying a whole number by itself. 36 is a perfect square because 6 × 6 = 36. We also write 6^[2] = 36.'),
+    def('square root', 'The number that was multiplied by itself. Since 6 × 6 = 36, the square root of 36 is 6.'),
     widget('exponentTiles', { b: 5, e: 2 }),
-    p('A square number can be drawn as a square array of dots. 25 dots make a 5-by-5 square.'),
+    p('A square number can be drawn as a square array of dots. 25 dots make a 5-by-5 square. That is why we call them square numbers.'),
     tbl(['n', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], [['n^[2]', '1', '4', '9', '16', '25', '36', '49', '64', '81', '100']], 'Squares from 1 to 10'),
     tbl(['n', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'], [['n^[2]', '121', '144', '169', '196', '225', '256', '289', '324', '361', '400']], 'Squares from 11 to 20'),
+    tip('<b>Know the first twelve or so by heart.</b> Questions about squares, roots and area keep returning to numbers like 49, 64, 81, 121 and 144.'),
     rule('<b>Squares and odd numbers.</b> To go from a square of side n to a square of side n + 1, add an L-shaped border of 2n + 1 dots. So the sum of the first n odd numbers is n^[2]: 1 + 3 + 5 + 7 + 9 = 25.'),
     ex('Sum of odd numbers: 1 + 3 + 5 + ... + 19', ['Count the odd numbers: 1, 3, 5, ..., 19. There are 10 of them.', 'The sum of the first 10 odd numbers is 10^[2].', 'The answer is 100.']),
+    ex('From one square to the next', ['We know 17^[2] = 289. Find 18^[2] without multiplying.', 'The border added is 2 × 17 + 1 = 35.', '289 + 35 = 324. Check: 18 × 18 = 324.']),
     rule('<b>Last digits of squares.</b> A perfect square can only end in 0, 1, 4, 5, 6 or 9. It never ends in 2, 3, 7 or 8. Check: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100.'),
+    formula('Squares ending in 5', '(n5)^[2] = n × (n + 1), then write 25', 'The number n5 means the tens digit n followed by 5. For 85, n = 8: 8 × 9 = 72, and the square is 7225.'),
     ex('Squares ending in 5', ['Take 45. The tens digit is 4.', 'Multiply 4 × 5 = 20, which is the tens digit times the next number.', 'Then write 25 after it: 2025.', 'So 45^[2] = 2025.']),
+    tip('<b>Squares of tens.</b> To square 30, square the 3 and put two zeros after: 3^[2] = 9, so 30^[2] = 900. In the same way 70^[2] = 4900.'),
+    key('To decide whether a number is a perfect square, find the two squares it sits between. If it is not equal to either one, it is not a square. For example 150 is between 12^[2] = 144 and 13^[2] = 169, so 150 is not a square.'),
     warn('<b>Ending in 6 does not make a square.</b> Every square ends in one of six digits, but many other numbers also end in those digits. 26 ends in 6 and is not a square. The units digit can rule a number out, but it cannot prove it is a square.'),
     mcq('Dev says: "2,026 cannot be a perfect square because it ends in 6." What is wrong with that reason?', ['Nothing. A number ending in 6 is never a square.', 'Squares can end in 6 (16 and 36 do). The right check is that 45^[2] = 2025 and 46^[2] = 2116, so 2,026 falls between two squares.', 'It is a square because 2 + 0 + 2 + 6 = 10.'], 1, 'A square may end in 6. To decide, find the two squares around 2,026. 2025 and 2116. It is not equal to either, so it is not a square.', 'Spot the mistake'),
+    recap([['perfect square', 'a whole number multiplied by itself'], ['square root', 'the number that is squared, 6 for 36'], ['last digit of a square', 'only 0, 1, 4, 5, 6 or 9']], [['Next square', 'n^[2] + 2n + 1 = (n + 1)^[2]'], ['Odd numbers', 'first n odd numbers add to n^[2]'], ['Ends in 5', 'n × (n + 1), then 25']]),
   ],
 
   practice: [

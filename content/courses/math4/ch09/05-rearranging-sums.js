@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const par = (n) => (n < 0 ? '(' + m(n) + ')' : String(n));
@@ -27,17 +27,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Adding in a different order gives the same sum. 3 + 8 + 5 = 5 + 3 + 8. This also works for negatives, if each number keeps its own sign.'),
+    p('Adding in a different order gives the same sum. 3 + 8 + 5 = 5 + 3 + 8. This also works for negatives, if each number keeps its own sign. Knowing this lets you choose the order that makes the calculation easy.'),
+    def('term', 'One number in a sum, together with the sign in front of it. In 10 − 4 + 6 the terms are 10, −4 and +6.'),
+    formula('Order does not matter', 'a + b = b + a', 'This works for any integers, including negatives. The signs travel with the numbers.'),
     p('Think of 10 − 4 + 6 as the sum of three numbers: 10, −4, and +6. The minus sign belongs to the 4. When you move the 4, take the minus sign with it.'),
     ex('Reorder 10 − 4 + 6', ['The terms are 10, −4, +6.', 'Put them in any order. 10 + 6 − 4 = 12.', 'Also 6 + 10 − 4 = 12. And −4 + 10 + 6 = 12.', 'The sum is always 12.']),
     rule('<b>Rearranging.</b> A sum can be written in any order as long as each term keeps its sign. Group the positives together and the negatives together, or find pairs that cancel.'),
+    def('cancel', 'Two terms cancel when they are opposites. Their sum is 0, so they can be crossed out. −23 and +23 cancel.'),
     ex('Find −23 + 14 + 23 − 9', ['Look for opposites: −23 and 23 make 0.', 'What is left: 14 − 9 = 5.', 'The sum is 5.']),
+    ex('Group by sign: 18 − 7 − 3 + 12', ['Positive terms: 18 + 12 = 30.', 'Negative terms: −7 − 3 = −10.', 'Add the two groups: 30 + (−10) = 20.']),
+    key('Each term <b>keeps its own sign</b> when it moves. Then group the terms that are easy to combine: opposites, or pairs that make tens.'),
     p('<b>Long alternating sums.</b> Sums like 1 − 2 + 3 − 4 + … are not hard if you make pairs.'),
-    ex('1 − 2 + 3 − 4 + … + 49 − 50', ['Pair the terms: (1 − 2), (3 − 4), …, (49 − 50).', 'Each pair equals −1.', '50 terms make 25 pairs.', 'The sum is 25 × (−1) = −25.']),
+    ex('1 − 2 + 3 − 4 + … + 59 − 60', ['Pair the terms: (1 − 2), (3 − 4), …, (59 − 60).', 'Each pair equals −1.', '60 terms make 30 pairs.', 'The sum is 30 × (−1) = −30.']),
     rule('<b>Odd number of terms.</b> If there is one term left over, add it after the pairs. 1 − 2 + 3 has one pair (1 − 2 = −1) and a leftover 3: −1 + 3 = 2.'),
+    ex('1 − 2 + 3 − 4 + … − 20 + 21', ['The first 20 terms make 10 pairs. Each pair is −1, so they give −10.', 'The leftover term is +21.', '−10 + 21 = 11.']),
+    tip('Count terms before you pair them. An even count pairs off completely. An odd count leaves one term over, and that term keeps its sign.'),
     warn('<b>Watch out.</b> 10 − 4 + 6 is not 10 − 6 + 4. If you swap 4 and 6 you must move their signs too: the correct swap is 10 + 6 − 4.'),
     widget('numberLineWalk', { a: 9, b: -9 }),
     mcq('Mia says: "10 − 4 + 6 = 10 − 6 + 4 because adding in any order gives the same sum." What is wrong?', ['Nothing. She is right.', 'The minus sign belongs to the 4, not to the place in the sum. 10 − 6 + 4 = 8 but 10 − 4 + 6 = 12.', 'Both equal 0.'], 1, 'Moving 4 and 6 changes which number is subtracted. Rearrange the terms with their signs: 10 + 6 − 4.', 'Spot the mistake'),
+    recap([['term', 'a number in a sum with its sign'], ['cancel', 'opposites add to 0'], ['pair', 'group terms to make easy sums']], [['Order', 'a + b = b + a'], ['Alternating pairs', '(1 − 2) = −1, each pair']]),
   ],
 
   practice: [

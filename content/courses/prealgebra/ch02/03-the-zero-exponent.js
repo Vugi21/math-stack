@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const pw = (b, e) => Math.pow(b, e);
 const W = (v, a, msg) => (v === a ? [] : [[v, msg]]);
@@ -23,15 +23,25 @@ export default lesson({
   ],
 
   learn: [
-    p('We know b<sup>n</sup> means "n copies of b multiplied together". But what could <b>zero</b> copies mean? We can not just skip it, because exponents are going to be everywhere later. So mathematicians looked for the one value that keeps all the other rules working. It turns out there is exactly one.'),
+    p('We know b<sup>n</sup> means "n copies of b multiplied together". But what could <b>zero</b> copies mean? We cannot just skip the question, because exponents will be everywhere later. So mathematicians looked for the one value that keeps all the other rules working. It turns out there is exactly one.'),
     widget('negExponent', { b: 2 }),
-    rule('<b>The zero exponent.</b> For any base b that is not zero, b<sup>0</sup> = 1. So 5<sup>0</sup> = 1, 100<sup>0</sup> = 1 and (−7)<sup>0</sup> = 1.'),
+    def('zero exponent', 'For any base b that is not zero, b<sup>0</sup> = 1. So 5<sup>0</sup> = 1, 100<sup>0</sup> = 1 and (−7)<sup>0</sup> = 1. The base does not matter, as long as it is not 0.'),
+    rule('<b>The zero exponent.</b> For any base b that is not zero, b<sup>0</sup> = 1. This is the only value that keeps the other exponent rules working.'),
+    formula('Zero exponent', 'b<sup>0</sup> = 1  (b ≠ 0)', 'b is any nonzero number. The value 0<sup>0</sup> is left out here, because there are good arguments for different answers.'),
+    p('There are three separate reasons to believe this. Each one shows that the rule is not a trick but the only choice that fits.'),
     ex('Reason 1: the pattern', ['Powers of 10: 10<sup>3</sup> = 1000, 10<sup>2</sup> = 100, 10<sup>1</sup> = 10.', 'Each time the exponent drops by 1, the value is divided by 10.', 'The next one down: 10 ÷ 10 = 1. So 10<sup>0</sup> = 1.']),
-    ex('Reason 2: dividing a power by itself', ['Take 5<sup>3</sup> ÷ 5<sup>3</sup>. Anything divided by itself is 1.', 'But also: cancel three 5s from the top and three from the bottom. Nothing is left, and (3 − 3) copies is 0 copies.', 'So 5<sup>0</sup> must be 1, or the rule "subtract exponents when dividing" would break.']),
-    p('<b>Reason 3: the empty product.</b> When you add up no numbers at all, the total is 0, because 0 is the starting point for adding. When you multiply no numbers at all, you are left with the starting point for multiplying, which is 1. So "zero copies of b" gives 1, whatever b is.'),
+    formula('Dividing powers', 'b<sup>m</sup> ÷ b<sup>n</sup> = b<sup>m − n</sup>', 'm and n count the copies in the top and the bottom. Cancelling the common factors leaves m − n copies (for now, take m at least as big as n). The base b is not 0.'),
+    ex('Reason 2: dividing a power by itself', ['Take 5<sup>3</sup> ÷ 5<sup>3</sup>. Anything (not 0) divided by itself is 1.', 'But also: cancel three 5s from the top and three from the bottom. Nothing is left, and 3 − 3 = 0 copies are left.', 'So 5<sup>0</sup> must be 1, or the rule "subtract exponents when dividing" would break.']),
+    def('empty product', 'When you add up no numbers at all, the total is 0, because 0 is the starting point for adding. When you multiply no numbers at all, you are left with the starting point for multiplying, which is 1. So "zero copies of b" gives 1, whatever b is. This is Reason 3.'),
+    ex('Using the rule', ['Find 4<sup>0</sup> + 4<sup>1</sup> + 4<sup>2</sup>.', '4<sup>0</sup> = 1, 4<sup>1</sup> = 4, 4<sup>2</sup> = 16.', 'The sum is 1 + 4 + 16 = 21.']),
+    ex('Solving for a base', ['A positive whole number n satisfies n<sup>0</sup> + n<sup>1</sup> + n<sup>2</sup> = 31. What is n?', 'n<sup>0</sup> = 1, so the sum is 1 + n + n<sup>2</sup>. Try small values: n = 3 gives 1 + 3 + 9 = 13, and n = 4 gives 1 + 4 + 16 = 21.', 'n = 5 gives 1 + 5 + 25 = 31.', 'Therefore n = 5. Larger values of n give larger sums, so no other n works.']),
     tbl(['Expression', 'Meaning', 'Value'], [['7<sup>0</sup>', 'zero sevens multiplied', '1'], ['7<sup>1</sup>', 'one seven', '7'], ['1<sup>7</sup>', 'seven ones multiplied', '1'], ['0<sup>7</sup>', 'seven zeros multiplied', '0']], 'Four lookalikes that are not the same'),
-    warn('<b>Watch out.</b> b<sup>0</sup> is <i>not</i> 0 and it is <i>not</i> b. Also 3 × 5<sup>0</sup> is 3 × 1 = 3: the exponent 0 only touches the 5. (We leave 0<sup>0</sup> out for now: mathematicians argue about it.)'),
+    key('The zero exponent is <b>1</b>, and the reason is not a coincidence: it is the only value that keeps the pattern of dividing by the base, the rule for subtracting exponents, and the empty product all true at once.'),
+    tip('If you meet a long expression with a zero exponent, replace that power by 1 immediately. For example, 3 × 5<sup>0</sup> = 3 × 1 = 3, and 8<sup>0</sup> + 8<sup>0</sup> = 2.'),
+    tip('To test whether you remember the rule, use the pattern: write 2<sup>3</sup> = 8, 2<sup>2</sup> = 4, 2<sup>1</sup> = 2 and keep halving. The next value, 1, is 2<sup>0</sup>. Halving again will give {1/2}, which the next lesson explains.'),
+    warn('<b>Watch out.</b> b<sup>0</sup> is <i>not</i> 0 and it is <i>not</i> b. Also 3 × 5<sup>0</sup> is 3 × 1 = 3: the exponent 0 only touches the 5. And 0<sup>7</sup> is 0, while 7<sup>0</sup> is 1: swapping base and exponent changes the answer.'),
     mcq('Ben says "9<sup>0</sup> = 0, because there are no nines." What is the right answer, and why?', ['0, he is right.', '1. With no nines to multiply, we are left with the starting value for multiplying, which is 1; and 9<sup>3</sup> ÷ 9<sup>3</sup> = 9<sup>0</sup> has to be 1.', '9, because the base stays when the exponent is gone.'], 1, 'The empty product is 1. Also 9<sup>3</sup> ÷ 9<sup>3</sup> = 1 and it equals 9<sup>3−3</sup> = 9<sup>0</sup>. Zero would break that.', 'Spot the mistake'),
+    recap([['zero exponent', 'b<sup>0</sup> = 1 for any b that is not 0'], ['empty product', 'multiplying no numbers gives 1'], ['0<sup>0</sup>', 'not defined in this course']], [['Zero exponent', 'b<sup>0</sup> = 1'], ['Dividing powers', 'b<sup>m</sup> ÷ b<sup>n</sup> = b<sup>m − n</sup>']]),
   ],
 
   practice: [

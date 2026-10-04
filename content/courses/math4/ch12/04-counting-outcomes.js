@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 const fr = (a, b) => { const g = gcd(a, b) || 1; return b / g === 1 ? String(a / g) : (a / g) + '/' + (b / g); };
@@ -42,16 +42,20 @@ export default lesson({
 
   learn: [
     p('Counting outcomes carefully is the heart of probability. This lesson uses three tools: a <b>tree</b>, a <b>table</b>, and the <b>multiplication principle</b>.'),
-    rule('<b>Multiplication principle.</b> If one stage has 3 choices and the next has 2 choices, there are 3 × 2 = 6 outcomes in all. For three stages, multiply all three counts.'),
+    def('tree diagram', 'A picture that branches at each stage. Each path from the start to the end is one outcome.'),
+    def('multiplication principle', 'If one stage has m choices and the next stage has n choices, together there are m × n outcomes.'),
+    formula('Multiplication principle', 'outcomes = m × n × ...', 'Multiply the number of choices at each stage. Three stages with 3, 2 and 4 choices give 3 × 2 × 4 = 24 outcomes.'),
     widget('countingTree', { a: 3, b: 2, c: 0, labels: ['shirts', 'pants'] }),
-    p('Each path from the left to a yellow dot is one outfit. If every outfit is equally likely, the probability of one particular outfit is {1/6}.'),
-    ex('An outcome table', ['A spinner has 1, 2, 3. A second spinner has 1, 2, 3, 4. Both are spun. What is the probability that the sum is 5?', 'Make a table with the first spinner down the side and the second across the top. It has 3 × 4 = 12 cells.', 'The cells with sum 5 are (1,4), (2,3), (3,2). That is 3 cells.', 'P = {3/12} = {1/4}.']),
+    p('Each path from the left to a yellow dot is one outfit. 3 shirts and 2 pants make 3 × 2 = 6 outfits. If every outfit is equally likely, the probability of one particular outfit is {1/6}.'),
+    ex('An outcome table', ['A spinner has 1, 2, 3. A second spinner has 1, 2, 3, 4. Both are spun. What is the probability that the sum is 6?', 'Make a table with the first spinner down the side and the second across the top. It has 3 × 4 = 12 cells.', 'The cells with sum 6 are (2,4) and (3,3). That is 2 cells.', 'P = {2/12} = {1/6}.']),
     tbl(['1st \\ 2nd', '1', '2', '3', '4'], [['1', '2', '3', '4', '5'], ['2', '3', '4', '5', '6'], ['3', '4', '5', '6', '7']], 'The sums for the example'),
     rule('<b>At least one.</b> Counting "at least one" directly is slow. Count the opposite, "none", and subtract. P(at least one) = 1 − P(none).'),
     ex('At least one head', ['A coin is flipped 3 times. What is the probability of at least one head?', 'There are 2 × 2 × 2 = 8 outcomes.', 'The only outcome with no heads is TTT. So P(none) = {1/8}.', 'P(at least one head) = 1 − {1/8} = {7/8}.']),
-    rule('<b>Fair games.</b> A game is fair if both players have the same chance to win. Count the outcomes where each player wins. If the counts are equal, the game is fair.'),
+    key('A <b>fair game</b> gives both players the same chance to win. Count the outcomes where each player wins. If the counts are equal, the game is fair. If not, it is unfair, and the player with the bigger count is likelier to win.'),
+    tip('Choose the tool for the job. Use the multiplication principle to count all outcomes quickly. Use a table when you need to see which outcomes you want. Use "1 minus none" when the question says "at least one".'),
     warn('<b>Count outcomes, not totals.</b> Three coins can show 0, 1, 2 or 3 heads. That is 4 results, but they are not equally likely: there is 1 way for 0 heads and 3 ways for 1 head. List all 8 outcomes.'),
-    mcq('Maya says: "Two dice. P(at least one 6) = {1/6} + {1/6} = {1/3}." What is wrong?', ['Nothing is wrong.', 'The outcome (6,6) is counted twice. The correct count is 11 of 36, so the probability is {11/36}.', 'The two probabilities should be multiplied.'], 1, 'Count the opposite: no 6 on either die is 5 × 5 = 25 outcomes. So at least one 6 is 36 − 25 = 11 outcomes, which is {11/36}. Adding {1/6} + {1/6} counts (6,6) twice.', 'Spot the mistake'),
+    mcq('Maya says: "A coin is flipped twice. P(at least one head) = {1/2} + {1/2} = 1." What is wrong?', ['Nothing is wrong.', 'The outcome HH is counted twice. The correct count is 3 of 4, so the probability is {3/4}.', 'The two probabilities should be multiplied.'], 1, 'Count the opposite: no head is only TT, 1 outcome out of 4. So at least one head is 4 − 1 = 3 outcomes, which is {3/4}. Adding {1/2} + {1/2} counts HH twice.', 'Spot the mistake'),
+    recap([['tree diagram', 'branches show every outcome'], ['multiplication principle', 'multiply the number of choices at each stage'], ['at least one', 'count the opposite, then subtract from 1'], ['fair game', 'both players have the same chance to win']], [['Outcomes', 'm × n × ...'], ['At least one', 'P = 1 − P(none)']]),
   ],
 
   practice: [

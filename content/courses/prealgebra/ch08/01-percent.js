@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, R, fmt, fm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, R, fmt, fm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -21,15 +21,24 @@ export default lesson({
   ],
 
   learn: [
-    p('<b>Percent</b> means "per hundred". 35% means 35 out of every 100, which is {35/100}. It is a ratio whose second part is always 100, so we can compare percents easily.'),
+    p('We use percents all the time: a 20% discount, a battery at 85%, a test score of 90%. This lesson makes the idea exact, so that every percent problem later in the chapter is only a small step. The key is to see a percent as a fraction whose bottom number is always 100.'),
+    def('percent', 'A ratio that compares a quantity with 100. The word comes from "per centum", meaning "per hundred". The symbol % stands for "out of 100", so 35% means 35 out of every 100 and equals {35/100}.'),
     widget('percentGrid', { pct: 35 }),
-    rule('<b>One number, three costumes.</b> A percent, a fraction, and a decimal can all describe the same amount. To go from percent to decimal, divide by 100 (move the point two places left): 35% = 0.35. To a fraction: put it over 100 and simplify: 35% = {35/100} = {7/20}.'),
+    p('The grid above has 100 equal squares. Shading 35 of them shades 35% of the whole grid. Because every percent is measured against the same 100, percents are easy to compare: 35% is more than 30% no matter what the whole is made of.'),
+    def('whole (or base)', 'The complete amount that a percent refers to. 100% of the whole is all of it, 50% is half of it, and 0% is none of it. Every percent is a percent <i>of</i> something, so always ask "percent of what?"'),
+    rule('<b>One number, three costumes.</b> A percent, a fraction and a decimal can describe the same amount. Percent to decimal: divide by 100, which moves the decimal point two places left (28% = 0.28). Percent to fraction: put it over 100 and simplify (28% = {28/100} = {7/25}).'),
+    formula('Percent to decimal and back', 'p% = p ÷ 100        decimal × 100 = percent', 'Moving the point two places left turns a percent into a decimal. Moving it two places right turns a decimal into a percent: 0.07 = 7%, 0.6 = 60%, 1.25 = 125%.'),
     tbl(['Percent', 'Fraction', 'Decimal'], [['50%', '{1/2}', '0.5'], ['25%', '{1/4}', '0.25'], ['10%', '{1/10}', '0.1'], ['75%', '{3/4}', '0.75'], ['1%', '{1/100}', '0.01'], ['150%', '{3/2}', '1.5']], 'Benchmarks worth knowing by heart'),
-    ex('Percent of an amount', ['Find 40% of 85.', '10% is one-tenth: 85 ÷ 10 = 8.5.', '40% is 4 tens: 4 × 8.5 = 34.', 'Or: 40% = 0.4, and 0.4 × 85 = 34.']),
-    rule('<b>What percent is a part of a whole?</b> Write the part over the whole as a fraction, then turn it into a number out of 100. 18 out of 24: {18/24} = {3/4} = 75%.'),
-    p('<b>A neat trick.</b> A% of B is always equal to B% of A. For example, 8% of 25 looks hard, but 25% of 8 is just a quarter of 8, which is 2. So 8% of 25 = 2. You can pick whichever version is easier.'),
-    warn('<b>Watch out.</b> A percent can be more than 100: 150% of 40 is 60 (one and a half times as much). And a percent is always "of something": 50% of a small number is smaller than 10% of a huge one. Always ask "percent of what?"'),
+    ex('Converting between forms', ['Write 12.5% as a decimal and as a fraction. Then write {5/8} as a percent.', 'Decimal: 12.5 ÷ 100 = 0.125.', 'Fraction: 0.125 = {125/1000} = {1/8}.', 'For {5/8}: divide 5 by 8 to get 0.625. Multiply by 100: 62.5%.']),
+    formula('Percent of an amount', 'p% of B = (p ÷ 100) × B', 'Here B is the whole. The word "of" means multiply. So 40% of 85 is 0.40 × 85.'),
+    ex('Percent of an amount', ['Find 40% of 85.', '10% is one-tenth: 85 ÷ 10 = 8.5.', '40% is 4 tens: 4 × 8.5 = 34.', 'Or use the formula: 0.4 × 85 = 34.']),
+    tip('<b>Build percents from 10% and 1%.</b> 10% means divide by 10 and 1% means divide by 100. For 35% of 240: 10% is 24, so 30% is 72; 5% is half of 10%, which is 12. Total: 72 + 12 = 84. Check: 0.35 × 240 = 84.'),
+    ex('What percent is a part of a whole?', ['What percent of 40 is 7?', 'Write part over whole: {7/40}.', 'Divide: 7 ÷ 40 = 0.175.', 'Multiply by 100: 17.5%. Another case: 9 out of 15 is {9/15} = {3/5} = 60%.']),
+    key('A percent is a fraction with denominator 100, so "of" means multiply by that fraction. To find p% of B, <b>divide p by 100 and multiply by B</b>. To find what percent a part is, <b>divide part by whole</b> and write the result as a percent.'),
+    p('<b>A neat swap.</b> A% of B always equals B% of A, because both are A × B ÷ 100. So 4% of 75 equals 75% of 4, and 75% of 4 is three quarters of 4, which is 3. Pick whichever version is easier.'),
+    warn('<b>Watch out.</b> A percent can be more than 100: 150% of 60 is 90, one and a half times as much. And "50% of a small number" can be less than "10% of a huge number". Always ask: percent of what?'),
     mcq('Tara says: "10% of 50 is 10 × 50 = 500." What went wrong?', ['Nothing, you multiply the numbers.', '10% means {10/100} = 0.1, so 10% of 50 is 0.1 × 50 = 5. She forgot to divide by 100.', '10% of 50 is 10 − 50.'], 1, 'A percent is a fraction of 100. Dividing 50 into ten equal pieces gives 5 in each, so 10% of 50 is 5.', 'Spot the mistake'),
+    recap([['percent', 'a ratio out of 100; 35% = {35/100}'], ['whole', 'the amount the percent refers to'], ['percent to decimal', 'divide by 100'], ['A% of B', 'equals B% of A']], [['Percent of an amount', 'p% of B = (p ÷ 100) × B'], ['Part as a percent', '(part ÷ whole) × 100%']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 // exact decimal string for the integer k scaled by 10^places
 const D = (k, places) => {
@@ -28,16 +28,28 @@ export default lesson({
 
   learn: [
     p('A decimal is just a fraction with a denominator of 10, 100, 1000, … written in place value. 0.7 is 7 tenths. 0.07 is 7 hundredths. 0.35 is 35 hundredths, which is the same as 3 tenths and 5 hundredths. <b>Every decimal calculation is a calculation with tenths, hundredths or thousandths.</b> That one idea explains all the rules about where the point goes.'),
+    def('decimal', 'A number written with a decimal point. The digits to the right of the point count pieces of a whole: tenths, then hundredths, then thousandths, and so on. 4.25 means 4 ones, 2 tenths and 5 hundredths, which equals 4 + {25/100}.'),
+    def('place value', 'The value a digit has because of where it sits. Each place is <b>ten times</b> the place to its right and <b>one tenth</b> of the place to its left. That is true on both sides of the decimal point.'),
+    tbl(['Number', 'Ones', 'Tenths', 'Hundredths', 'Thousandths', 'Written as a fraction'], [['5.304', '5', '3', '0', '4', '5 + {304/1000}'], ['0.07', '0', '0', '7', '', '{7/100}'], ['0.35', '0', '3', '5', '', '{35/100}']], 'Reading digits by place (an empty cell means that place is not written)'),
     widget('decimalGrid', { a: 35, b: 48 }),
+    tip('<b>Trailing zeros do not change a decimal; zeros after the point and before a digit do.</b> 2.5 = 2.50 = 2.500, so you may add zeros on the right to line up places. But 2.05 is not 2.5: the zero in 2.05 holds the tenths place open. To compare 0.3 and 0.29, write 0.30 and 0.29: 30 hundredths is more than 29 hundredths, so 0.3 is larger even though it has fewer digits.'),
     rule('<b>Add and subtract: line up the decimal points.</b> The point lines up so that tenths sit over tenths and hundredths over hundredths. You can only add pieces of the same size. Fill empty places with zeros if it helps: 2.5 = 2.50.'),
-    ex('Subtracting with a borrow', ['Find 7 − 2.38.', 'Write 7 as 7.00 so every place has a digit.', 'In hundredths: 700 − 238 = 462.', 'So the answer is 4.62. Check: 4.62 + 2.38 = 7.00.']),
+    ex('Adding with different lengths', ['Find 12.4 + 0.375 + 3.', 'Line up the points and fill with zeros: 12.400, 0.375, 3.000.', 'In thousandths: 12 400 + 375 + 3 000 = 15 775.', 'So the sum is 15.775. A whole number such as 3 has its point at the far right: 3 = 3.0 = 3.000.']),
+    ex('Subtracting from a whole number', ['Find 7 − 2.38.', 'Write 7 as 7.00 so every place has a digit.', 'In hundredths: 700 − 238 = 462.', 'So the answer is 4.62. Check: 4.62 + 2.38 = 7.00.']),
     p('<b>Multiplying.</b> A tenth of a tenth is a hundredth, so tenths × tenths gives hundredths. Hundredths × tenths gives thousandths. In general you can ignore the points, multiply the whole numbers, and then give the answer as many decimal places as the two factors had <i>together</i>.'),
+    formula('Decimal places in a product', 'places(a × b) = places(a) + places(b)', 'Count the digits after the point in each factor and add. Do this <i>before</i> you drop any zeros at the end of the answer.'),
     ex('Multiply 0.6 × 0.07', ['Ignore the points: 6 × 7 = 42.', '0.6 has 1 place and 0.07 has 2 places. Together that is 3 places.', 'Put 42 into 3 places: 0.042.', 'Sense check: 0.6 is a bit more than half and 0.07 is small, so about 0.04 is believable.']),
+    ex('A product that ends in zero', ['Find 0.25 × 1.6.', 'Ignore the points: 25 × 16 = 400.', 'Places: 2 + 1 = 3, so the answer is 0.400.', 'Drop the trailing zeros: 0.4. Check with fractions: a quarter of 1.6 is 0.4.']),
     rule('<b>Multiply:</b> count the decimal places in both factors and add them. The product has that many places. <b>Divide:</b> multiply the divisor and the dividend by the same power of 10 until the divisor is a whole number. That does not change the answer, because both numbers grow by the same factor.'),
     ex('Divide 3.6 ÷ 0.12', ['Shift both numbers 2 places right: 3.6 becomes 360 and 0.12 becomes 12.', '360 ÷ 12 = 30.', 'So 3.6 ÷ 0.12 = 30. Check: 30 × 0.12 = 3.6.', 'In words: how many 12-hundredths fit in 3 and 6 tenths? Thirty of them.']),
+    ex('Shifting needs an extra zero', ['Find 7.5 ÷ 0.05.', 'The divisor 0.05 needs 2 places to become whole, so shift both numbers 2 places.', '7.5 becomes 750 (write a zero to fill the empty place) and 0.05 becomes 5.', '750 ÷ 5 = 150. Check: 150 × 0.05 = 7.5.']),
     tbl(['Move', 'Example', 'What happens'], [['× 10', '4.37 × 10 = 43.7', 'every digit moves one place left (it gets 10 times bigger)'], ['÷ 100', '52.8 ÷ 100 = 0.528', 'every digit moves two places right'], ['× 0.1', '52.8 × 0.1 = 5.28', 'same as ÷ 10: a tenth of it']], 'Powers of ten shift the digits, not the point'),
     warn('<b>Watch out.</b> When you multiply, you do <i>not</i> line the points up. Lining up is only for adding and subtracting. And multiplying by a number smaller than 1 makes the answer smaller; dividing by a number smaller than 1 makes it bigger. 6 ÷ 0.5 = 12, because there are twelve halves in 6.'),
+    warn('<b>Watch out: shift both numbers, not just one.</b> To compute 4.8 ÷ 0.4, shifting only the divisor gives 4.8 ÷ 4, which is a different problem. Shift both: 48 ÷ 4 = 12. The shift must be the same for the dividend and the divisor.'),
+    tip('<b>Estimate first.</b> Round each number to one easy digit and compute. 4.2 × 0.3 is about 4 × 0.3 = 1.2, so the answer must be near 1.2, not 12 or 0.12. An estimate catches almost every misplaced point.'),
+    key('Decimals are tenths, hundredths and thousandths. Add and subtract by <b>lining up the points</b>. Multiply by <b>counting places</b> in both factors. Divide by <b>shifting both numbers</b> until the divisor is whole. Then estimate to check where the point belongs.'),
     mcq('Dev says "4.2 × 0.3 = 12.6 because 42 × 3 = 126 and the point goes after the first two digits." What is wrong?', ['Nothing: he is right.', 'The factors have 1 + 1 = 2 decimal places, so the product is 1.26, not 12.6.', 'You must line up the decimal points first, so it is 4.20 × 0.30 = 12.6.'], 1, 'He got the digits right (126) but placed the point wrongly. 4.2 and 0.3 each have one place, so the answer has two: 1.26. Check by estimating: 4 × 0.3 is about 1.2.', 'Spot the mistake'),
+    recap([['decimal', 'a fraction over 10, 100, 1000, … written with a point'], ['place value', 'each place is 10 times the place on its right'], ['trailing zero', 'a zero at the far right after the point; it can be added or removed'], ['shifting', 'multiplying both numbers by the same power of 10, which keeps a quotient unchanged']], [['Add / subtract', 'line up the decimal points'], ['Multiply', 'places(a × b) = places(a) + places(b)'], ['Divide', 'shift both numbers until the divisor is whole']]),
   ],
 
   practice: [

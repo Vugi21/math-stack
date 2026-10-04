@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, R, mul, add, fmt, fmMixed, fmtMixed } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, R, mul, add, fmt, fmMixed, fmtMixed, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -30,15 +30,21 @@ export default lesson({
 
   learn: [
     p('A <b>mixed number</b> is a whole number plus a fraction, like 2 {1/2}. An <b>improper fraction</b> has a top that is bigger than its bottom, like {5/2}. They are two names for the same amount.'),
+    def('mixed number', 'A whole number and a fraction written together. 2 {1/2} means 2 + {1/2}.'),
+    def('improper fraction', 'A fraction whose top is bigger than or equal to its bottom, like {9/4}. Its value is 1 or more.'),
     widget('fractionExplorer', { n: 9, d: 4 }),
     p('The bar shows {9/4}. It is 2 whole bars and {1/4} more, so {9/4} = 2 {1/4}. To change a mixed number to a fraction, count the pieces: 2 {1/4} is 2 × 4 + 1 = 9 quarters.'),
-    rule('<b>Whole number times a fraction.</b> Think of groups. 6 × {3/4} is 6 groups of 3 quarters, which is 18 quarters. So 6 × {3/4} = {18/4} = 4 {1/2}.'),
+    formula('Mixed number to fraction', 'w {n/d} = {(w × d + n)/d}', 'w is the whole number. n over d is the fraction part. Multiply w by d, add n, and keep the same bottom d.'),
+    ex('Changing both ways', ['Change 3 {2/5} to a fraction: 3 × 5 + 2 = 17, so it is {17/5}.', 'Change {17/5} back: 17 ÷ 5 = 3 with 2 left over.', 'So {17/5} = 3 {2/5}. The remainder is the new top.']),
+    rule('<b>Whole number times a fraction.</b> Think of groups. 6 × {5/8} is 6 groups of 5 eighths, which is 30 eighths. So 6 × {5/8} = {30/8} = 3 {3/4}.'),
+    key('To multiply with a mixed number, first change it to an improper fraction. Then multiply as you did before, cancelling first. At the end, change the answer back to a mixed number.'),
     ex('Mixed number times mixed number', ['Find 1 {1/2} × 2 {2/3}.', 'Change both to fractions: 1 {1/2} = {3/2} and 2 {2/3} = {8/3}.', 'Multiply across, cancelling first: the 3 cancels, and the 2 divides into 8. We get {1/1} × {4/1}.', 'The answer is 4.']),
-    rule('<b>Mixed numbers.</b> To multiply with a mixed number, first change it to an improper fraction. Then multiply as usual. At the end, change the answer back to a mixed number.'),
-    p('You can also split a mixed number into two parts. 3 × 2 {1/2} = 3 × 2 + 3 × {1/2} = 6 + 1 {1/2} = 7 {1/2}. Each part gets multiplied.'),
+    p('You can also split a mixed number into two parts. 3 × 2 {1/2} = 3 × 2 + 3 × {1/2} = 6 + 1 {1/2} = 7 {1/2}. Each part gets multiplied by the 3.'),
     tbl(['Multiplying', 'As fractions', 'Answer'], [['4 × 2 {1/2}', '{4/1} × {5/2}', '10'], ['1 {1/2} × 1 {1/2}', '{3/2} × {3/2}', '2 {1/4}'], ['{2/3} × 3 {3/4}', '{2/3} × {15/4}', '2 {1/2}']], 'Three products'),
+    tip('Estimate first. 2 {1/2} × 4 is a bit more than 2 × 4 = 8, so the answer should be near 10. If you got 8 {1/2}, you can see it is too small.'),
     warn('<b>Watch out.</b> Do not multiply the whole parts and the fraction parts separately. 2 {1/2} × 3 is <i>not</i> 2 × 3 plus {1/2}. The 3 has to multiply the {1/2} too.'),
     mcq('Mia says: "2 {1/2} × 4 = 8 {1/2}, because 2 × 4 = 8 and the {1/2} stays." What is wrong?', ['Nothing, she is right.', 'The 4 must multiply the {1/2} too. 4 groups of 2 {1/2} is 8 + 2 = 10.', 'The answer should be 8 {1/8}.'], 1, '4 × 2 {1/2} = 4 × {5/2} = {20/2} = 10. Check: 2 {1/2} + 2 {1/2} is 5, and 5 + 5 is 10.', 'Spot the mistake'),
+    recap([['mixed number', 'whole number plus a fraction, like 2 {1/2}'], ['improper fraction', 'top is at least as big as the bottom, like {5/2}'], ['convert', 'multiply whole by bottom, add top, keep the bottom']], [['Mixed to fraction', 'w {n/d} = {(w × d + n)/d}']]),
   ],
 
   practice: [

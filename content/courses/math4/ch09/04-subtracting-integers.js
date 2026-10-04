@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const par = (n) => (n < 0 ? '(' + m(n) + ')' : String(n));
@@ -24,17 +24,24 @@ export default lesson({
   ],
 
   learn: [
-    p('Subtraction answers the question: how far, and in which direction, from the second number to the first?'),
-    ex('7 − 10', ['Start at 10. Where do you need to go to reach 7?', 'You go 3 steps to the left.', 'Left means negative, so 7 − 10 = −3.']),
-    p('Subtraction can also be thought of as the <b>difference</b> in height between two points. If a hill is 40 m high and a valley is −25 m, the hill is 65 m higher.'),
+    p('Subtraction answers the question: how far, and in which direction, from the second number to the first? With integers, the answer can be negative, and we can even subtract a negative number. The key is to turn every subtraction into an addition.'),
+    def('difference', 'The answer to a subtraction, found by taking the second number away from the first. It also tells how far apart two numbers are, with a direction.'),
+    ex('6 − 9', ['Start at 9. Where do you need to go to reach 6?', 'You go 3 steps to the left.', 'Left means negative, so 6 − 9 = −3.']),
+    p('Subtraction can also be thought of as the <b>difference</b> in height between two points. If a hill is 30 m high and a valley is −25 m, the hill is 55 m higher.'),
+    def('opposite', 'The number on the other side of zero at the same distance. The opposite of 5 is −5, and the opposite of −3 is 3.'),
+    formula('Subtract by adding the opposite', 'a − b = a + (−b)', 'Replace the subtraction by adding the opposite of the second number. 5 − 8 = 5 + (−8) = −3. And 5 − (−8) = 5 + 8 = 13.'),
     rule('<b>Subtracting means adding the opposite.</b> a − b = a + (−b). So 5 − 8 = 5 + (−8) = −3. And 5 − (−8) = 5 + 8 = 13.'),
     widget('numberLineWalk', { a: 4, b: -3, mode: 'sub' }),
     p('The widget shows a start a and a number b to subtract. Subtracting a negative moves you to the right. Try b = −3. The arrow goes right 3.'),
+    key('Subtracting a negative number is the same as <b>adding a positive</b>. Taking away a debt makes you richer.'),
     ex('Why is 6 − (−4) = 10?', ['Make 6 positive counters. We want to take away 4 negative counters, but there are none.', 'Add 4 zero pairs: 4 positives and 4 negatives. The total is still 6.', 'Now take away the 4 negatives. 10 positives remain.', 'So 6 − (−4) = 10.']),
     tbl(['Subtract', 'Same as adding', 'Example'], [['a positive', 'a negative', '3 − 5 = 3 + (−5) = −2'], ['a negative', 'a positive', '3 − (−5) = 3 + 5 = 8']], 'Flip the sign of the second number'),
+    ex('Two more', ['−2 − 5 = −2 + (−5) = −7. Both are negative, so add the sizes.', '−3 − (−8) = −3 + 8. The sizes are 3 and 8, and 8 is positive, so the answer is 8 − 3 = 5.', 'Check the second one on the line: from −3, go right 8. You land at 5.']),
     rule('<b>Temperature change.</b> change = new − old. From 4 degrees to −5 degrees the change is −5 − 4 = −9: a fall of 9.'),
+    tip('Before you calculate, rewrite the problem with only plus signs. Write 3 − (−5) as 3 + 5, and write 3 − 5 as 3 + (−5). Two minus signs side by side become a plus.'),
     warn('<b>Watch out.</b> Order matters. 3 − 8 = −5 but 8 − 3 = 5. They are opposites. Subtraction is not the same both ways.'),
     mcq('Lee says: "4 − (−3) = 1, because 4 − 3 = 1 and the negative sign just stays." What is wrong?', ['Nothing. He is right.', 'Subtracting −3 is the same as adding 3. So 4 − (−3) = 4 + 3 = 7.', '4 − (−3) = −7.'], 1, 'Take away a debt of 3 and you are 3 richer. 4 − (−3) = 7.', 'Spot the mistake'),
+    recap([['difference', 'answer to a subtraction'], ['opposite', 'same distance from 0, other side']], [['Subtract', 'a − b = a + (−b)'], ['Subtract a negative', 'a − (−b) = a + b'], ['Change', 'new − old']]),
   ],
 
   practice: [

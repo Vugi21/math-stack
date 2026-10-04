@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const POLY = { 3: 'triangle', 4: 'square', 5: 'pentagon', 6: 'hexagon', 7: 'heptagon', 8: 'octagon', 9: 'nonagon', 10: 'decagon' };
 
@@ -22,17 +22,25 @@ export default lesson({
   ],
 
   learn: [
-    p('<b>Perimeter</b> is the distance around a shape. Add up all the sides. <b>Area</b> is the space inside. We count it in unit squares.'),
+    p('Two questions come up again and again about a flat shape. How far is it around the edge? And how much space is inside? They have different answers and different units, so we must never mix them up.'),
+    def('perimeter', 'The total distance <b>around</b> a shape. To find it, add up the lengths of all the sides. It is measured in units of length, such as centimeters (cm).'),
+    def('area', 'The amount of flat space <b>inside</b> a shape. We count it in <b>unit squares</b>, squares that are 1 unit on each side. It is measured in square units, such as square centimeters.'),
     widget('arrayModel', { r: 3, c1: 4, c2: 2 }),
     p('In the picture, the dots fill a rectangle: 3 rows of 6 dots. A rectangle that is 3 units by 6 units holds 3 × 6 = 18 unit squares in the same way.'),
-    rule('<b>Rectangles.</b> Area = length × width. Perimeter = 2 × (length + width). A square with side s has area s × s and perimeter 4 × s.'),
-    rule('<b>Same perimeter, different area.</b> A 5 by 5 square and a 9 by 1 rectangle both have perimeter 20. Their areas are 25 and 9. Area and perimeter are different questions.'),
-    ex('A shape made of rectangles', ['An L-shape is a 10 by 8 rectangle with a 4 by 3 rectangle cut out of one corner. Find its area.', 'Area of the big rectangle: 10 × 8 = 80.', 'Area of the piece cut out: 4 × 3 = 12.', 'Area of the L: 80 − 12 = 68.']),
+    formula('Rectangle', 'area = length × width     perimeter = 2 × (length + width)', 'A square with side s is a rectangle with length s and width s: area = s × s and perimeter = 4 × s.'),
+    key('<b>Perimeter and area answer different questions.</b> A fence around a garden is a perimeter. The grass inside it is an area. Two shapes can have the same perimeter and different areas, or the same area and different perimeters.'),
+    rule('<b>Same perimeter, different area.</b> A 5 by 5 square and an 8 by 2 rectangle both have perimeter 20. Their areas are 25 and 16. For the same area it works the other way: 5 by 6 and 3 by 10 both have area 30, but their perimeters are 22 and 26.'),
+    ex('Perimeter of a rectangle', ['A rectangle is 12 cm long and 5 cm wide. Find its perimeter.', 'Length plus width: 12 + 5 = 17.', 'The perimeter has two lengths and two widths: 2 × 17 = 34 cm.']),
+    ex('Finding a missing side', ['A rectangle has area 56 square cm and width 7 cm. How long is it?', 'Area = length × width, so length = area ÷ width.', '56 ÷ 7 = 8 cm. Check: 8 × 7 = 56.']),
+    ex('A shape made of rectangles', ['An L-shape is a 9 by 7 rectangle with a 3 by 2 rectangle cut out of one corner. Find its area.', 'Area of the big rectangle: 9 × 7 = 63.', 'Area of the piece cut out: 3 × 2 = 6.', 'Area of the L: 63 − 6 = 57.']),
     p('You can also split an L-shape into two rectangles and add them. Both ways must give the same area. That is a good check.'),
+    tip('<b>Draw and label.</b> For any shape made of rectangles, sketch it and write every side length on it. If a side is missing, use the opposite sides: a missing length is the long total minus the parts you know.'),
     warn('<b>Watch out.</b> When a corner is cut out of a rectangle, the perimeter does not change. The two sides that were removed are replaced by two sides of the same total length. The area does change.'),
     rule('<b>Regular polygons.</b> Perimeter = number of sides × side length. A regular octagon with side 5 has perimeter 8 × 5 = 40.'),
     tbl(['Shape', 'Area', 'Perimeter'], [['rectangle 7 by 3', '21', '20'], ['square with side 6', '36', '24'], ['regular hexagon, side 4', 'not needed yet', '24']], 'Examples'),
+    warn('<b>Units.</b> Perimeter is in cm. Area is in square cm. A length of 7 cm and an area of 7 square cm are very different things.'),
     mcq('Tom says: "If I double every side of a rectangle, its area doubles too." What is wrong?', ['Nothing, he is right.', 'Doubling both sides makes the area 4 times as big. The perimeter is the thing that doubles.', 'The area stays the same.'], 1, 'A 2 by 3 rectangle has area 6. Doubled it is 4 by 6, which has area 24. That is 4 times as big. The perimeter went from 10 to 20.', 'Spot the mistake'),
+    recap([['perimeter', 'distance around, in cm'], ['area', 'space inside, in square cm'], ['unit square', 'a square 1 unit on each side']], [['Rectangle area', 'length × width'], ['Rectangle perimeter', '2 × (length + width)'], ['Square perimeter', '4 × side'], ['Regular polygon perimeter', 'sides × side length']]),
   ],
 
   practice: [

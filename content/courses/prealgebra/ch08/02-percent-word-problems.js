@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -21,14 +21,23 @@ export default lesson({
   ],
 
   learn: [
-    p('Every percent problem has three numbers: a <b>part</b>, a <b>whole</b>, and a <b>percent</b>. Two are given and one is missing. The relationship is one sentence: <b>part = percent × whole</b>.'),
+    p('Most percent word problems are the same problem in disguise. Every one has three numbers: a <b>percent</b>, a <b>whole</b> and a <b>part</b>. Two of them are given and you find the third. Once you can name which is which, the problem is nearly solved.'),
+    def('part', 'The piece of the whole that the percent picks out. In "30% of 140 is 42", the part is 42.'),
+    def('whole', 'The full amount, which is 100%. In "30% of 140 is 42", the whole is 140. The whole is the number that follows the word "of".'),
+    formula('The percent relationship', 'part = percent × whole', 'Write the percent as a decimal. 30% of 140: part = 0.30 × 140 = 42.'),
     widget('percentGrid', { pct: 60 }),
-    rule('<b>Three questions, one sentence.</b> Find the part: multiply, percent × whole. Find the percent: divide, part ÷ whole, then turn into %. Find the whole: divide, part ÷ percent. A <b>bar</b> helps: draw a bar for the whole (100%), mark the part, and label what you know.'),
-    ex('Find the whole', ['30 is 12% of what number?', '12% of the whole is 30, so 1% is 30 ÷ 12 = 2.5.', 'The whole is 100 × 2.5 = 250.', 'Check: 12% of 250 = 0.12 × 250 = 30. ✓']),
-    ex('Sales tax (HST in Ontario is 13%)', ['A jacket is $80 before tax. What is the total price?', 'Tax is 13% of 80 = 0.13 × 80 = 10.40.', 'Total: 80 + 10.40 = 90.40 dollars.', 'Shortcut: the total is 113% of the price, so 80 × 1.13 = 90.40.']),
-    ex('Percent of a percent', ['40% of the students are in Grade 8. 25% of the Grade 8s play hockey. What percent of all students are Grade 8 hockey players?', 'Take 25% of 40%: {1/4} × 40% = 10%.', 'It is 10% of all students, not 65% and not 15%.']),
-    warn('<b>Watch out: percent of what?</b> The "whole" is the amount the percent refers to. In "30 is 12% of what", the 30 is the part. If you take 12% of 30 you get the wrong thing. Ask yourself: is the number I was given the whole, or a piece of it?'),
-    mcq('A bill is $50 and tax is 13%. Ben says: "The tax is 50 × 0.13 = $6.50, so I pay $6.50." What did he forget?', ['Nothing, the tax is what you pay.', 'The $6.50 is only the tax. He still has to pay for the item: 50 + 6.50 = $56.50.', 'He should have divided by 0.13.'], 1, 'The tax is extra. Total = price + tax. Equivalent: total = 1.13 × price.', 'Spot the mistake'),
+    rule('<b>Three questions, one sentence.</b> Find the part: multiply, percent × whole. Find the percent: divide, part ÷ whole, then write it as a percent. Find the whole: divide, part ÷ percent. These are the same sentence solved for different unknowns, the way 3 × 4 = 12 also says 12 ÷ 4 = 3.'),
+    tip('<b>Draw a bar.</b> Draw a long bar for the whole and label it 100%. Mark where the part ends and label the percent you know. Seeing the bar makes it clear whether the number you hold is a piece or the whole.'),
+    key('Name the three numbers before you calculate. Whichever one follows "of" is the <b>whole</b>. The number that is a piece of it is the <b>part</b>. Then choose: multiply to find a part, divide to find a percent or a whole.'),
+    ex('Find the whole', ['42 is 35% of what number?', '35% of the whole is 42, so 1% is 42 ÷ 35 = 1.2.', 'The whole is 100% = 100 × 1.2 = 120.', 'Check: 35% of 120 = 0.35 × 120 = 42. Correct.']),
+    ex('Find the percent', ['A class has 25 students and 17 of them walk to school. What percent walk?', 'Part is 17 and whole is 25. Divide: 17 ÷ 25 = 0.68.', 'As a percent that is 68%.', 'Check: 68% of 25 = 0.68 × 25 = 17.']),
+    ex('Sales tax (HST in Ontario is 13%)', ['A jacket is $60 before tax. What is the total price?', 'Tax is 13% of 60 = 0.13 × 60 = 7.80.', 'Total: 60 + 7.80 = 67.80 dollars.', 'Shortcut: the total is 113% of the price, so 60 × 1.13 = 67.80.']),
+    tip('<b>Estimate first.</b> Before you press any keys, ask whether the answer should be bigger or smaller than the number you were given. 35% of something is less than half of it, so the whole must be more than double 42. If you got 14.7, you took 35% of 42 by mistake.'),
+    ex('Percent of a percent', ['30% of the students are in the band. 20% of the band members play the flute. What percent of all students are flute players in the band?', 'Take 20% of 30%: {1/5} × 30% = 6%.', 'It is 6% of all students, not 50% and not 10%.', 'Check with 500 students: 30% is 150 in the band, and 20% of 150 is 30. And 30 out of 500 is 6%.']),
+    ex('A harder whole', ['After spending 35% of her savings, Rosa has $260 left. How much did she start with?', 'She spent 35%, so 100% − 35% = 65% is left. The $260 is the part that is 65% of the whole.', '1% is 260 ÷ 65 = 4, so the whole is 100 × 4 = 400.', 'Check: 35% of 400 is 140, and 400 − 140 = 260.']),
+    warn('<b>Watch out: percent of what?</b> The whole is the amount the percent refers to. In "42 is 35% of what", the 42 is the part. If you take 35% of 42 you answer a different question. Ask yourself: is the number I was given the whole, or a piece of it?'),
+    mcq('A bill is $40 and tax is 13%. Ben says: "The tax is 40 × 0.13 = $5.20, so I pay $5.20." What did he forget?', ['Nothing, the tax is what you pay.', 'The $5.20 is only the tax. He still has to pay for the item: 40 + 5.20 = $45.20.', 'He should have divided by 0.13.'], 1, 'The tax is extra. Total = price + tax. Equivalent: total = 1.13 × price.', 'Spot the mistake'),
+    recap([['part', 'the piece the percent picks out'], ['whole', 'the full amount, 100%; it follows "of"'], ['percent of a percent', 'multiply the two percents as fractions']], [['Find the part', 'part = percent × whole'], ['Find the percent', 'percent = part ÷ whole'], ['Find the whole', 'whole = part ÷ percent']]),
   ],
 
   practice: [

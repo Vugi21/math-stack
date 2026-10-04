@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const sum = (a) => a.reduce((x, y) => x + y, 0);
@@ -24,17 +24,27 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>data set</b> is a list of numbers. Often we want one number that describes the whole list. There are several, and each answers a different question.'),
-    p('<b>The mean</b> is the "fair share" number. Imagine pooling everything and dealing it out evenly. In the stickers puzzle the mean was 8: the lumpy list 4, 7, 7, 10, 12 got leveled out into 8, 8, 8, 8, 8.'),
-    rule('<b>Mean</b> = (sum of all the values) ÷ (how many values). Add first, then divide.'),
-    rule('<b>Median</b> = the middle value after you <b>sort the list</b> from least to greatest. If there are two middle values (an even count), the median is halfway between them.'),
-    rule('<b>Mode</b> = the value that appears most often. A list can have two modes, or none if nothing repeats. <b>Range</b> = greatest − least: it tells you how spread out the data is.'),
+    def('data set', 'A collection of numbers (or other facts) gathered about something, such as test scores, heights, or lap times. Each number is a <b>value</b>.'),
+    p('A long list of values is hard to take in at once. We often want <b>one number</b> that describes the whole list. There are several choices, and each answers a different question. The first three are called measures of center, because they tell you where the middle of the data is. The fourth measures spread.'),
+    def('mean', 'The "fair share" number. Imagine pooling everything and dealing it out evenly. In the stickers puzzle the mean was 8: the lumpy list 4, 7, 7, 10, 12 got leveled out into 8, 8, 8, 8, 8. People often call it "the average".'),
+    formula('Mean', 'mean = (sum of all the values) ÷ (number of values)', 'Add first, then divide. Rearranged: sum = mean × number of values. That form is useful when the mean is given and you need a missing value.'),
+    def('median', 'The middle value after you <b>sort the list</b> from least to greatest. With an odd number of values it is the one in the middle. With an even number there are two middle values, and the median is the number halfway between them.'),
+    def('mode', 'The value that appears most often. A list can have two modes, or more, or none if nothing repeats. The mode is a <i>value</i> from the list, not the count of how many times it appears.'),
+    def('range', 'The greatest value minus the least value. It tells you how spread out the data is, not where the middle is.'),
     widget('dataPlot', { data: [3, 4, 4, 5, 6, 7, 9], addable: true }),
     p('Try the picture: add the extra value and drag it far to the right. Watch the mean (yellow triangle) chase it while the median (blue line) barely moves. Remember that.'),
     ex('Finding all four', ['Data: 9, 4, 7, 4, 11, 5. Sort first: 4, 4, 5, 7, 9, 11.', 'Mean: 4 + 4 + 5 + 7 + 9 + 11 = 40, and 40 ÷ 6 = {20/3}, about 6.67.', 'Median: there are 6 values, so the middle two are 5 and 7. Halfway between them is 6.', 'Mode: 4 appears twice, nothing else repeats, so the mode is 4.', 'Range: 11 − 4 = 7.']),
+    ex('Odd count, two modes, no mode', ['Data: 16, 3, 9, 21, 7. Sorted: 3, 7, 9, 16, 21. Five values, so the median is the third one: 9.', 'The list 2, 3, 3, 5, 5, 8 has two modes, 3 and 5, since each appears twice.', 'The list 1, 2, 3, 4 has no mode, because no value repeats.']),
+    ex('Using the mean to find a missing value', ['Four test scores have a mean of 85. What must a fifth score be to bring the mean to 86?', 'Five scores with mean 86 must total 5 × 86 = 430.', 'The first four total 4 × 85 = 340.', 'The fifth score is 430 − 340 = 90.']),
+    rule('<b>Always sort before finding a median.</b> Mean and range do not depend on the order of the list, but the median does.'),
     tbl(['Statistic', 'Question it answers', 'Needs sorting?'], [['Mean', 'What is the fair share?', 'No'], ['Median', 'What is the middle value?', 'Yes, always'], ['Mode', 'What is most common?', 'Helps to'], ['Range', 'How spread out is it?', 'Helps to']], 'Four descriptions of the same list'),
+    tip('<b>Balance check.</b> Each value minus the mean gives a difference, and all the differences add up to 0. For 4, 7, 7, 10, 12 with mean 8 the differences are −4, −1, −1, +2, +4, and they cancel. Also, the mean always lies between the least and the greatest value, so a mean outside that range signals an error.'),
+    tip('<b>Counting to the middle.</b> With n sorted values and n odd, the median is at position (n + 1) ÷ 2. With 9 values that is the 5th. With an even n, average the values at positions n ÷ 2 and n ÷ 2 + 1.'),
     warn('<b>Watch out.</b> The median of 3, 9, 5, 8, 6 is <i>not</i> 5, even though 5 sits in the middle of the list as written. Sort first: 3, 5, 6, 8, 9. The median is 6.'),
+    warn('<b>Two more slips.</b> The mode of 7, 8, 8, 9 is 8, not 2 (2 is how often it appears). And the median or mean of an even-sized list need not be a number that is in the list: the median of 5 and 7 is 6.'),
+    key('Mean, median and mode are three different answers to "what is typical?". The mean uses the <b>size</b> of every value, the median uses only the <b>order</b>, and the mode uses <b>how often</b>.'),
     mcq('Leo says: "The mean of 10, 20 and 60 is 20, because 20 is the middle number." What went wrong?', ['Nothing, 20 is the mean.', 'He found the median instead. The mean is (10 + 20 + 60) ÷ 3 = 30.', 'He should have divided by 2.'], 1, '20 is the middle value, which is the median. The mean pools all 90 and shares it among 3: 30. The big value 60 drags the mean up.', 'Spot the mistake'),
+    recap([['mean', 'fair share: total ÷ count'], ['median', 'middle value of the sorted list'], ['mode', 'most frequent value'], ['range', 'greatest − least']], [['Mean', 'sum ÷ number of values'], ['Total from the mean', 'sum = mean × number of values'], ['Range', 'greatest − least']]),
   ],
 
   practice: [

@@ -93,8 +93,8 @@ for (const course of courses) {
         if (l.learn.length < MIN.learn) E.push('learn: needs at least ' + MIN.learn + ' blocks');
         if (!l.learn.some((b) => b.t === 'rule')) E.push('learn: needs a rule box');
         if (!l.learn.some((b) => b.t === 'warn' || b.t === 'mc')) E.push('learn: needs a watch-out box or a spot-the-mistake question');
-        // Reading depth: once a lesson uses the reading blocks, it must use them properly.
-        if (l.learn.some((b) => ['def', 'key', 'formula', 'tip', 'recap'].includes(b.t)) || process.env.DEPTH_ALL) {
+        // Reading depth: every lesson must teach properly, not just show a rule box.
+        {
           const n = (t) => l.learn.filter((b) => b.t === t).length;
           if (l.learn.length < 10) E.push('depth: needs at least 10 learn blocks');
           if (n('def') < 2) E.push('depth: needs 2+ definitions');

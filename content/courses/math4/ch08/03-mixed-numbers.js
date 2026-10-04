@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, sub, eq, cmp, fmt, fm, fmMixed, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, sub, eq, cmp, fmt, fm, fmMixed, gcd, tbl, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => {
   const seen = [];
@@ -26,18 +26,25 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>mixed number</b> is a whole number and a fraction together. The number 2 {3/4} means 2 + {3/4}. It is between 2 and 3.'),
-    p('A fraction whose top is greater than or equal to its bottom is an <b>improper fraction</b>. {11/4} means 11 pieces of size one fourth. That is more than one whole.'),
+    p('Not every amount is smaller than one whole. A recipe may need 2 and a half cups. A rope may be 11 fourths of a meter long. This lesson shows two ways to write numbers bigger than 1, and how to switch between them.'),
+    def('mixed number', 'A whole number and a fraction together. The number 2 {3/4} means 2 + {3/4}. It is between 2 and 3.'),
+    def('proper fraction', 'A fraction whose top is <b>less</b> than its bottom, such as {3/4}. It is less than 1.'),
+    def('improper fraction', 'A fraction whose top is greater than or equal to its bottom. {11/4} means 11 pieces of size one fourth. That is more than one whole.'),
     widget('fractionExplorer', { n: 11, d: 4 }),
+    formula('Mixed number to improper', 'w {a/b} = {(w × b + a)/b}', 'Multiply the whole w by the bottom b, then add the top a. Keep the bottom.'),
     rule('<b>Mixed number to improper fraction.</b> Each whole holds as many pieces as the bottom number. Multiply the whole by the bottom, then add the top. 3 {2/5}: 3 × 5 = 15, and 15 + 2 = 17, so it is {17/5}.'),
     ex('Why that works', ['Write 3 {2/5} as pieces of size one fifth.', 'One whole is {5/5}. Three wholes are 3 × 5 = 15 fifths.', 'Add the 2 fifths that were already there: 17 fifths.', 'So 3 {2/5} = {17/5}.']),
     rule('<b>Improper fraction to mixed number.</b> Divide the top by the bottom. The quotient is the whole number. The remainder is the new top. {23/6}: 23 ÷ 6 = 3 remainder 5, so it is 3 {5/6}.'),
+    ex('Change {41/8} to a mixed number', ['Divide 41 by 8. 8 × 5 = 40, so the quotient is 5 and the remainder is 1.', 'The whole number is 5. The new top is 1. The bottom stays 8.', '{41/8} = 5 {1/8}.', 'Check: 5 × 8 + 1 = 41.']),
     p('<b>On the number line.</b> Between each pair of whole numbers, the fraction part says how far to go. 3 {5/6} is at the 5th mark after 3, when the space from 3 to 4 is cut into sixths.'),
+    tip('Check any conversion by going the other way. If {41/8} = 5 {1/8}, then 5 × 8 + 1 should give back 41. A whole number is also a fraction: 4 = {4/1} = {12/3}.'),
+    key('Mixed numbers and improper fractions are two names for the <b>same</b> amount. Use mixed numbers to see how big an amount is, and improper fractions when you need to calculate with one fraction.'),
     warn('<b>Watch out.</b> 2 {3/4} means 2 + {3/4}. It does not mean 2 × {3/4}. The whole and the fraction are added.'),
     mcq('Kira writes 2 {3/5} = {8/5}, because 5 + 3 = 8. What did she forget?', ['Nothing. She is right.', 'Each whole holds 5 fifths, so 2 wholes are 10 fifths. The answer is {13/5}.', 'She should have used the 2 as the bottom number.'], 1, '2 wholes are {10/5}. Add the {3/5} that was already there: {13/5}.', 'Spot the mistake'),
     ex('Comparing mixed numbers', ['Which is greater: 3 {5/8} or 3 {2/3}?', 'The wholes are the same. Compare {5/8} and {2/3}.', 'In 24ths: {15/24} and {16/24}.', '{2/3} is greater, so 3 {2/3} is greater.']),
     widget('commonDenominator', { a: 5, b: 8, c: 2, d: 3, mode: 'compare' }),
     rule('<b>Comparing.</b> Look at the whole numbers first. If they are different, the bigger whole number wins (when each fraction part is less than 1). If they are the same, compare the fraction parts. For an improper fraction, change it into a mixed number first.'),
+    recap([['mixed number', 'whole number plus a fraction'], ['proper fraction', 'top less than bottom; less than 1'], ['improper fraction', 'top at least the bottom; 1 or more']], [['Mixed to improper', '{(w × b + a)/b}'], ['Improper to mixed', 'divide: quotient = whole, remainder = top']]),
   ],
 
   practice: [

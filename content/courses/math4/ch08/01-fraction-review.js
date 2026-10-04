@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, eq, fmt, fm, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, eq, fmt, fm, gcd, tbl, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 // wrong answers given as rationals; drops any that equal the right answer or repeat
 const W = (ans, list) => {
@@ -27,20 +27,30 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>fraction</b> names equal parts of a whole. The bottom number tells how many equal parts the whole is cut into. The top number tells how many of those parts we mean.'),
+    p('Fractions are numbers that name parts of a whole. This lesson reviews the main ideas, because every fraction lesson after it depends on them: what a fraction means, how to rewrite it, how to compare it and how to take a part of a set.'),
+    def('fraction', 'A number that names <b>equal</b> parts of a whole. {3/4} means 3 of the 4 equal parts.'),
+    def('denominator', 'The <b>bottom</b> number. It tells how many equal parts the whole is cut into, so it names the size of each piece.'),
+    def('numerator', 'The <b>top</b> number. It tells how many of those parts we are talking about.'),
     widget('fractionExplorer', { n: 3, d: 4 }),
     p('The parts must be <b>equal</b>. A square cut into 4 unequal pieces does not show fourths.'),
+    def('equivalent fractions', 'Fractions that name the same amount, such as {1/2} and {3/6}. They land on the same spot on the number line.'),
     rule('<b>Equivalent fractions.</b> Multiply the top and the bottom by the same number and the amount does not change. {1/2} = {2/4} = {3/6} = {4/8}. They all name the same spot on the number line.'),
+    formula('Equivalent fractions', '{a/b} = {(a × n)/(b × n)}', 'Multiply the top and the bottom by the same number n, or divide both by the same number. The value stays the same.'),
     ex('Simplest form', ['Write {18/24} in simplest form.', 'Find a number that divides both 18 and 24. The number 6 does.', '18 ÷ 6 = 3 and 24 ÷ 6 = 4.', 'So {18/24} = {3/4}. Nothing but 1 divides both 3 and 4, so we are done.']),
     widget('simplifyFraction', { n: 18, d: 24 }),
-    p('A fraction is in <b>simplest form</b> when no number except 1 divides both the top and the bottom.'),
+    def('simplest form', 'A fraction is in simplest form when no number except 1 divides both the top and the bottom.'),
+    tip('Not sure which number to divide by? Divide both by any common factor you see, such as 2, and repeat until nothing is left to divide by. You will reach the same answer as dividing by the greatest common factor at once.'),
     rule('<b>Comparing.</b> Same bottoms: the bigger top is bigger. Same tops: the bigger bottom means smaller pieces, so the fraction is smaller. Different bottoms: cut both into the same size pieces first.'),
     ex('Which is greater, {5/8} or {2/3}?', ['The bottoms 8 and 3 both go into 24. Use 24ths.', '{5/8} = {15/24} because 5 × 3 = 15 and 8 × 3 = 24.', '{2/3} = {16/24} because 2 × 8 = 16 and 3 × 8 = 24.', '16 is more than 15, so {2/3} is greater.']),
     widget('commonDenominator', { a: 5, b: 8, c: 2, d: 3, mode: 'compare' }),
+    tip('Use {1/2} as a landmark. {4/9} is less than {1/2}, because half of 9 is 4 and a half, and 4 is less than that. {5/9} is more than {1/2}. Sometimes this settles a comparison at once.'),
     p('<b>On a number line.</b> Cut the space from 0 to 1 into equal steps. If there are 8 steps, then {5/8} is 5 steps from 0. Equivalent fractions land on the same spot.'),
     ex('A fraction of a set', ['Find {3/5} of 20 marbles.', 'The bottom 5 says: split the 20 marbles into 5 equal groups. Each group has 4.', 'The top 3 says: take 3 of those groups.', '3 × 4 = 12 marbles.']),
+    formula('Fraction of a set', '{a/b} of N = (N ÷ b) × a', 'Divide the set into b equal groups, then take a of them. {3/5} of 20 = (20 ÷ 5) × 3 = 12.'),
+    key('A fraction is a number of equal pieces. To compare or combine fractions, make the pieces the <b>same size</b> first.'),
     warn('<b>Watch out.</b> A bigger bottom number means smaller pieces. {1/8} is less than {1/5}, even though 8 is more than 5.'),
     mcq('Dev says "{3/8} is greater than {3/5}, because 8 is greater than 5." What is wrong?', ['Nothing. He is right.', 'Both fractions have 3 pieces. Eighths are smaller pieces than fifths, so 3 eighths is less than 3 fifths.', 'You cannot compare fractions that have different bottoms.'], 1, 'Cut a bar into 8 equal parts and another into 5 equal parts. Each fifth is longer than each eighth. Three long pieces beat three short pieces.', 'Spot the mistake'),
+    recap([['fraction', 'equal parts of a whole'], ['numerator', 'top: how many parts'], ['denominator', 'bottom: size of the parts'], ['equivalent', 'different names for the same amount'], ['simplest form', 'only 1 divides both top and bottom']], [['Equivalent', '{a/b} = {(a × n)/(b × n)}'], ['Part of a set', '{a/b} of N = (N ÷ b) × a']]),
   ],
 
   practice: [

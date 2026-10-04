@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 const lcm = (a, b) => (a / gcd(a, b)) * b;
@@ -25,16 +25,23 @@ export default lesson({
   ],
 
   learn: [
-    p('A number is <b>divisible</b> by 3 if 3 is a factor of it. We can often tell without dividing. These quick checks are <b>divisibility tests</b>.'),
+    p('You can often tell whether one number divides another without doing the division. The checks are quick, and they let you find factors of big numbers, such as 3,780, in a few seconds.'),
+    def('divisible', 'A number is divisible by 3 if 3 is a factor of it. That means dividing by 3 leaves nothing over.'),
+    def('divisibility test', 'A quick check on the digits of a number that tells you whether it is divisible by a certain number, without dividing.'),
     tbl(['Divisible by', 'Test'], [['2', 'The last digit is 0, 2, 4, 6, or 8.'], ['5', 'The last digit is 0 or 5.'], ['10', 'The last digit is 0.'], ['3', 'The digits add to a multiple of 3.'], ['9', 'The digits add to a multiple of 9.'], ['4', 'The last two digits make a multiple of 4.'], ['6', 'Divisible by 2 and by 3.']], 'The tests we use'),
     widget('divisibility', { n: 3456 }),
     p('Why does the test for 4 look at two digits? Because 100 is a multiple of 4. Everything before the last two digits is made of hundreds, so it can be ignored.'),
+    p('Why does adding digits work for 3 and 9? Each place value, 10, 100, 1,000, is one more than a multiple of 9. So every digit counts only itself when you test for 3 or 9. Add the digits, and the sum has the same remainder as the number.'),
     ex('Find the factors of 3,780 in the list 2, 3, 4, 5, 6, 9, 10', ['Last digit 0: so 2, 5, and 10 work.', 'Digit sum: 3 + 7 + 8 + 0 = 18. 18 is a multiple of 3 and of 9. So 3 and 9 work.', 'Since 2 and 3 both work, 6 works.', 'Last two digits 80. 80 ÷ 4 = 20. So 4 works.', 'All seven of the numbers divide 3,780.']),
-    rule('<b>Combine tests.</b> If a number is divisible by two numbers that share no factor, it is divisible by their product. Divisible by 4 and by 9 means divisible by 36. Divisible by 2 and by 3 means divisible by 6.'),
+    key('Check the <b>last digit</b> for 2, 5 and 10, the <b>last two digits</b> for 4, and the <b>digit sum</b> for 3 and 9.'),
+    rule('<b>Combine tests.</b> If a number is divisible by two numbers that share no factor other than 1, it is divisible by their product. Divisible by 4 and by 9 means divisible by 36. Divisible by 2 and by 3 means divisible by 6.'),
     warn('<b>Watch out.</b> Divisible by 4 and 6 does not mean divisible by 24. Take 12: it is divisible by 4 and by 6, but 24 does not go into 12. The numbers 4 and 6 share a factor, 2.'),
+    ex('Fill in the missing digit', ['The number 2_5 must be divisible by 9. The known digits add to 2 + 5 = 7.', 'We need 7 plus the missing digit to be a multiple of 9. The next multiple of 9 is 9, so the digit is 2.', 'Check: 225 ÷ 9 = 25. The number 225 works.']),
     p('<b>Patterns in multiples.</b> Count by 3s and mark 3, 6, 9, 12, … Count by 5s and mark 5, 10, 15, … Numbers that are marked twice are multiples of 15. They appear once every 15 numbers.'),
     ex('How many numbers from 1 to 60 are multiples of 3 or 5?', ['Multiples of 3: 60 ÷ 3 = 20.', 'Multiples of 5: 60 ÷ 5 = 12.', 'Multiples of 15 are counted in both lists. There are 60 ÷ 15 = 4.', 'Add the lists and take away the double count: 20 + 12 − 4 = 28.']),
+    tip('To test 4, you can halve the last two digits twice. 56 → 28 → 14. You stay on whole numbers, so 56 is a multiple of 4. For 72 → 36 → 18, also yes. For 54 → 27 → 13.5, no.'),
     mcq('Lin says: "7,214 is divisible by 4 because its last digit, 4, is divisible by 4." What is wrong?', ['Nothing, she is right.', 'The test for 4 uses the last two digits, 14, and 14 is not a multiple of 4.', 'The test for 4 uses the digit sum.'], 1, '14 ÷ 4 = 3 remainder 2. So 7,214 leaves remainder 2 when divided by 4.', 'Spot the mistake'),
+    recap([['divisible', 'divides with nothing left over'], ['digit sum', 'the digits added together'], ['test for 4', 'last two digits are a multiple of 4'], ['test for 6', 'divisible by 2 and by 3']], [['Test for 3 and 9', 'digit sum is a multiple of 3 or 9'], ['Test for 2, 5, 10', 'look at the last digit'], ['Multiples of 15 up to n', 'n ÷ 15, ignoring any remainder']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const D = (k, places) => {
   const neg = k < 0, s = String(Math.abs(k)).padStart(places + 1, '0');
@@ -33,14 +33,23 @@ export default lesson({
 
   learn: [
     p('To <b>round</b> a number to a place (the nearest tenth, say) you find the two multiples of that place that trap your number, then choose the one that is closer. That is the whole idea: <b>rounding picks the nearer neighbour</b>. The rest is a shortcut for deciding which neighbour is nearer.'),
+    def('rounding', 'Replacing a number by a nearby, simpler number that has zeros (or no digits) after a chosen place. The result is an <b>approximation</b>, and we write it with the sign ≈, as in 3.846 ≈ 3.8.'),
+    def('rounding digit and test digit', 'The <b>rounding digit</b> is the digit in the place you are rounding to. The <b>test digit</b> is the digit immediately to its right. Only the test digit decides whether to round up or down.'),
     widget('roundingLine', { v: 3846, place: 1 }),
     rule('<b>The one-digit rule.</b> Look at the digit just to the right of the place you are rounding to. If it is 5 or more, round up (add 1 to the rounding digit). If it is 4 or less, round down (keep the rounding digit). Then drop everything after it. Exactly halfway counts as up.'),
     ex('Round 6.2749 to the nearest hundredth', ['The hundredths digit is 7: 6.27… The neighbours are 6.27 and 6.28.', 'Look at the next digit, the 4 in the thousandths place. 4 is less than 5.', 'So we stay at 6.27.', 'Check: 6.2749 is 0.0049 above 6.27 but 0.0051 below 6.28. Close, but 6.27 wins.']),
     ex('A carry', ['Round 7.96 to the nearest tenth.', 'The tenths digit is 9. The next digit is 6, so round up: 9 + 1 = 10 tenths.', '10 tenths is 1 whole, so 7.9 + 0.1 = 8.0.', 'Write the zero: 8.0 tells the reader you rounded to the tenths place.']),
+    ex('Rounding to the left of the point', ['Round 1847.6 to the nearest ten, and then to the nearest hundred.', 'Nearest ten: the tens digit is 4, the test digit is 7 (units). 7 is 5 or more, so round up: 1850.', 'Nearest hundred: the hundreds digit is 8, the test digit is 4 (tens). 4 is less than 5, so stay: 1800.', 'Both answers must keep the size of the number, so fill the gap with zeros: 1850 and 1800, not 185 and 18.']),
+    tbl(['Place', 'Size of one step', 'Test digit comes from'], [['nearest ten', '10', 'the units digit'], ['nearest whole number', '1', 'the tenths digit'], ['nearest tenth', '0.1', 'the hundredths digit'], ['nearest hundredth', '0.01', 'the thousandths digit']], 'To round to a place, look one place to its right'),
+    formula('Size of the rounding error', '|rounded − original| ≤ half of one step', 'Rounding to the nearest tenth (step 0.1) changes a number by at most 0.05. Rounding to the nearest hundredth changes it by at most 0.005. The exact halfway case is the largest possible change.'),
     warn('<b>Watch out: round once, from the original.</b> To round 4.349 to the nearest tenth, do not round to 4.35 and then to 4.4. Only the digit right next to the place matters: it is 4, so the answer is 4.3. Rounding in steps creates errors, because each step can push the number a little farther.'),
-    p('<b>Why round at all?</b> Measurements are never exact, so reporting 7.4632 litres can be false precision. Rounding also makes estimates easy. To guess 4.87 × 6.12, think 5 × 6 = 30 and you already know the answer is near 30. The skill is picking a place that keeps the answer meaningful.'),
-    tbl(['Number', 'Nearest whole', 'Nearest tenth', 'Nearest hundredth'], [['3.846', '4', '3.8', '3.85'], ['0.0449', '0', '0.0', '0.04'], ['12.5', '13', '12.5', '12.50']], 'The same number rounded to different places'),
+    warn('<b>Watch out: a 9 carries.</b> Rounding 3.998 to the nearest hundredth gives 4.00, not 3.100 or 3.99. The 9 becomes 10 and carries left, and the zeros stay so the reader knows the precision.'),
+    p('<b>Why round at all?</b> Measurements are never exact, so reporting 7.4632 litres can be false precision. Rounding also makes estimates easy. To guess 3.94 × 7.08, think 4 × 7 = 28 and you already know the answer is near 28 (the exact product is 27.8952). The skill is picking a place that keeps the answer meaningful.'),
+    tbl(['Number', 'Nearest whole', 'Nearest tenth', 'Nearest hundredth'], [['3.846', '4', '3.8', '3.85'], ['0.0381', '0', '0.0', '0.04'], ['12.5', '13', '12.5', '12.50']], 'The same number rounded to different places'),
+    tip('<b>Underline, then peek.</b> Underline the rounding digit, then look one place to its right. Cover everything else, because digits farther right never matter. For a quick estimate, round every number in a calculation to <i>one</i> non-zero digit first: 0.48 × 31 ≈ 0.5 × 30 = 15.'),
+    key('Rounding means choosing the <b>nearer neighbour</b>. Find the rounding digit, check the one test digit to its right (5 or more rounds up, 4 or less rounds down), and do it <b>once</b>, from the original number.'),
     mcq('Isla rounds 2.449 to the nearest whole number like this: "2.449 becomes 2.45, which becomes 2.5, which becomes 3." What is the real answer and what went wrong?', ['3. She is right: rounding up repeatedly is fine.', '2. Only the tenths digit (4) matters for rounding to a whole number, and 4 means round down. She rounded in stages.', '2.5, because 2.449 is close to 2.45.'], 1, 'The number 2.449 is less than halfway (2.5) between 2 and 3, so it is closer to 2. The stage-by-stage rounding made it look like it passed halfway.', 'Spot the mistake'),
+    recap([['rounding', 'replacing a number by a nearby simpler one'], ['approximately equal', 'written ≈'], ['rounding digit', 'the digit in the place you round to'], ['test digit', 'the digit just right of it; 5 or more rounds up']], [['One-digit rule', 'test digit ≥ 5: up; ≤ 4: down'], ['Rounding error', 'at most half of one step']]),
   ],
 
   practice: [

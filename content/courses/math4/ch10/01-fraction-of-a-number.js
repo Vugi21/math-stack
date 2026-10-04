@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -25,18 +25,23 @@ export default lesson({
   ],
 
   learn: [
-    p('A fraction tells you how many equal parts to take. In math, the word <b>of</b> with a fraction means <b>multiply</b>. "One third <b>of</b> 24" is {1/3} × 24.'),
-    p('A <b>unit fraction</b> has 1 on top, like {1/3} or {1/8}. To find a unit fraction of a number, cut the number into equal parts. {1/3} of 24 is 24 ÷ 3 = 8.'),
-    rule('<b>Unit fraction of a number.</b> {1/d} of N is N ÷ d. Split N into d equal parts. One part is the answer.'),
+    p('A fraction tells you how many equal parts to take. Sometimes you want a part of a number, not a part of a shape. For example: one third of 18 cm of ribbon, or three fifths of 25 marbles. In math, the word <b>of</b> next to a fraction means <b>multiply</b>. "One third <b>of</b> 18" is {1/3} × 18.'),
+    def('unit fraction', 'A fraction with 1 on top, like {1/3} or {1/8}. It names exactly one of the equal parts.'),
+    def('numerator and denominator', 'The <b>denominator</b> (bottom number) tells how many equal parts the whole is cut into. The <b>numerator</b> (top number) tells how many of those parts we take.'),
+    rule('<b>Unit fraction of a number.</b> {1/d} of N is N ÷ d. Split N into d equal parts. One part is the answer. So {1/3} of 18 is 18 ÷ 3 = 6.'),
     widget('fractionExplorer', { n: 3, d: 5 }),
-    p('Now take {3/5} of 40. The bar above shows 5 equal parts. Three of them are shaded. First find one part, then count three of them.'),
+    p('Now take {3/5} of 40. The bar above shows 5 equal parts, and 3 of them are shaded. First find the size of one part. Then count 3 of those parts.'),
     ex('A fraction of a number in two steps', ['Find {3/5} of 40.', 'One fifth of 40 is 40 ÷ 5 = 8.', 'Three fifths is three of those parts: 3 × 8 = 24.', 'So {3/5} of 40 is 24. Check: {3/5} is more than half, and 24 is more than half of 40.']),
-    rule('<b>Any fraction of a number.</b> To find {a/b} of N: divide N by b, then multiply by a. Divide first, so the numbers stay small.'),
-    p('You can also go <b>backward</b>. Suppose 12 is {3/4} of a number. Three parts make 12. So one part is 12 ÷ 3 = 4. The whole has 4 parts, so the whole is 4 × 4 = 16.'),
-    rule('<b>Finding the whole.</b> If a parts out of b equal parts total P, then one part is P ÷ a. The whole is that part times b.'),
+    formula('Fraction of a number', '{a/b} of N = (N ÷ b) × a', 'N is the whole amount. b is the number of equal parts. a is how many parts you take. Divide by the bottom first, then multiply by the top.'),
+    key('Dividing first keeps the numbers small and easy. {3/5} of 40 is 40 ÷ 5 = 8, then 8 × 3 = 24. Multiplying 3 × 40 = 120 first would work, but then you must divide 120 by 5, which is harder.'),
+    p('You can also go <b>backward</b>. Sometimes you know the part and must find the whole. Suppose 12 is {3/4} of a number. Three parts make 12, so one part is 12 ÷ 3 = 4. The whole has 4 parts, so the whole is 4 × 4 = 16.'),
+    formula('Finding the whole', 'whole = (part ÷ a) × b', 'The part is a pieces out of b equal pieces. Divide the part by the top number a to get one piece. Then multiply by the bottom number b to get the whole.'),
     tbl(['Question', 'Step 1', 'Step 2'], [['{2/3} of 18', '18 ÷ 3 = 6', '6 × 2 = 12'], ['{5/8} of 32', '32 ÷ 8 = 4', '4 × 5 = 20'], ['15 is {3/7} of what?', '15 ÷ 3 = 5', '5 × 7 = 35']], 'Divide by the bottom, multiply by the top. For a whole, divide by the top, multiply by the bottom.'),
+    ex('A part that is left over', ['A class has 28 students. Three sevenths walk to school. How many do not walk?', 'One seventh of 28 is 28 ÷ 7 = 4.', 'Walkers: 3 × 4 = 12 students.', 'Do not walk: 28 − 12 = 16 students. Shortcut: 4 sevenths do not walk, and 4 × 4 = 16.']),
+    tip('Always ask: should my answer be smaller or bigger than the number I started with? A fraction less than 1 of a number is smaller than the number. A part is smaller than its whole. This catches many mistakes.'),
     warn('<b>Watch out.</b> In "12 is {3/4} of a number", the whole is <i>bigger</i> than 12. If your answer is smaller than 12, you went the wrong way. A part is always smaller than the whole.'),
     mcq('Ava says: "12 is three quarters of a number, so the number is 12 × {3/4} = 9." What is wrong?', ['Nothing, she is right.', '12 is the part, not the whole. The whole must be bigger than 12, so she should divide by 3 and multiply by 4 to get 16.', 'She should have added 12 and 3.'], 1, 'Three parts make 12, so one part is 4. Four parts make 16. And 12 is {3/4} of 16, because {3/4} of 16 is 12.', 'Spot the mistake'),
+    recap([['unit fraction', 'a fraction with 1 on top, like {1/6}'], ['numerator', 'top number: how many parts we take'], ['denominator', 'bottom number: how many equal parts in the whole'], ['of', 'with a fraction, means multiply']], [['Fraction of a number', '{a/b} of N = (N ÷ b) × a'], ['Finding the whole', 'whole = (part ÷ a) × b']]),
   ],
 
   practice: [

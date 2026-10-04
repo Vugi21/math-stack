@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const pw = (b, e) => Math.pow(b, e);
 const W = (v, a, msg) => (v === a ? [] : [[v, msg]]);
@@ -25,13 +25,24 @@ export default lesson({
   learn: [
     p('Squaring multiplies two copies of a number. Why stop at two? An <b>exponent</b> tells you how many copies of the <b>base</b> to multiply together: 2<sup>5</sup> = 2 × 2 × 2 × 2 × 2 = 32. We say "2 to the fifth power". The exponent 3 has its own nickname, <b>cubed</b>, because 3<sup>3</sup> is the number of little cubes in a 3 by 3 by 3 cube.'),
     widget('exponentTiles', { b: 2, e: 3 }),
+    def('power', 'An expression b<sup>n</sup> with a base b and a whole-number exponent n is called a <b>power</b>. It means n copies of b multiplied together. The exponent is not a multiplier: 5<sup>3</sup> = 5 × 5 × 5 = 125, never 5 × 3 = 15.'),
     rule('<b>Exponent = number of copies.</b> b<sup>n</sup> means n copies of b multiplied together. So 5<sup>3</sup> = 5 × 5 × 5 = 125, never 5 × 3.'),
     tbl(['Power', '2<sup>1</sup>', '2<sup>2</sup>', '2<sup>3</sup>', '2<sup>4</sup>', '2<sup>5</sup>', '2<sup>6</sup>', '2<sup>7</sup>', '2<sup>8</sup>', '2<sup>9</sup>', '2<sup>10</sup>'], [['Value', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024']], 'Powers of 2: each step doubles'),
-    p('<b>Powers of 10</b> are easy to read: 10<sup>1</sup> = 10, 10<sup>2</sup> = 100, 10<sup>3</sup> = 1000. The exponent is the number of zeros after the 1. That is why a million, 1,000,000, is 10<sup>6</sup>.'),
+    tbl(['n', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], [['n<sup>3</sup>', '1', '8', '27', '64', '125', '216', '343', '512', '729', '1000']], 'The first ten cubes'),
+    def('powers of 10', '10<sup>1</sup> = 10, 10<sup>2</sup> = 100, 10<sup>3</sup> = 1000. The exponent is the number of zeros after the 1. That is why a million, 1,000,000, is 10<sup>6</sup>.'),
+    p('Powers grow fast. Each step up in the exponent multiplies by the base again. Doubling 10 times already gives 1024, and doubling 20 times gives more than a million. This is why the exponent is useful: it keeps huge numbers short.'),
     ex('Multiplying powers by counting factors', ['What is 2<sup>3</sup> × 2<sup>4</sup>?', 'Write them out: (2 × 2 × 2) × (2 × 2 × 2 × 2).', 'Count the 2s: there are 3 + 4 = 7 of them.', 'So 2<sup>3</sup> × 2<sup>4</sup> = 2<sup>7</sup> = 128. Same base: <b>add</b> the exponents.']),
+    formula('Product of powers', 'b<sup>m</sup> × b<sup>n</sup> = b<sup>m + n</sup>', 'The bases must be the same. m and n count the copies in each part, and together there are m + n copies.'),
     ex('A power of a power', ['What is (3<sup>2</sup>)<sup>3</sup>?', 'That is 3<sup>2</sup> × 3<sup>2</sup> × 3<sup>2</sup>: three copies of two 3s.', 'Count: 2 + 2 + 2 = 6 threes. So (3<sup>2</sup>)<sup>3</sup> = 3<sup>6</sup> = 729.']),
-    warn('<b>Watch out.</b> Three traps: 2<sup>3</sup> is 8, not 2 × 3 = 6. And 2<sup>3</sup> is not 3<sup>2</sup>: 8 versus 9. Finally, when multiplying 2<sup>3</sup> × 2<sup>4</sup> you add the exponents, you do not multiply the bases (the answer is not 4<sup>7</sup>).'),
+    formula('Power of a power', '(b<sup>m</sup>)<sup>n</sup> = b<sup>m × n</sup>', 'n copies of a group of m factors gives m × n factors in all.'),
+    ex('Last digits repeat', ['What is the last digit of 2<sup>20</sup>?', 'The last digits of 2<sup>1</sup>, 2<sup>2</sup>, 2<sup>3</sup>, 2<sup>4</sup>, 2<sup>5</sup>, … are 2, 4, 8, 6, 2, 4, 8, 6, …', 'The pattern repeats every 4 steps, and 20 is a multiple of 4, so 2<sup>20</sup> ends the way 2<sup>4</sup> does.', 'The last digit is 6. (In fact 2<sup>20</sup> = 1,048,576.)']),
+    ex('Doubling in a tournament', ['64 players enter a knockout event, and the loser of each game is out. How many rounds?', 'Each round halves the field: 64, 32, 16, 8, 4, 2, 1.', 'That is 6 halvings. This agrees with 2<sup>6</sup> = 64.', 'So 6 rounds are needed.']),
+    key('An exponent counts <b>repeated multiplication</b>. When you multiply powers with the same base you <i>add</i> the exponents (count the factors), and when you raise a power to a power you <i>multiply</i> them. If you forget which, write the factors out.'),
+    tip('Know the powers of 2 up to 2<sup>10</sup> = 1024 and the cubes up to 10<sup>3</sup>. To find the smallest n with 2<sup>n</sup> bigger than 1000, note 2<sup>10</sup> = 1024 is the first to pass 1000, so n = 10.'),
+    tip('If an exponent rule feels uncertain, test it with small numbers. 2<sup>2</sup> × 2<sup>3</sup> = 4 × 8 = 32 = 2<sup>5</sup>, so exponents add. If you had multiplied them you would get 2<sup>6</sup> = 64, which is wrong.'),
+    warn('<b>Watch out.</b> Three traps: 2<sup>3</sup> is 8, not 2 × 3 = 6. And 2<sup>3</sup> is not 3<sup>2</sup>: 8 versus 9. Finally, when multiplying 2<sup>3</sup> × 2<sup>4</sup> you add the exponents, you do not multiply the bases (the answer is not 4<sup>7</sup>). The rule needs the <i>same base</i>: in 2<sup>3</sup> × 3<sup>2</sup> = 8 × 9 = 72 the bases differ, so the exponents cannot be added.'),
     mcq('Ava says "2<sup>3</sup> × 2<sup>4</sup> = 2<sup>12</sup>, because 3 × 4 = 12." What is wrong?', ['Nothing, you multiply exponents.', 'There are 3 twos in the first part and 4 twos in the second, 7 twos in total, so it is 2<sup>7</sup>. The exponents are added.', 'The answer should be 4<sup>7</sup>.'], 1, 'Counting copies: 3 + 4 = 7 twos, so 2<sup>7</sup> = 128. (2<sup>12</sup> would be 4096, which is far too big.)', 'Spot the mistake'),
+    recap([['power', 'b<sup>n</sup>: n copies of b multiplied'], ['cubed', 'raised to the power 3'], ['power of 10', '10<sup>n</sup> is a 1 followed by n zeros']], [['Product of powers', 'b<sup>m</sup> × b<sup>n</sup> = b<sup>m + n</sup>'], ['Power of a power', '(b<sup>m</sup>)<sup>n</sup> = b<sup>m × n</sup>']]),
   ],
 
   practice: [

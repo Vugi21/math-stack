@@ -1,4 +1,4 @@
-import { lesson, num, expr, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, expr, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const term = (a, v = 'x') => (a === 1 ? v : a === -1 ? '−' + v : m(a) + v);
@@ -30,15 +30,24 @@ export default lesson({
   ],
 
   learn: [
-    p('Often the unknown shows up on <b>both sides</b>: a deal like "$20 plus $5 a week" against "$50 plus $2 a week". The trick is to gather all the x-terms on one side and all the plain numbers on the other, using the same balance rule as before.'),
-    tbl(['Week', 'Ava: 20 + 5w', 'Ben: 50 + 2w'], [['0', '20', '50'], ['2', '30', '54'], ['5', '45', '60'], ['10', '70', '70']], 'They meet at w = 10, where both sides of 20 + 5w = 50 + 2w agree'),
-    ex('x on both sides', ['Solve 5x − 4 = 2x + 11.', 'Subtract 2x from both sides to bring the x-terms together: 3x − 4 = 11.', 'Add 4 to both sides: 3x = 15.', 'Divide by 3: x = 5. Check: 5(5) − 4 = 21 and 2(5) + 11 = 21.']),
-    rule('<b>Strategy for any linear equation.</b> (1) Distribute any parentheses. (2) Combine like terms on each side. (3) Move the x-terms to one side and numbers to the other. (4) Undo the multiplication. (5) Check in the original.'),
-    ex('Parentheses first', ['Solve 3(x − 2) = 2x + 5.', 'Distribute: 3x − 6 = 2x + 5.', 'Subtract 2x: x − 6 = 5.', 'Add 6: x = 11. Check: 3(9) = 27 and 2(11) + 5 = 27.']),
-    warn('<b>Sign slips.</b> Moving a term to the other side means doing the opposite operation to both sides. In 7x − 3 = 4x + 12, adding 3 gives 7x = 4x + 15 (not 4x + 9). Say the operation out loud as you write it.'),
-    ex('Fractions: clear the denominators', ['Solve x/2 + x/3 = 10.', 'The common denominator is 6. Multiply <i>every</i> term by 6: 3x + 2x = 60.', 'Combine: 5x = 60, so x = 12. Check: 6 + 4 = 10.']),
-    rule('<b>Two strange cases.</b> If the x-terms cancel and you get a false statement like 6 = 9, there is <b>no solution</b>: no number works. If you get a true statement like 4 = 4, <b>every number</b> is a solution. Example: 2(x + 3) = 2x + 9 becomes 6 = 9, which is false, so no solution.'),
-    mcq('Sam solves 3x + 2 = x + 10 as "3x − x = 10 + 2, so 2x = 12, x = 6." What went wrong?', ['Nothing, x = 6 is right.', 'Moving the +2 across means subtracting 2 from both sides: 3x − x = 10 − 2, so 2x = 8 and x = 4.', 'He should have added x to both sides.'], 1, 'Check: x = 6 gives 20 on the left and 16 on the right. x = 4 gives 14 and 14.', 'Spot the mistake'),
+    p(`Often the unknown shows up on <b>both sides</b>: a deal like "$12 plus $5 a week" against "$44 plus $1 a week". The trick is to gather all the x-terms on one side and all the plain numbers on the other, using the same balance rule as before.`),
+    tbl(['Week', 'Ava: 12 + 5w', 'Ben: 44 + w'], [['0', '12', '44'], ['2', '22', '46'], ['5', '37', '49'], ['8', '52', '52']], 'They meet at w = 8, where both sides of 12 + 5w = 44 + w agree'),
+    def('linear equation', `An equation in which the letter appears only to the first power (no x<sup>2</sup>, no letter in a denominator), such as 5x − 4 = 2x + 11. After simplifying, it can always be written in the form ax + b = c.`),
+    def('collect terms', `To move all the terms with the letter to one side and all the plain numbers to the other. You do this by adding or subtracting the <i>same</i> term on both sides. Moving a term across the equals sign means doing the opposite operation to both sides.`),
+    ex('x on both sides', [`Solve 5x − 4 = 2x + 11.`, `Subtract 2x from both sides to bring the x-terms together: 3x − 4 = 11.`, `Add 4 to both sides: 3x = 15.`, `Divide by 3: x = 5. Check: 5(5) − 4 = 21 and 2(5) + 11 = 21.`]),
+    rule(`<b>Strategy for any linear equation.</b> (1) Distribute any parentheses. (2) Combine like terms on each side. (3) Move the x-terms to one side and numbers to the other. (4) Undo the multiplication. (5) Check in the original.`),
+    ex('Parentheses first', [`Solve 3(x − 2) = 2x + 5.`, `Distribute: 3x − 6 = 2x + 5.`, `Subtract 2x: x − 6 = 5.`, `Add 6: x = 11. Check: 3(9) = 27 and 2(11) + 5 = 27.`]),
+    ex('A negative x-term', [`Solve 7 − 2x = x + 25.`, `Add 2x to both sides so that the x-term is positive: 7 = 3x + 25.`, `Subtract 25: −18 = 3x.`, `Divide by 3: x = −6. Check: 7 − 2(−6) = 19 and −6 + 25 = 19. ✓`]),
+    warn(`<b>Sign slips.</b> Moving a term to the other side means doing the opposite operation to both sides. In 6x − 5 = 2x + 9, adding 5 gives 6x = 2x + 14 (not 2x + 4). Say the operation out loud as you write it.`),
+    ex('Fractions: clear the denominators', [`Solve x/4 + x/6 = 10.`, `The common denominator is 12. Multiply <i>every</i> term by 12: 3x + 2x = 120.`, `Combine: 5x = 120, so x = 24. Check: 6 + 4 = 10.`]),
+    key(`<b>Move the letter to the side where its coefficient stays positive, then treat it as a two-step equation.</b> Every linear equation, however messy, shrinks to ax = b by distributing, combining and collecting. The balance rule is the only tool you need.`),
+    def('no solution / every number', `If the letter cancels completely, what is left is a statement about numbers only. A <b>false</b> statement such as 6 = 9 means <b>no solution</b>: no number works. A <b>true</b> statement such as 4 = 4 means <b>every number</b> is a solution.`),
+    rule(`<b>Two strange cases.</b> Example: 2(x + 3) = 2x + 9 becomes 2x + 6 = 2x + 9, then 6 = 9 after subtracting 2x. That is false, so there is no solution. By contrast 2(x + 3) = 2x + 6 becomes 6 = 6, which is true, so every number is a solution.`),
+    ex('How many solutions?', [`How many solutions does 3(x + 2) = 3x + 10 have?`, `Distribute: 3x + 6 = 3x + 10.`, `Subtract 3x from both sides: 6 = 10.`, `This is false whatever x is, so there are no solutions. (On the left, 3x always gets 6 more; on the right, 10 more.)`]),
+    ex('Finding the missing constant', [`For which number k does 4x + 1 = 2x + k have the solution x = 5?`, `Substitute x = 5: 4(5) + 1 = 2(5) + k.`, `The left side is 21 and the right side is 10 + k, so 21 = 10 + k.`, `Subtract 10: k = 11. Check: 2(5) + 11 = 21. ✓`]),
+    tip(`<b>Clear fractions early.</b> Multiply every term of both sides by the common denominator, and the fractions disappear. And if you are unsure which side to collect the x on, either works: you get the same answer. Then check the answer in the original equation (and against the story, if there is one).`),
+    mcq(`Sam solves 3x + 2 = x + 10 as "3x − x = 10 + 2, so 2x = 12, x = 6." What went wrong?`, [`Nothing, x = 6 is right.`, `Moving the +2 across means subtracting 2 from both sides: 3x − x = 10 − 2, so 2x = 8 and x = 4.`, `He should have added x to both sides.`], 1, `Check: x = 6 gives 20 on the left and 16 on the right. x = 4 gives 14 and 14.`, 'Spot the mistake'),
+    recap([['linear equation', 'the letter appears only to the first power'], ['collect terms', 'x-terms on one side, numbers on the other'], ['no solution', 'the letter cancels and a false statement remains'], ['every number', 'the letter cancels and a true statement remains']], [['Strategy', 'distribute, combine, collect, undo, check'], ['Clearing fractions', 'multiply every term by the common denominator']]),
   ],
 
   practice: [

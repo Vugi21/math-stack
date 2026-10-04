@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 // keep only wrong answers that differ from the right one (and from each other)
 const wr = (ans, list) => {
@@ -27,16 +27,21 @@ export default lesson({
   ],
 
   learn: [
-    p('Counting means finding <i>how many</i>. When there are only a few things, list them all. A good list follows a plan, so nothing is missed and nothing repeats.'),
+    p('Counting means finding <i>how many</i>. When there are only a few things, the safest method is to list them all. A good list follows a plan, so that nothing is missed and nothing is written twice.'),
+    def('systematic list', 'A list made by following a fixed order, such as smallest first or one tens digit at a time. Because of the order, you can see when you have found everything.'),
     ex('Listing with a plan', ['How many 2-digit numbers have digits that add to 5?', 'Go in order by the tens digit.', 'Tens digit 1: 14. Tens digit 2: 23. Tens digit 3: 32. Tens digit 4: 41. Tens digit 5: 50.', 'Tens digit 6 would need a negative ones digit. So stop.', 'There are 5 numbers: 14, 23, 32, 41, 50.']),
-    p('The plan was: <b>smallest tens digit first, then move up one step at a time</b>. A list in order shows a pattern, and a pattern tells you when you are done.'),
-    rule('<b>Counting a range.</b> The count of whole numbers from a to b, with both ends included, is <b>b − a + 1</b>. Subtracting counts the steps. Add 1 for the starting number.'),
-    rule('<b>Counting a skip pattern.</b> For 3, 7, 11, …, 43 the numbers go up by 4. Find the number of steps: (43 − 3) ÷ 4 = 10. Add 1 for the first number. There are 11 numbers.'),
-    p('A <b>fence post</b> problem is the same idea. A fence with 7 gaps has 8 posts. Posts and gaps differ by 1 when the fence has two ends.'),
+    p('The plan was: <b>start with the smallest tens digit, then move up one step at a time</b>. A list in order shows a pattern, and a pattern tells you when you are done.'),
+    tip('Before you list anything, decide the order. Say it out loud: "tens digit first, then ones digit." A list with no order is how numbers get skipped.'),
+    def('inclusive range', 'A range of whole numbers that includes both the first and the last number. "From 20 to 60" counts 20 and 60 as well.'),
+    formula('Counting a range', 'count = last − first + 1', 'Subtracting counts the steps between the numbers. Add 1 so that the starting number is counted too. From 20 to 60: 60 − 20 + 1 = 41 numbers.'),
+    rule('<b>Counting a skip pattern.</b> For 5, 9, 13, …, 45 the numbers go up by 4. Find the number of steps: (45 − 5) ÷ 4 = 10. Add 1 for the first number. There are 11 numbers.'),
+    p('A <b>fence post</b> problem is the same idea. A straight fence with 7 gaps has 8 posts, because posts and gaps differ by 1 when the fence has two ends. Counting steps and counting numbers differ by 1 for the same reason.'),
     tbl(['Fence', 'Gaps', 'Posts'], [['straight, two ends', '7', '8'], ['a closed loop (a square yard)', '8', '8']], 'A loop has no ends, so no extra post'),
     ex('Do not count twice', ['How many numbers from 1 to 40 have the digit 3?', 'Ones digit 3: 3, 13, 23, 33. That is 4 numbers.', 'Tens digit 3: 30, 31, …, 39. That is 10 numbers.', '33 is in both lists. Counting 4 + 10 would count it twice.', '4 + 10 − 1 = 13 numbers.']),
+    key('Count carefully in two ways: use an ordered list so nothing is missed, and take out anything that appears in two lists so nothing is counted twice.'),
     warn('<b>Watch out.</b> When two lists share a member, adding the lists counts the shared member twice. Find the shared members and take them out once.'),
     mcq('Lena counts the numbers from 20 to 60 as 60 − 20 = 40. What is wrong?', ['Nothing. 40 is right.', 'She did not count the number 20 itself. The answer is 41.', 'She should have added 60 + 20.'], 1, 'Subtracting counts steps. There are 40 steps from 20 to 60, so 41 numbers, because the start is also counted.', 'Spot the mistake'),
+    recap([['systematic list', 'a list in a fixed order, so nothing is missed'], ['inclusive range', 'counts both the first and the last number'], ['fence post', 'a straight fence has one more post than gaps'], ['overlap', 'something in two lists, which must be counted once']], [['Counting a range', 'last − first + 1'], ['Skip pattern', '(last − first) ÷ step + 1']]),
   ],
 
   practice: [

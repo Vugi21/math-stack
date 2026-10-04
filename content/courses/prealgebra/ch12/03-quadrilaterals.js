@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const ws = (ans, list) => list.filter(([v], i) => v !== ans && v > 0 && list.findIndex((x) => x[0] === v) === i);
 const TRI = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25]];
@@ -23,9 +23,12 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>quadrilateral</b> is a closed shape with four straight sides. Draw one diagonal and you split it into two triangles, so the four angles add up to 2 × 180°.'),
+    def('quadrilateral', 'A closed shape with four straight sides and four angles. The segments joining opposite corners are its <b>diagonals</b>.'),
+    p('Draw one diagonal and you split any quadrilateral into two triangles. Each triangle has angles adding to 180°, so the four angles of the quadrilateral add up to 2 × 180° = 360°.'),
     rule('<b>Angles.</b> The four angles of any quadrilateral add to 360°.'),
-    p('Quadrilaterals form a family tree. Each member has all the properties of the ones it descends from.'),
+    ex('A missing angle', ['Three angles of a quadrilateral are 80°, 95°, and 110°. Find the fourth.', 'The three add to 80 + 95 + 110 = 285.', 'The fourth is 360 − 285 = 75°.']),
+    def('parallel, perpendicular, bisect', '<b>Parallel</b> lines stay the same distance apart and never meet. <b>Perpendicular</b> lines cross at a right angle. To <b>bisect</b> is to cut into two equal halves.'),
+    p('Quadrilaterals form a family tree. Each member has all the properties of the ones it descends from, plus more of its own. Here is the whole family.'),
     tbl(['Shape', 'What defines it', 'Extra facts'], [
       ['Trapezoid', 'at least one pair of parallel sides', 'area = ½(b₁ + b₂)h'],
       ['Parallelogram', 'two pairs of parallel sides', 'opposite sides and angles equal; neighbor angles add to 180°; diagonals cut each other in half'],
@@ -34,13 +37,18 @@ export default lesson({
       ['Square', 'rectangle and rhombus at once', 'all of the above'],
       ['Kite', 'two pairs of equal neighbor sides', 'diagonals are perpendicular'],
     ], 'The family'),
-    rule('<b>The tree.</b> Every square is a rectangle and a rhombus. Every rectangle and every rhombus is a parallelogram. But a rectangle is not always a square, because it can be long and skinny.'),
+    rule('<b>The tree.</b> Every square is a rectangle and a rhombus. Every rectangle and every rhombus is a parallelogram. But a rectangle is not always a square, because it can be long and skinny. In this course a trapezoid needs at least one pair of parallel sides, so a parallelogram is a special trapezoid too (some books require exactly one pair).'),
     widget('areaShapes', { shape: 'parallelogram', b: 6, h: 4 }),
-    ex('Angles of a parallelogram', ['One angle of a parallelogram is 65°. Find the others.', 'Opposite angles are equal, so another angle is also 65°.', 'The other two angles are equal to each other, and the total is 360°: (360 − 130) ÷ 2 = 115°.', 'Neighbor angles always add to 180°: 65 + 115.']),
-    rule('<b>Rhombus and kite area.</b> If the diagonals cross at a right angle, the area is ½ × d₁ × d₂ (half the product of the diagonals). Picture a rectangle around the shape whose sides are d₁ and d₂: the shape fills exactly half of it.'),
-    ex('A rhombus from its diagonals', ['A rhombus has diagonals 6 and 8. Find its area and its side.', 'Area = ½ × 6 × 8 = 24.', 'The diagonals cross at right angles and cut each other in half, making four right triangles with legs 3 and 4.', 'The side of the rhombus is the hypotenuse: 5.']),
-    warn('<b>Watch out.</b> "Rectangle" and "square" are not opposites. The word <i>always</i> is what matters: a square is always a rectangle, but a rectangle is only sometimes a square.'),
+    ex('Angles of a parallelogram', ['One angle of a parallelogram is 70°. Find the others.', 'Opposite angles are equal, so another angle is also 70°.', 'The other two angles are equal to each other, and the total is 360°: (360 − 140) ÷ 2 = 110°.', 'Neighbor angles always add to 180°: 70 + 110.']),
+    formula('Area with perpendicular diagonals', 'A = ½ × d₁ × d₂', 'd₁ and d₂ are the diagonals. This works for a rhombus or a kite, because their diagonals cross at a right angle. Picture a rectangle around the shape whose sides are d₁ and d₂: the shape fills exactly half of it.'),
+    ex('A rhombus from its diagonals', ['A rhombus has diagonals 10 and 24. Find its area and its side.', 'Area = ½ × 10 × 24 = 120.', 'The diagonals cross at right angles and cut each other in half, making four right triangles with legs 5 and 12.', 'The side of the rhombus is the hypotenuse: 13.']),
+    ex('An isosceles trapezoid', ['An isosceles trapezoid has parallel sides 6 and 14, and each slanted side is 5. Find its area.', 'Drop perpendiculars from the ends of the short side to the long side. The leftover 14 − 6 = 8 splits evenly, 4 on each end.', 'Each end is a right triangle with hypotenuse 5 and one leg 4, so the height is 3.', 'Area = ½ × (6 + 14) × 3 = 30.']),
+    tip('<b>Work out what you are told.</b> Parallelogram: one angle gives all four (the opposite one is equal, the neighbors are 180° minus it). Rhombus with diagonals: halve each diagonal and use the Pythagorean theorem to get the side. The sides of the little right triangles are the half-diagonals.'),
+    tip('<b>Test a claim by drawing a counterexample.</b> "Every rectangle is a square" is false because one long, thin rectangle breaks it. A statement that says "always" is only true if no example can break it.'),
+    warn('<b>Watch out.</b> "Rectangle" and "square" are not opposites. The word <i>always</i> is what matters: a square is always a rectangle, but a rectangle is only sometimes a square. The area formula ½d₁d₂ also does not work for a general parallelogram, whose diagonals are not perpendicular.'),
+    key('Each shape is defined by a <b>short list of conditions</b>. A square meets all the conditions of a rectangle and a rhombus. Go down the family tree and shapes keep every property they inherit.'),
     mcq('Ava says: "A rhombus has four equal sides, so every rhombus is a square." What is wrong?', ['Nothing, she is right.', 'A rhombus can be slanted, with angles that are not right angles. A square also needs four right angles.', 'A rhombus has only two equal sides.'], 1, 'Equal sides are not enough. A diamond shape leaning to one side is a rhombus but not a square. Every square is a rhombus, though.', 'Spot the mistake'),
+    recap([['quadrilateral', 'four-sided shape; angles add to 360°'], ['parallelogram', 'two pairs of parallel sides'], ['rhombus', 'parallelogram with four equal sides'], ['diagonal', 'segment joining opposite corners']], [['Angle sum', '360°'], ['Neighbor angles in a parallelogram', '180°'], ['Rhombus or kite area', '½ × d₁ × d₂'], ['Trapezoid area', '½ × (b₁ + b₂) × h']]),
   ],
 
   practice: [

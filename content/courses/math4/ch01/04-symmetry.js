@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 export default lesson({
   id: 'm4-1-4-symmetry',
@@ -20,15 +20,22 @@ export default lesson({
   ],
 
   learn: [
-    p('A shape has a <b>line of symmetry</b> if you can fold along the line and the two halves match exactly. The line is also called a <b>mirror line</b>. One half is the mirror picture of the other.'),
+    p('Many shapes look balanced. Symmetry gives us two exact ways to say what that means: by folding and by turning.'),
+    def('line of symmetry', 'A line that you can fold a shape along so that the two halves match exactly. It is also called a <b>mirror line</b>. One half is the mirror picture of the other.'),
     widget('symmetryLines', { n: 5, k: 1 }),
     rule('<b>Regular polygons.</b> A regular polygon with n sides has exactly n lines of symmetry. A regular hexagon has 6. A square has 4. An equilateral triangle has 3.'),
-    p('A shape has <b>rotational symmetry</b> if you can turn it around its center, less than a full turn, and it looks the same. The <b>order</b> is how many times it looks the same during one full turn. A square looks the same 4 times: after 90°, 180°, 270° and 360°. So its order is 4.'),
-    tbl(['Shape', 'Lines of symmetry', 'Order of rotation'], [['equilateral triangle', '3', '3'], ['square', '4', '4'], ['rectangle (not a square)', '2', '2'], ['slanted parallelogram (unequal sides)', '0', '2'], ['regular hexagon', '6', '6']], 'Some shapes'),
-    rule('<b>Smallest turn.</b> If the smallest turn that matches is T degrees, the order is 360 ÷ T. A shape that matches after 45° has order 360 ÷ 45 = 8.'),
+    def('rotational symmetry', 'A shape has rotational symmetry if you can turn it around its center, by less than a full turn, and it looks the same as before.'),
+    def('order of rotation', 'The number of times a shape looks the same during one full turn. A square looks the same 4 times: after 90°, 180°, 270° and 360°. So its order is 4.'),
+    formula('Order of rotation', 'order = 360 ÷ smallest matching turn', 'A shape that matches after 45° has order 360 ÷ 45 = 8. A shape whose order is 1 only matches after a full turn, so it has no rotational symmetry.'),
+    tbl(['Shape', 'Lines of symmetry', 'Order of rotation'], [['equilateral triangle', '3', '3'], ['square', '4', '4'], ['rectangle (not a square)', '2', '2'], ['rhombus (not a square)', '2', '2'], ['isosceles triangle (not equilateral)', '1', '1'], ['slanted parallelogram (unequal sides)', '0', '2'], ['regular hexagon', '6', '6']], 'Some shapes'),
+    key('Folding and turning are different tests. A shape can have lines of symmetry without rotational symmetry (an isosceles triangle), and it can have rotational symmetry without any line of symmetry (a slanted parallelogram).'),
     warn('<b>Watch out.</b> A parallelogram that is not a rectangle and not a rhombus has no lines of symmetry. Folding along a diagonal does not match the corners. But it does look the same after a half turn.'),
+    tip('<b>Test a fold.</b> Draw the shape on paper and fold it. Or imagine a mirror standing on the line: if the mirror picture completes the shape, it is a line of symmetry. For turning, trace the shape and spin the tracing around its center.'),
     ex('Finishing a mirror picture', ['A vertical mirror line runs between columns 3 and 4 of a grid. A square in column 2 is shaded. Where is its twin?', 'Column 3 touches the mirror on the left. Column 2 is one step farther from it.', 'On the right, column 4 touches the mirror. One step farther is column 5.', 'The twin is in column 5, in the same row. Twins are always the same distance from the mirror, in the same row.']),
+    ex('Finding the order from a turn', ['A shape looks the same after a turn of 72°, and 72° is the smallest turn that works. What is its order?', '360 ÷ 72 = 5.', 'The order is 5. Check: five turns of 72° make 5 × 72 = 360°.']),
+    ex('Block letters', ['The letter E, drawn with straight strokes, has one horizontal line of symmetry. Fold it along that line and the top half matches the bottom half: 1 line.', 'Turn it a half turn and it is upside down and backwards, so it does not match. Its order is 1.', 'The letter M has just 1 line of symmetry (up and down) and order 1.']),
     mcq('Sam says: "A rectangle has 4 lines of symmetry because its two diagonals also fold it onto itself." What is wrong?', ['Nothing, 4 is correct.', 'Folding a long rectangle on a diagonal does not match the corners. Only the 2 middle lines work.', 'A rectangle has 8 lines of symmetry.'], 1, 'Fold a long rectangle on a diagonal. A short end would land on a long side. They do not match. Only the two lines through the middles of the sides work.', 'Spot the mistake'),
+    recap([['line of symmetry', 'fold line that makes the halves match'], ['rotational symmetry', 'looks the same after a turn less than 360°'], ['order', 'how many times it matches in one full turn']], [['Regular polygon with n sides', 'n lines, order n'], ['Order', '360 ÷ smallest turn']]),
   ],
 
   practice: [

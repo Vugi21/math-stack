@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const c = (n) => n.toLocaleString('en-US');
 const wr = (ans, list) => { const seen = new Set([String(ans)]); return list.filter(([v]) => { if (!Number.isInteger(v) || v < 0 || seen.has(String(v))) return false; seen.add(String(v)); return true; }); };
@@ -26,15 +26,18 @@ export default lesson({
 
   learn: [
     p('Not every number divides evenly. Take 23 ÷ 5. Put 23 things in groups of 5. You make 4 full groups, and 3 things are left. We write 23 ÷ 5 = 4 R 3.'),
-    p('The <b>quotient</b> is 4: the number of full groups. The <b>remainder</b> is 3: what is left over. The <b>dividend</b> is 23 and the <b>divisor</b> is 5.'),
+    def('quotient and remainder', 'The <b>quotient</b> is 4: the number of full groups. The <b>remainder</b> is 3: what is left over. The <b>dividend</b> is 23 and the <b>divisor</b> is 5.'),
+    def('divides evenly', 'A division divides evenly when the remainder is 0. Then the dividend is a multiple of the divisor.'),
     rule('<b>The remainder is always smaller than the divisor.</b> If you divide by 5, the remainder can only be 0, 1, 2, 3 or 4. If 5 or more are left over, you can make another group.'),
-    rule('<b>The check.</b> dividend = divisor × quotient + remainder. For 23 ÷ 5: 5 × 4 + 3 = 23.'),
     tbl(['Divide by', 'Possible remainders'], [['2', '0, 1'], ['5', '0, 1, 2, 3, 4'], ['9', '0, 1, 2, 3, 4, 5, 6, 7, 8']], 'The remainder is always less than the divisor'),
+    formula('The division check', 'dividend = divisor × quotient + remainder', 'For 23 ÷ 5: 5 × 4 + 3 = 23.'),
     ex('What to do with the remainder', ['23 cookies, boxes hold 5. 23 ÷ 5 = 4 R 3.', 'How many boxes do we need for all the cookies? Round up: 5 boxes. The last box is not full.', 'How many full boxes? Drop the remainder: 4 boxes.', '23 cookies shared among 5 friends? Each gets 4. The 3 left over are not shared out. The answer to "how many each" is the quotient, 4.']),
-    p('The question in the story tells you what to do. "How many are needed to hold everything?" means round up. "How many full?" or "how many each?" means use the quotient. "How many are left?" means use the remainder.'),
+    key('The question in the story tells you what to do with the remainder. "How many are needed to hold everything?" means round up. "How many full?" or "how many each?" means use the quotient. "How many are left?" means use the remainder.'),
     ex('Running backwards', ['A number divided by 7 gives quotient 12 and remainder 5. What is the number?', 'Use the check: 7 × 12 + 5.', '7 × 12 = 84. 84 + 5 = 89. The number is 89.']),
+    tip('Count in multiples of the divisor until the next one would be too big. For 83 ÷ 9: 9, 18, …, 72, 81. The last one that fits is 81 = 9 × 9, and 83 − 81 = 2. So 9 R 2.'),
     warn('<b>Watch out.</b> If your remainder is as big as the divisor, or bigger, you stopped too early. 50 ÷ 6 = 7 R 8 is wrong, because 8 is more than 6. Make one more group: 8 R 2.'),
     mcq('Dev says: "83 ÷ 9 = 8 R 11, because 9 × 8 = 72 and 83 − 72 = 11." What is wrong?', ['Nothing. 9 × 8 + 11 = 83.', 'The remainder 11 is bigger than 9, so there is room for one more group of 9. The right answer is 9 R 2.', 'The remainder should be 72.'], 1, 'The check 9 × 8 + 11 = 83 works, but a remainder must be smaller than the divisor. Another 9 fits in 11: 83 ÷ 9 = 9 R 2, and 9 × 9 + 2 = 83.', 'Spot the mistake'),
+    recap([['quotient', 'the number of full groups'], ['remainder', 'what is left over; smaller than the divisor'], ['divides evenly', 'the remainder is 0']], [['Check', 'dividend = divisor × quotient + remainder'], ['Remainders for ÷ 7', '0 to 6']]),
   ],
 
   practice: [

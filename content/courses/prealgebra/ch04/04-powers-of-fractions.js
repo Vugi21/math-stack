@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, sub, mul, div, pow, gcd, fmt, fm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, sub, mul, div, pow, gcd, fmt, fm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -26,17 +26,23 @@ export default lesson({
   ],
 
   learn: [
-    p('An exponent counts how many times a number is multiplied by itself. 2^[3] = 2 × 2 × 2 = 8. A fraction can be the <b>base</b> too: ({1/2})^[3] means {1/2} × {1/2} × {1/2}, which is half of a half of a half.'),
+    p(`An exponent counts how many times a number is multiplied by itself. 2<sup>3</sup> = 2 × 2 × 2 = 8. A fraction can be the <b>base</b> too: ({1/2})^[3] means {1/2} × {1/2} × {1/2}, which is half of a half of a half.`),
+    def('power', `A number written as b^[n]. It means b multiplied by itself n times. The number b is the <b>base</b> and n is the <b>exponent</b>. With a fraction base, put the fraction in parentheses: ({2/3})^[2] is {2/3} × {2/3}.`),
+    def('square root', `The square root of a number is a nonnegative number whose square is the given number. Since ({3/4})^[2] = {9/16}, we have sqrt[{9/16}] = {3/4}. The square root undoes the squaring.`),
     widget('fractionProduct', { a: 2, b: 3, c: 2, d: 3 }),
-    p('The area model shows ({2/3})^[2]. The square has 3 × 3 = 9 cells, and the shaded overlap is 2 × 2 = 4 cells. So ({2/3})^[2] = {4/9}. The top is squared and the bottom is squared.'),
-    rule('<b>Power of a fraction.</b> Raise the top and the bottom to the power: ({a/b})^[n] = {a^[n]/b^[n]}. The reason is that multiplying fractions multiplies tops and multiplies bottoms, n times each.'),
-    ex('A cube', ['Find ({2/3})^[3].', '({2/3})^[3] = {2/3} × {2/3} × {2/3}.', 'Top: 2 × 2 × 2 = 8. Bottom: 3 × 3 × 3 = 27.', 'Answer: {8/27}.']),
-    tbl(['Power', 'Meaning', 'Value'], [['({1/2})^[1]', F(1, 2), F(1, 2)], ['({1/2})^[2]', F(1, 2) + ' × ' + F(1, 2), F(1, 4)], ['({1/2})^[3]', 'three halves multiplied', F(1, 8)], ['({1/2})^[4]', 'four halves multiplied', F(1, 16)], ['({1/2})^[5]', 'five halves multiplied', F(1, 32)]], 'Powers of one half'),
-    rule('<b>Powers shrink fractions below 1 and grow fractions above 1.</b> Multiplying by a number less than 1 makes things smaller, so every extra factor of {1/2} halves the amount. A fraction like {3/2} is above 1, so its powers grow: ({3/2})^[2] = {9/4}.'),
-    p('<b>Square roots</b> undo squares. Since ({3/4})^[2] = {9/16}, we get sqrt[{9/16}] = {3/4}. To take the square root of a fraction, take the square root of the top and the bottom.'),
-    ex('Order of operations', ['Find {3/4} × ({2/3})^[2].', 'Powers come before multiplication. ({2/3})^[2] = {4/9}.', 'Now multiply: {3/4} × {4/9}. Cancel the 4s and the 3 with the 9: {1/1} × {1/3} = {1/3}.']),
-    warn('<b>Watch out.</b> The parentheses matter. ({2/3})^[2] = {4/9}, squaring both top and bottom. But "2 ÷ 3^[2]" means 2 ÷ 9 = {2/9}, because the exponent only reaches the 3. Also, squaring does not double: ({2/3})^[2] is {4/9}, not {4/3}.'),
-    mcq('Dev computes ({3/4})^[2] and gets {9/4}. What is wrong?', ['Nothing, he is right.', 'He squared only the top. The bottom must be squared too: 4 × 4 = 16, so the answer is {9/16}. Also {3/4} is below 1, so its square must be below {3/4}.', 'He should have doubled the top to get {6/4}.'], 1, '{9/4} is bigger than 1, but a fraction below 1 gets smaller when you multiply it by itself.', 'Spot the mistake'),
+    p(`The area model shows ({2/3})^[2]. The square has 3 × 3 = 9 cells, and the shaded overlap is 2 × 2 = 4 cells. So ({2/3})^[2] = {4/9}. The top is squared and the bottom is squared.`),
+    formula('Power of a fraction', `({a/b})^[n] = {a^[n]/b^[n]}`, `Raise the top and the bottom to the power. The reason is that multiplying fractions multiplies tops and multiplies bottoms, n times each. The bottom b must not be 0.`),
+    ex('A cube', [`Find ({3/5})^[3].`, `({3/5})^[3] = {3/5} × {3/5} × {3/5}.`, `Top: 3 × 3 × 3 = 27. Bottom: 5 × 5 × 5 = 125.`, `Answer: {27/125}.`]),
+    tbl(['Power', 'Meaning', 'Value'], [['({1/2})^[1]', '{1/2}', '{1/2}'], ['({1/2})^[2]', '{1/2} × {1/2}', '{1/4}'], ['({1/2})^[3]', 'three halves multiplied', '{1/8}'], ['({1/2})^[4]', 'four halves multiplied', '{1/16}'], ['({1/2})^[5]', 'five halves multiplied', '{1/32}']], 'Powers of one half'),
+    key(`<b>Powers shrink fractions below 1 and grow fractions above 1.</b> Multiplying by a number less than 1 makes things smaller, so every extra factor of {1/2} halves the amount. A fraction like {3/2} is above 1, so its powers grow: ({3/2})^[2] = {9/4}.`),
+    rule(`<b>Powers of a fraction between 0 and 1</b> get smaller as the exponent grows: {1/2} &gt; {1/4} &gt; {1/8} &gt; ... The denominators of ({a/b})^[n] are b^[n], so the pieces get tiny quickly. This is how a ball that keeps rebounding to a fraction of its height settles down.`),
+    p(`<b>Square roots.</b> To take the square root of a fraction, take the square root of the top and of the bottom: sqrt[{121/144}] = {11/12}, because 11 × 11 = 121 and 12 × 12 = 144. This works easily when both top and bottom are perfect squares (4, 9, 16, 25, 36, 49, 64, 81, ...), which you met in Chapter 2.`),
+    ex('Order of operations', [`Find {3/4} × ({2/3})^[2].`, `Powers come before multiplication. ({2/3})^[2] = {4/9}.`, `Now multiply: {3/4} × {4/9}. Cancel the 4s and the 3 with the 9: {1/1} × {1/3} = {1/3}.`]),
+    ex('Finding the exponent', [`The denominator of ({2/3})^[n] is 729. What is n?`, `The denominator is 3^[n]. Find the power of 3 that equals 729.`, `3, 9, 27, 81, 243, 729: that is six powers, so n = 6.`, `Check: ({2/3})^[6] = {64/729}. ✓`]),
+    tip(`Memorize the first few squares and cubes (1, 4, 9, 16, 25, 36, 49, 64, 81, 100 and 1, 8, 27, 64, 125) and the powers of 2 up to 2<sup>6</sup> = 64 and of 3 up to 3<sup>4</sup> = 81. Then most fraction powers are quick. To compare a power with its base: for a fraction between 0 and 1 the power is smaller; above 1 it is bigger.`),
+    warn(`<b>Watch out.</b> The parentheses matter. ({2/3})^[2] = {4/9}, squaring both top and bottom. But "2 ÷ 3<sup>2</sup>" means 2 ÷ 9 = {2/9}, because the exponent only reaches the 3. Also, squaring does not double: ({2/3})^[2] is {4/9}, not {4/3}, and ({1/2})^[3] is {1/8}, not {3/2}.`),
+    mcq(`Dev computes ({3/4})^[2] and gets {9/4}. What is wrong?`, [`Nothing, he is right.`, `He squared only the top. The bottom must be squared too: 4 × 4 = 16, so the answer is {9/16}. Also {3/4} is below 1, so its square must be below {3/4}.`, `He should have doubled the top to get {6/4}.`], 1, `{9/4} is bigger than 1, but a fraction below 1 gets smaller when you multiply it by itself.`, 'Spot the mistake'),
+    recap([['power', 'repeated multiplication: base, then exponent'], ['base', 'the number being multiplied, which may be a fraction'], ['exponent', 'how many times the base is used as a factor'], ['square root', 'undoes squaring: sqrt[{9/16}] = {3/4}']], [['Power of a fraction', '({a/b})^[n] = {a^[n]/b^[n]}'], ['Square root of a fraction', 'sqrt[{a/b}] = {sqrt[a]/sqrt[b]}']]),
   ],
 
   practice: [

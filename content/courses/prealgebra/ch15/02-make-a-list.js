@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => String(x[0]) !== String(ans));
 const parts = (n, k) => { // partitions of n into parts each at most k
@@ -28,17 +28,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Some questions say "find all" or "how many different". There is no shortcut formula, and guessing loses items. The skill is to build a <b>systematic list</b>: an organized list in which each possibility has exactly one place.'),
+    p('Some questions say "find all" or "how many different". There is often no shortcut formula, and guessing loses items. The skill is to build a <b>systematic list</b>: an organized list in which each possibility has exactly one place. A tidy list is a proof that you missed nothing.'),
+    def('systematic list', 'A list built by a fixed rule (for example, smallest first, or alphabetical), so that you can see that nothing is repeated and nothing is missing.'),
+    def('partition of a number', 'A way of writing a whole number as a sum of positive whole numbers, where the order of the parts does not matter. 3 + 2 and 2 + 3 are the same partition of 5.'),
     rule('<b>The listing method.</b> (1) Pick an <b>order</b> for the list (smallest to largest, alphabetical, by first item). (2) Sort into <b>cases</b> by the first item or the biggest item. (3) Inside each case, again list in order. (4) Check: nothing repeated, nothing missed. (5) Count.'),
     ex('Sums of 5', ['Write 5 as a sum of positive whole numbers, order ignored. Sort by the biggest number.', 'Biggest 5: 5.', 'Biggest 4: 4+1.', 'Biggest 3: 3+2, 3+1+1.', 'Biggest 2: 2+2+1, 2+1+1+1.', 'Biggest 1: 1+1+1+1+1.', 'Total: 1 + 1 + 2 + 2 + 1 = 7 ways.']),
     p('Writing each sum from big to small is the trick that stops duplicates: 3+2 is on the list, so 2+3 never needs to be.'),
+    tip('Give the list a direction, and stick to it. "Biggest part first, then the next biggest" gives every sum exactly one correct spelling. Without that rule, the same sum sneaks in twice in different disguises.'),
+    def('factor pair', 'Two whole numbers whose product is a given number. 4 × 9 is a factor pair of 36.'),
     tbl(['Factor pairs of 36', 'Product'], [['1 × 36', '36'], ['2 × 18', '36'], ['3 × 12', '36'], ['4 × 9', '36'], ['6 × 6', '36']], 'Smallest factor first: stop when the pairs meet'),
-    p('For factor pairs, march up from 1 and stop at the square root. After 6 the pairs would repeat in reverse (9 × 4, 12 × 3, ...). A tidy list also tells you when to stop.'),
-    ex('Three digits that multiply to 8', ['How many 3-digit numbers have digits that multiply to 8?', 'First find the sets of digits: {1, 1, 8}, {1, 2, 4}, {2, 2, 2}. (Digits cannot be 0, or the product would be 0.)', '{1, 1, 8} can be arranged 118, 181, 811: 3 numbers.', '{1, 2, 4} has 6 arrangements: 124, 142, 214, 241, 412, 421.', '{2, 2, 2} gives 222: 1 number.', 'Total 3 + 6 + 1 = 10.']),
-    warn('<b>Order matters in the list, not always in the answer.</b> Decide first whether 3+2 and 2+3 are the same thing. In "sums" they usually are; in "numbers" (like 118 and 181) they are not. Read what the problem counts before you start listing.'),
+    p('For factor pairs, march up from 1 and stop when the smaller number reaches the larger one. After 6 the pairs would repeat in reverse (9 × 4, 12 × 3, ...). A tidy list also tells you when to stop. Counting the factors of 36 from the pairs: 1, 2, 3, 4, 6, 9, 12, 18, 36, which is 9 factors. The 6 appears once because 6 × 6 is a single pair.'),
+    ex('Factor pairs of 40', ['List the factor pairs of 40 and count the factors.', 'Try 1, 2, 3, ...: 1 × 40, 2 × 20, then 3 fails, 4 × 10, then 5 × 8.', 'Next is 6 (fails) and 7 (fails); 8 is already the larger partner of 5, so stop.', '4 pairs give 8 factors: 1, 2, 4, 5, 8, 10, 20, 40.']),
+    ex('Three digits that multiply to 12', ['How many 3-digit numbers have digits that multiply to 12?', 'First find the sets of digits: {1, 2, 6}, {1, 3, 4}, {2, 2, 3}. (Digits cannot be 0, or the product would be 0.)', '{1, 2, 6} has 6 arrangements: 126, 162, 216, 261, 612, 621.', '{1, 3, 4} has 6 arrangements: 134, 143, 314, 341, 413, 431.', '{2, 2, 3} can be arranged 223, 232, 322: 3 numbers.', 'Total 6 + 6 + 3 = 15.']),
     widget('arrangements', { n: 3, k: 3, nlabel: 'distinct digits', klabel: 'places' }),
-    p('When all the digits in a set are different, the number of ways to arrange them is 3 × 2 × 1 = 6 (as in the picture). When two digits are the same, like 1, 1, 8, there are fewer, because swapping the two 1s changes nothing: only 3 arrangements.'),
+    p('When all the digits in a set are different, the number of ways to arrange them is 3 × 2 × 1 = 6 (as in the picture). When two digits are the same, like 2, 2, 3, there are fewer, because swapping the two 2s changes nothing: only 3 arrangements.'),
+    warn('<b>Decide whether order counts.</b> Decide first whether 3+2 and 2+3 are the same thing. In "sums" they usually are; in "numbers" (like 118 and 181) they are not. Read what the problem counts before you start listing.'),
+    warn('<b>Stopping too early.</b> A list that "looks done" may be missing a case. After listing, run through your sorting feature one more time (every biggest part, every first letter) and make sure each case is present.'),
+    key('A systematic list does two jobs at once: it finds every possibility and it shows you that you did. Choose the order <b>before</b> you write the first item.'),
     mcq('Leo lists the ways to write 4 as a sum (order ignored): 4, 3+1, 1+3, 2+2, 2+1+1, 1+2+1, 1+1+2, 1+1+1+1. "That is 8 ways." What is wrong?', ['Nothing, 8 is right.', 'Order does not matter, so 3+1 and 1+3 are the same way, and so are the three arrangements of 2+1+1. There are only 5 ways.', 'He missed the sums 5+(−1).'], 1, 'Listing from biggest to smallest keeps one version of each: 4, 3+1, 2+2, 2+1+1, 1+1+1+1. That is 5.', 'Spot the mistake'),
+    recap([['systematic list', 'a list built by a fixed order and cases'], ['partition', 'a sum of positive whole numbers, order ignored'], ['factor pair', 'two whole numbers with a given product'], ['arrangement', 'a way of putting items in order']], [['Arranging n different things', 'n × (n − 1) × ... × 1']]),
   ],
 
   practice: [

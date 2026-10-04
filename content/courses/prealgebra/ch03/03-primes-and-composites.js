@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, lcm } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, lcm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const isP = (n) => { if (n < 2) return false; for (let i = 2; i * i <= n; i++) if (n % i === 0) return false; return true; };
 const PR = []; for (let i = 2; i < 100; i++) if (isP(i)) PR.push(i);
@@ -27,14 +27,23 @@ export default lesson({
 
   learn: [
     p('Every whole number greater than 1 falls into one of two camps. A <b>prime</b> number has exactly two divisors: 1 and itself. A <b>composite</b> number has more than two, so it can be broken into smaller factors. Primes are the building blocks; everything else is built from them.'),
+    def('prime number', 'A whole number greater than 1 with exactly two divisors: 1 and itself. The first primes are 2, 3, 5, 7, 11, 13, … There is no largest prime: the list goes on forever.'),
+    def('composite number', 'A whole number greater than 1 with three or more divisors, so it equals a product of two smaller whole numbers greater than 1. The first composite numbers are 4, 6, 8, 9, 10, 12, …'),
     widget('sieve', {}),
-    rule('<b>Definitions.</b> Prime: exactly two divisors (2, 3, 5, 7, 11, …). Composite: three or more divisors (4, 6, 8, 9, 10, …). The number 1 is <b>neither</b>: it has only one divisor. And 2 is the only even prime.'),
+    rule('<b>Neither one.</b> The number 1 is neither prime nor composite: it has only one divisor. And 2 is the only even prime, since every other even number is also divisible by 2.'),
     p('<b>The sieve of Eratosthenes</b> (the widget above) finds primes by elimination: circle 2 and cross out its other multiples; circle the next survivor, 3, and cross out its multiples; and so on. Whatever survives is prime. There are 25 primes below 100.'),
+    tbl(['Range', 'Primes'], [['1 to 20', '2, 3, 5, 7, 11, 13, 17, 19'], ['21 to 50', '23, 29, 31, 37, 41, 43, 47'], ['51 to 100', '53, 59, 61, 67, 71, 73, 79, 83, 89, 97']], 'All 25 primes below 100'),
     ex('Is 97 prime?', ['Try dividing by small primes: 2 (97 is odd), 3 (digit sum 16), 5 (ends in 7), 7 (7 × 13 = 91 and 7 × 14 = 98, so no).', 'Do we need to keep going? The next prime is 11, and 11 × 11 = 121, which is already bigger than 97.', 'If 97 were composite it would have a factor at most the square root, which is less than 10. None of 2, 3, 5, 7 work, so 97 is prime.']),
-    rule('<b>The stopping rule.</b> A composite number n always has a prime factor that is at most the square root of n. To test whether n is prime, you only need to try the primes whose square is no bigger than n.'),
-    ex('A number that looks prime but is not', ['Is 91 prime? It is odd, digit sum 10 (not a multiple of 3), and does not end in 0 or 5.', 'Try 7: 7 × 13 = 91. So 91 is composite.', 'Numbers like 91 (and 51, 57, 87) fool a lot of people. When in doubt, try 7.']),
+    rule('<b>The stopping rule.</b> A composite number n always has a prime factor that is at most the square root of n. To test whether n is prime, you only need to try the primes whose square is no bigger than n. The reason: two factors both bigger than the square root would multiply to more than n.'),
+    ex('A number that looks prime but is not', ['Is 91 prime? It is odd, digit sum 10 (not a multiple of 3), and does not end in 0 or 5.', 'Try 7: 7 × 13 = 91. So 91 is composite.', 'Numbers like 91 (and 119, 133) fool a lot of people. When in doubt, try 7.']),
+    ex('Going all the way to the limit', ['Is 187 prime?', 'The square root is a bit under 14, so test the primes 2, 3, 5, 7, 11, 13. Not 2 (odd), not 3 (digit sum 16), not 5, not 7 (7 × 26 = 182, remainder 5).', 'Now 11: 11 × 17 = 187.', 'So 187 is composite. Stopping at 7 would have been a mistake.']),
+    ex('The next prime after 120', ['Find the smallest prime greater than 120.', 'Rule out the numbers after 120 one at a time: 121 = 11 × 11, 122 is even, 123 has digit sum 6 so 3 divides it, 124 is even, 125 ends in 5, 126 is even.', 'Test 127. Since 11 × 11 = 121 is below 127 and 12 × 12 = 144 is above it, test the primes up to 11. 127 is odd, its digit sum is 10, it does not end in 5, 7 × 18 = 126 leaves remainder 1, and 11 × 11 = 121 leaves remainder 6.', 'No prime up to 11 divides 127, so 127 is prime and it is the answer.']),
+    key('A prime has <b>exactly two</b> divisors, 1 and itself; a composite has more; and 1 is neither. To test a number for primality, try the primes up to its square root, and not one more.'),
+    tip('Learn the primes up to 50 by heart and use divisibility tests for 2, 3 and 5 to knock out most candidates. The composite numbers that fool people are products of larger primes: 49 = 7 × 7, 77 = 7 × 11, 91 = 7 × 13, 119 = 7 × 17.'),
+    tip('To count composites in a range, count the numbers and subtract the primes (and 1 if it is in the range). From 2 to 30 there are 29 numbers and 10 primes (2, 3, 5, 7, 11, 13, 17, 19, 23, 29), so 19 are composite.'),
     warn('<b>Watch out.</b> Three beliefs that are false: "1 is prime" (it has one divisor, not two), "all odd numbers are prime" (9, 15, 21 are not), and "2 is not prime because it is even" (2 has exactly two divisors, so it is prime, the only even one).'),
     mcq('Leo says "Every odd number bigger than 2 is prime. 9 is odd, so it is prime." What is wrong?', ['Nothing, odd numbers are prime.', '9 = 3 × 3, so it has three divisors (1, 3, 9): it is composite. Being odd only rules out 2 as a factor.', '9 is prime because it is a square.'], 1, '9 has divisors 1, 3, 9. A prime has exactly two divisors. Odd just means not divisible by 2.', 'Spot the mistake'),
+    recap([['prime', 'exactly two divisors: 1 and itself'], ['composite', 'more than two divisors'], ['1', 'neither prime nor composite'], ['2', 'the only even prime'], ['stopping rule', 'test primes up to the square root']], [['Primes below 100', '25 of them']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => String(x[0]) !== String(ans));
 const ch = (n, k) => { let t = 1; for (let i = 1; i <= k; i++) t = (t * (n - k + i)) / i; return t; };
@@ -23,16 +23,25 @@ export default lesson({
   ],
 
   learn: [
-    p('A good picture does not have to be pretty. It has to show <b>the relationships</b> in the problem: who is bigger, what adds to what, what is shared. Many "hard" problems become one-step problems once you draw them.'),
+    p('A good picture does not have to be pretty. It has to show <b>the relationships</b> in the problem: who is bigger, what adds to what, what is shared. Many "hard" problems become one-step problems once you draw them. This lesson covers four kinds of pictures: bar models, Venn diagrams, grids, and layered solids.'),
+    def('bar model', 'A drawing in which each quantity is a bar (a rectangle), with equal parts drawn as equal boxes. Bars of the same length mean equal amounts, so comparing and adding become visible.'),
     rule('<b>Drawing method.</b> (1) Read the problem and decide what the picture should show. (2) Draw a simple version: boxes, bars, dots, lines. (3) Label the known numbers. (4) Let the picture suggest the equal parts or the missing piece. (5) Check that every sentence of the problem is in the picture.'),
-    ex('Bar model: total and difference', ['Two numbers add to 70. The bigger is 12 more than the smaller. Find them.', 'Draw two bars: a short bar for the smaller, and a longer bar that is the same plus an extra piece of 12.', 'Chop off the extra 12 from the total: 70 − 12 = 58 is two equal bars.', 'Smaller: 58 ÷ 2 = 29. Bigger: 29 + 12 = 41.']),
+    ex('Bar model: total and difference', ['Two numbers add to 70. The bigger is 12 more than the smaller. Find them.', 'Draw two bars: a short bar for the smaller, and a longer bar that is the same plus an extra piece of 12.', 'Chop off the extra 12 from the total: 70 − 12 = 58 is two equal bars.', 'Smaller: 58 ÷ 2 = 29. Bigger: 29 + 12 = 41. Check: 29 + 41 = 70.']),
     ex('Bar model: fractions', ['Two thirds of a class are girls, and there are 8 boys. How many students in all?', 'Draw the class as 3 equal boxes. Girls take 2 boxes, so the boys are 1 box.', 'One box is 8, so 3 boxes are 24 students.']),
+    ex('Bar model: ratios', ['Red and blue tiles are in the ratio 3 : 5, and there are 40 tiles in all. How many are blue?', 'Draw 3 red boxes and 5 blue boxes, all the same size: 8 boxes in all.', 'One box: 40 ÷ 8 = 5 tiles.', 'Blue: 5 boxes × 5 = 25 tiles. Red: 3 × 5 = 15. Check: 15 + 25 = 40.']),
+    tip('In a bar model, find what <b>one box</b> stands for. Almost every bar problem ends with "one box is ..., so n boxes are ...".'),
     widget('venn', { A: 'sings', B: 'dances', onlyA: 9, both: 4, onlyB: 6, neither: 3 }),
-    p('A <b>Venn diagram</b> is a picture of overlapping groups. The overlap sits in the middle and is counted once. Slide the numbers above: the total in the whole picture is the sum of the four regions.'),
+    def('Venn diagram', 'A picture of overlapping groups, drawn as overlapping circles inside a rectangle. The overlap holds the items in both groups, the outside holds the items in neither.'),
+    p('The overlap sits in the middle and is counted once. Slide the numbers above: the total in the whole picture is the sum of the four regions. A common trick is to fill in the middle (the "both" region) first, then work outward, because the circle totals include it.'),
+    ex('Venn with circle totals', ['In a class of 30, 18 play an instrument and 14 sing. 6 do both. How many do neither?', 'Fill the overlap first: 6 do both.', 'Only instrument: 18 − 6 = 12. Only sing: 14 − 6 = 8.', 'Total in a circle: 12 + 6 + 8 = 26. Neither: 30 − 26 = 4.']),
     ex('Routes on a grid', ['You can only move right or up. How many shortest routes lead from the bottom-left corner to the top-right corner of a grid that is 2 blocks wide and 2 blocks high?', 'Write at each corner how many ways reach it: the whole bottom row and left column are 1.', 'Every other corner is (ways from the left) + (ways from below): 2, then 3 and 3, then 6 at the top right.', 'Answer: 6 routes.']),
-    ex('The painted cube, in layers', ['A 4 × 4 × 4 cube is painted, then cut into 64 small cubes.', 'The 8 corner cubes have 3 painted faces.', 'Each edge has 2 middle cubes with 2 painted faces: 12 × 2 = 24.', 'Each face has a 2 × 2 center with 1 painted face: 6 × 4 = 24.', 'The hidden inside 2 × 2 × 2 has no paint: 8. Check: 8 + 24 + 24 + 8 = 64.']),
+    ex('The painted cube, in layers', ['A 5 × 5 × 5 cube is painted on the outside, then cut into 125 small cubes.', 'The 8 corner cubes have 3 painted faces.', 'Each edge has 3 middle cubes with 2 painted faces: 12 × 3 = 36.', 'Each face has a 3 × 3 center with 1 painted face: 6 × 9 = 54.', 'The hidden inside 3 × 3 × 3 has no paint: 27. Check: 8 + 36 + 54 + 27 = 125.']),
+    tip('Always add a <b>check total</b>. In the painted cube, the groups must add to the total number of small cubes. In a Venn diagram, the regions must add to the whole group. A wrong picture rarely passes the check.'),
     warn('<b>A picture must match the problem, not just look like it.</b> If you draw Ben\'s bar and Ana\'s bar the same length when the problem says Ana has 3 times as many, the picture lies. Compare every sentence of the problem with your picture.'),
+    warn('<b>Counting the overlap twice.</b> "18 play an instrument" includes those who also sing. Do not write 18 in the "only instrument" region of a Venn diagram: subtract the overlap first.'),
+    key('A picture is a tool for <b>seeing structure</b>: equal parts, overlaps, layers, or steps. Draw the simplest picture that holds every fact, then read the answer from it.'),
     mcq('Dev draws a bar model for "pencils to pens is 3 : 2, 40 items in all". He says: "Pens are {2/3} of 40." What is wrong?', ['Nothing, pens are {2/3} of 40.', 'There are 3 + 2 = 5 equal boxes in all. Pens are 2 of the 5, so pens are {2/5} of 40 = 16.', 'Pens are 2 of 40.'], 1, 'The ratio 3 : 2 splits the 40 items into 3 + 2 = 5 equal parts. Pens are 2 of those: 40 ÷ 5 × 2 = 16.', 'Spot the mistake'),
+    recap([['bar model', 'bars of equal boxes showing quantities'], ['Venn diagram', 'overlapping circles for overlapping groups'], ['one box', 'the amount each equal part stands for'], ['check total', 'the pieces of the picture must add to the whole']], [['Total and difference', 'smaller = (total − difference) ÷ 2'], ['Ratio a : b', 'one box = total ÷ (a + b)']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const isqrt = (n) => { let k = Math.floor(Math.sqrt(n)); while (k * k > n) k--; while ((k + 1) * (k + 1) <= n) k++; return k; };
 const nonsq = (r, lo, hi) => { let n; do { n = r.int(lo, hi); } while (isqrt(n) ** 2 === n); return n; };
@@ -23,14 +23,21 @@ export default lesson({
   ],
 
   learn: [
-    p('You know sqrt[25] = 5 and sqrt[36] = 6. But what is sqrt[30]? There is no whole number that squares to 30, and no fraction does either. Yet a square of area 30 certainly has a side: it just does not land on a tick mark. Numbers like sqrt[30] are called <b>irrational</b>. Their decimals never end and never repeat.'),
-    rule('<b>Trap it between squares.</b> If k^[2] < N < (k + 1)^[2], then k < sqrt[N] < k + 1. The bigger the number under the root, the bigger the root, so the order of the numbers carries over to the order of their roots.'),
+    p('You know sqrt[25] = 5 and sqrt[36] = 6. But what is sqrt[30]? No whole number squares to 30, and no fraction does either. Yet a square of area 30 certainly has a side. It just does not land on a whole-number tick mark. A side like this is somewhere between 5 and 6, and in this lesson you learn to pin it down.'),
+    def('irrational number', 'A number whose decimal never ends and never repeats. If a whole number N is not a perfect square, then sqrt[N] is irrational. Examples: sqrt[2], sqrt[30], sqrt[58]. We can only write them as decimals approximately.'),
+    def('approximation', 'A number that is close to the true value but not exact. We write ≈ for "is approximately equal to": sqrt[58] ≈ 7.6.'),
+    rule('<b>Trap it between squares.</b> If k^[2] &lt; N &lt; (k + 1)^[2], then k &lt; sqrt[N] &lt; k + 1. The bigger the number under the root, the bigger the root, so the order of numbers carries over to the order of their roots.'),
     widget('sqrtBetween', { n: 30 }),
-    ex('Estimating sqrt[58]', ['Find the squares on each side of 58: 7^[2] = 49 and 8^[2] = 64.', 'So sqrt[58] is between 7 and 8.', 'Which end is closer? 58 is 9 above 49 and 6 below 64, so it is closer to 64. Expect sqrt[58] to be a bit past 7.5.', 'Check 7.6: 7.6 × 7.6 = 57.76. Check 7.7: 59.29. 58 is nearer to 57.76, so sqrt[58] ≈ 7.6.']),
-    p('<b>Comparing roots without a calculator.</b> To decide whether sqrt[40] is bigger than 6.5, square both sides. 6.5 × 6.5 = 42.25, and 40 is smaller, so sqrt[40] < 6.5. Squaring keeps the order as long as the numbers are positive.'),
     tbl(['N', 'Between squares', 'sqrt[N] is between'], [['10', '9 and 16', '3 and 4'], ['27', '25 and 36', '5 and 6'], ['70', '64 and 81', '8 and 9'], ['120', '100 and 121', '10 and 11']], 'Trapping some roots'),
-    warn('<b>Watch out.</b> Halfway between two squares is not halfway between their roots. 12.5 is exactly halfway between 9 and 16, yet sqrt[12.5] is about 3.54, barely past 3.5. So the root of a halfway number lands a bit past the halfway point, because squares spread out as they grow. Estimate with the squares, then test.'),
+    ex('Which whole number is nearest?', ['Find the whole number nearest to sqrt[90].', '9^[2] = 81 and 10^[2] = 100, so sqrt[90] is between 9 and 10.', 'Halfway between 9 and 10 is 9.5, and 9.5 × 9.5 = 90.25. Since 90 is less than 90.25, sqrt[90] is less than 9.5.', 'So sqrt[90] is closer to 9. The nearest whole number is 9.']),
+    tip('<b>The halfway test.</b> To round sqrt[N] to a whole number, square the halfway value k + 0.5. Its square is k^[2] + k + 0.25. If N is below that, round down to k. If N is above it, round up to k + 1.'),
+    ex('Estimating sqrt[58]', ['Find the squares on each side of 58: 7^[2] = 49 and 8^[2] = 64.', 'So sqrt[58] is between 7 and 8.', 'Which end is closer? 58 is 9 above 49 and 6 below 64, so it is closer to 64. Expect sqrt[58] to be a bit past 7.5.', 'Check 7.6: 7.6 × 7.6 = 57.76. Check 7.7: 7.7 × 7.7 = 59.29. 58 is nearer to 57.76, so sqrt[58] ≈ 7.6.']),
+    key('A square root that is not a whole number can still be located exactly between two <b>consecutive whole numbers</b>. Find the nearest perfect squares below and above, and take their roots as the boundaries.'),
+    p('<b>Comparing roots without a calculator.</b> To decide whether sqrt[55] is bigger than 7.5, square both sides. 7.5 × 7.5 = 56.25, and 55 is smaller, so sqrt[55] &lt; 7.5. Squaring keeps the order as long as the numbers are positive.'),
+    ex('Counting whole numbers with a root in a range', ['How many whole numbers n have sqrt[n] strictly between 3 and 5?', 'sqrt[n] = 3 when n = 9, and sqrt[n] = 5 when n = 25. Bigger n gives a bigger root, so n must be strictly between 9 and 25.', 'The whole numbers are 10, 11, …, 24.', 'Count: 24 − 10 + 1 = 15 numbers.']),
+    warn('<b>Watch out.</b> Halfway between two squares is not halfway between their roots. 12.5 is exactly halfway between 9 and 16, yet sqrt[12.5] is about 3.54, only a little past 3.5. Squares spread out as numbers grow, so a number halfway between squares has a root slightly past the halfway point. Estimate with the squares, then test.'),
     mcq('Priya says: "sqrt[50] must be 25, because 25 + 25 = 50." What is wrong?', ['Nothing. Roots are found by splitting a number in two.', 'She split 50 into two equal parts, but a root needs two equal factors: 7 × 7 = 49 is close, so sqrt[50] is just above 7.', 'sqrt[50] is exactly 7.'], 1, 'A root asks for a number times itself. 25 × 25 = 625, far too big. 7 × 7 = 49 is just under 50, so sqrt[50] is a little above 7.', 'Spot the mistake'),
+    recap([['irrational', 'decimal never ends or repeats; e.g. sqrt[30]'], ['approximation', 'close but not exact, shown with ≈'], ['trapping', 'find the two perfect squares around N']], [['Between squares', 'k^[2] &lt; N &lt; (k + 1)^[2] means k &lt; sqrt[N] &lt; k + 1'], ['Comparing', 'square both positive sides and compare']]),
   ],
 
   practice: [

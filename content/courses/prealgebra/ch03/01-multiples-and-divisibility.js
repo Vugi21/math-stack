@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, lcm } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, lcm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const countMult = (k, lo, hi) => { let c = 0; for (let x = lo; x <= hi; x++) if (x % k === 0) c++; return c; };
 
@@ -23,13 +23,23 @@ export default lesson({
 
   learn: [
     p('A <b>multiple</b> of 6 is what you land on when you skip count by 6: 6, 12, 18, 24, … Every multiple is 6 times a whole number. We also say 6 <b>divides</b> 24, or that 24 is <b>divisible</b> by 6, meaning that 24 ÷ 6 comes out as a whole number with nothing left over. The number 6 is then called a <b>divisor</b> (or <b>factor</b>) of 24.'),
+    def('multiple', 'A multiple of n is a number you get by multiplying n by a whole number: n × 1, n × 2, n × 3, … The multiples of 6 are 6, 12, 18, 24, …, and 0 is also counted as a multiple of every number because 0 = 6 × 0.'),
+    def('divisor (factor)', 'A whole number d is a divisor of n if n ÷ d is a whole number. Then n = d × (a whole number). The number 1 is a divisor of everything, and every number is a divisor of itself.'),
     widget('lcmGcd', { a: 6, b: 8 }),
     rule('<b>Multiple and divisor are the two ends of one fact.</b> 24 = 6 × 4 tells us: 24 is a multiple of 6 (and of 4), and 6 and 4 are divisors of 24.'),
+    tbl(['Say it this way', 'It means'], [['24 is a multiple of 6', '24 = 6 × 4'], ['6 is a divisor (factor) of 24', 'the same fact'], ['6 divides 24', 'the same fact'], ['24 is divisible by 6', 'the same fact']], 'Four ways to say one thing'),
+    def('remainder', 'When n is not divisible by d, dividing leaves a <b>remainder</b>: the amount left over. For example 200 ÷ 9 = 22 with remainder 2.'),
+    formula('Division with remainder', 'n = d × q + r', 'n is the number being divided, d is the divisor, q is the (whole number) quotient, and r is the remainder, with 0 ≤ r &lt; d. For 200 and 9: 200 = 9 × 22 + 2. The number n is divisible by d exactly when r = 0.'),
     ex('Counting multiples without listing them', ['How many multiples of 9 are there up to 200?', 'The multiples are 9 × 1, 9 × 2, 9 × 3, …, so the question is how many times 9 fits in 200.', '200 ÷ 9 = 22 with remainder 2 (9 × 22 = 198).', 'So there are 22 multiples of 9 up to 200. The remainder is leftover, it does not make another multiple.']),
-    ex('A trick: sums of multiples stay multiples', ['Suppose 35 and 56 are both multiples of 7.', 'Then 35 + 56 = 7 × 5 + 7 × 8 = 7 × (5 + 8) = 7 × 13, still a multiple of 7: 91.', 'The same holds for differences: 56 − 35 = 7 × 3 = 21.', 'This means that if you add a multiple of 7 to any number, you do not change its remainder when divided by 7.']),
+    ex('Counting with overlap', ['How many whole numbers from 1 to 100 are multiples of 3 or of 5 (or both)?', 'Multiples of 3: 100 ÷ 3 gives 33. Multiples of 5: 100 ÷ 5 gives 20.', 'But the multiples of both (that is, of 15) were counted twice. There are 6 of them (15 × 6 = 90).', 'Total: 33 + 20 − 6 = 47.']),
+    ex('A trick: sums of multiples stay multiples', ['Suppose 35 and 56 are both multiples of 7.', 'Then 35 + 56 = 7 × 5 + 7 × 8 = 7 × (5 + 8) = 7 × 13, still a multiple of 7: 91.', 'The same holds for differences: 56 − 35 = 7 × 3 = 21.', 'This means that if you add a multiple of 7 to any number, you do not change its remainder when divided by 7. If N leaves remainder 3 on division by 7, so does N + 21.']),
     tbl(['Number', 'First six multiples'], [['3', '3, 6, 9, 12, 15, 18'], ['4', '4, 8, 12, 16, 20, 24'], ['12', '12, 24, 36, 48, 60, 72']], 'Multiples of 12 also show up in the lists for 3 and 4'),
+    key('Multiples go <b>up</b> from a number and divisors come <b>down</b> from it. If a number is a multiple of both 4 and 6, it is also a multiple of 12, and any sum or difference of multiples of d is again a multiple of d.'),
+    tip('To find the smallest multiple of 12 above 500, divide: 500 ÷ 12 = 41 with remainder 8. So 12 × 41 = 492 is below 500, and the next multiple, 12 × 42 = 504, is the answer. In general, use the quotient, then go one multiple up.'),
+    tip('To check if a number is a multiple of d, divide and look at the remainder. A remainder of 0 means yes. To find a number that is a multiple of two things, list the multiples of the <i>larger</i> one and test each against the smaller.'),
     warn('<b>Watch out.</b> Mixing up the direction. 24 is a <i>multiple</i> of 6, and 6 is a <i>divisor</i> of 24; it is not true that 24 is a divisor of 6. Divisors are never bigger than the number (for positive numbers), while multiples are never smaller.'),
     mcq('Priya says "24 is a divisor of 8, because 8 goes into 24 three times." What is wrong?', ['Nothing, she is right.', 'It is the other way round: 8 divides 24, so 8 is a divisor of 24 and 24 is a multiple of 8. A divisor of 8 cannot be bigger than 8.', 'A divisor has to be odd.'], 1, 'Divisors of a number are at most that number. 24 is a multiple of 8; 8 is a divisor of 24.', 'Spot the mistake'),
+    recap([['multiple', 'n times a whole number'], ['divisor (factor)', 'a whole number that divides n exactly'], ['divisible', 'leaves remainder 0'], ['remainder', 'what is left after dividing']], [['Division with remainder', 'n = d × q + r']]),
   ],
 
   practice: [

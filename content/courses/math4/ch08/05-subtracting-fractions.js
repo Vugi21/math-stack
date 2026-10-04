@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, eq, cmp, fmt, fm, fmMixed, gcd, lcm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, eq, cmp, fmt, fm, fmMixed, gcd, lcm, tbl, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => {
   const seen = [];
@@ -29,6 +29,9 @@ export default lesson({
 
   learn: [
     p('Subtracting fractions is taking away pieces. 7 eighths take away 3 eighths leaves 4 eighths. The size of the piece does not change.'),
+    def('difference', 'The answer to a subtraction. It tells how much bigger one amount is than the other.'),
+    def('regroup', 'To break one whole into pieces so that you have enough pieces to take away. 5 = 4 {4/4}.'),
+    formula('Same bottoms', '{a/c} − {b/c} = {(a − b)/c}', 'Subtract the tops. Keep the bottom. The pieces stay the same size.'),
     rule('<b>Same bottoms.</b> Subtract the tops. Keep the bottom. {7/9} − {4/9} = {3/9} = {1/3}.'),
     p('If the bottoms are different, cut both fractions into the same size pieces first, just as when you add.'),
     ex('Subtract {3/4} − {2/5}', ['Both 4 and 5 go into 20. Use twentieths.', '{3/4} = {15/20} and {2/5} = {8/20}.', '{15/20} − {8/20} = {7/20}.']),
@@ -36,10 +39,14 @@ export default lesson({
     rule('<b>Taking away from a whole number.</b> Break one whole into pieces of the size you need. 1 = {8/8}, so 1 − {3/8} = {8/8} − {3/8} = {5/8}.'),
     ex('Subtract 5 − 2 {3/4}', ['Break one of the 5 wholes into fourths: 5 = 4 {4/4}.', 'Now 4 {4/4} − 2 {3/4}.', 'Wholes: 4 − 2 = 2. Fractions: {4/4} − {3/4} = {1/4}.', 'The answer is 2 {1/4}.']),
     p('<b>Counting up</b> also works. From 2 {3/4}, climb {1/4} to reach 3. Climb 2 more to reach 5. Total climb: 2 {1/4}.'),
+    key('You can only take away pieces you have. When the fraction part of the first number is <b>smaller</b> than the fraction part you are taking away, regroup one whole first.'),
     ex('Regrouping with mixed numbers: 6 {1/6} − 2 {1/2}', ['The fraction {1/6} is smaller than {1/2}, so take one whole from the 6.', '6 {1/6} = 5 + 1 + {1/6} = 5 {7/6}. And 2 {1/2} = 2 {3/6}.', 'Wholes: 5 − 2 = 3. Fractions: {7/6} − {3/6} = {4/6} = {2/3}.', 'The answer is 3 {2/3}.']),
+    ex('Another regrouping: 8 {1/3} − 3 {3/4}', ['Use twelfths. 8 {1/3} = 8 {4/12} and 3 {3/4} = 3 {9/12}.', '{4/12} is smaller than {9/12}, so regroup: 8 {4/12} = 7 {16/12}.', 'Wholes: 7 − 3 = 4. Fractions: {16/12} − {9/12} = {7/12}.', 'The answer is 4 {7/12}.']),
     rule('<b>Check by adding back.</b> A subtraction answer plus the number you took away should give you the number you started with. 3 {2/3} + 2 {1/2} = 6 {1/6}. It checks.'),
+    tip('Counting up is often the fastest way when the numbers are close, such as 5 − 2 {3/4}. Climb to the next whole, then to the target, and add up the climbs.'),
     warn('<b>Watch out.</b> In 4 {1/6} − 1 {1/2}, do not take {1/6} from {1/2} to get {1/3}. You cannot take more pieces than you have. Regroup first.'),
     mcq('Dev says "3 {1/4} − 1 {3/4} = 2 {2/4}, because 3 − 1 = 2 and {3/4} − {1/4} = {2/4}." What is wrong?', ['He turned the fraction parts around. {1/4} is less than {3/4}, so he must regroup: 2 {5/4} − 1 {3/4} = 1 {2/4}.', 'Nothing. He is right.', 'He should have added the wholes.'], 0, 'Dev’s answer is too big: 3 {1/4} − 1 {3/4} is less than 2. Regroup: 3 {1/4} = 2 {5/4}. Then 2 − 1 = 1 and {5/4} − {3/4} = {2/4}. The answer is 1 {1/2}.', 'Spot the mistake'),
+    recap([['difference', 'the answer to a subtraction'], ['regroup', 'break one whole into pieces to have enough to take away']], [['Same bottoms', '{a/c} − {b/c} = {(a − b)/c}'], ['Check', 'answer + number taken away = start']]),
   ],
 
   practice: [

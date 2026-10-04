@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const par = (n) => (n < 0 ? '(' + m(n) + ')' : String(n));
@@ -24,16 +24,22 @@ export default lesson({
   ],
 
   learn: [
-    p('To add a positive number, move right on the number line. To add a negative number, move left.'),
+    p('Adding integers is about moving on the number line, or about combining counters that cancel. Once you see why the rules work, you will not need to memorize them. To add a positive number, move right on the number line. To add a negative number, move left.'),
     widget('numberLineWalk', { a: 3, b: -5 }),
+    def('zero pair', 'One positive counter (+1) and one negative counter (−1) together. They add to 0, so they cancel each other.'),
     p('Here is another picture. A <b>+</b> counter is worth 1. A <b>−</b> counter is worth −1. A + and a − together make a <b>zero pair</b>. They add to 0, so they cancel.'),
     ex('−6 + 4 with counters', ['Put down 6 negative counters and 4 positive counters.', 'Make zero pairs: 4 pairs use up all the positives.', '2 negative counters have no partner.', 'The total is −2.']),
+    def('sum', 'The answer to an addition. A sum can be positive, negative or zero.'),
     rule('<b>Same signs.</b> Add the sizes. Keep the sign. −4 + (−3) = −7. Both groups are negative, so you have 7 negatives.'),
     rule('<b>Different signs.</b> Subtract the smaller size from the larger size. The answer has the sign of the number with the larger size. −9 + 5: 9 − 5 = 4, and 9 is negative, so −4.'),
-    rule('<b>Opposites.</b> A number plus its opposite is 0. 8 + (−8) = 0.'),
-    ex('Three numbers: −8 + 5 + (−9)', ['Go from left to right. −8 + 5 = −3.', 'Then −3 + (−9) = −12.', 'Check with counters: 8 + 9 = 17 negatives, 5 positives. 17 − 5 = 12 negatives left. So −12.']),
-    warn('<b>Watch out.</b> −7 + 3 is not −10. Adding a positive makes the number bigger, so the answer is to the right of −7. It is −4.'),
+    formula('Opposites add to zero', 'a + (−a) = 0', 'A number plus its opposite is 0. 8 + (−8) = 0.'),
+    key('When the signs are different, the two numbers work against each other. The bigger size wins, and what is left over has its sign.'),
+    ex('Different signs: 12 + (−15)', ['The sizes are 12 and 15. Subtract the smaller from the larger: 15 − 12 = 3.', 'The larger size, 15, belongs to a negative number. So the answer is negative.', '12 + (−15) = −3.', 'Check on the line: start at 12 and move 15 left. You pass 0 and land at −3.']),
+    ex('Three numbers: −7 + 4 + (−9)', ['Go from left to right. −7 + 4 = −3.', 'Then −3 + (−9) = −12.', 'Check with counters: 7 + 9 = 16 negatives, 4 positives. 16 − 4 = 12 negatives left. So −12.']),
+    tip('Always estimate the sign first. Ask: which side has more? Then find the size. Adding a positive can never move you left, and adding a negative can never move you right.'),
+    warn('<b>Watch out.</b> −9 + 4 is not −13. Adding a positive makes the number bigger, so the answer is to the right of −9. It is −5.'),
     mcq('Lena says: "−6 + 9 = −3, because the answer always keeps the sign of the first number." What is wrong?', ['Nothing. She is right.', 'The sign comes from the number with the larger size. 9 is larger and positive, so the answer is 3.', '−6 + 9 = −15.'], 1, '9 positives cancel 6 negatives with 3 positives left over. −6 + 9 = 3.', 'Spot the mistake'),
+    recap([['zero pair', 'a positive and a negative counter that cancel'], ['sum', 'answer to an addition'], ['same signs', 'add sizes, keep the sign'], ['different signs', 'subtract sizes, keep the sign of the larger']], [['Opposites', 'a + (−a) = 0'], ['Adding a negative', 'move left']]),
   ],
 
   practice: [

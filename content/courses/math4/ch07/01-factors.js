@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const divs = (n) => { const o = []; for (let i = 1; i <= n; i++) if (n % i === 0) o.push(i); return o; };
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
@@ -26,17 +26,23 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>factor</b> of a number divides it exactly. There is nothing left over. 6 is a factor of 30 because 30 ÷ 6 = 5.'),
-    p('Factors come in pairs. If 6 × 5 = 30, then both 6 and 5 are factors of 30.'),
+    p('Factors and multiples are two ways of looking at the same multiplication facts. Many later ideas depend on them: simplifying fractions, finding common bottoms, and prime numbers. Learn the words carefully, then practice until listing factors feels easy.'),
+    def('factor', 'A whole number that divides another whole number <b>exactly</b>, with nothing left over. 6 is a factor of 30 because 30 ÷ 6 = 5.'),
+    def('multiple', 'What you get when you count by a number, or multiply it by 1, 2, 3, and so on. The multiples of 6 are 6, 12, 18, 24, … They go on forever.'),
+    key('Factors come in <b>pairs</b>. If 6 × 5 = 30, then both 6 and 5 are factors of 30. Find one factor and you have found its partner too.'),
     ex('List every factor of 40', ['Start at 1. 1 × 40 = 40. That pair is 1 and 40.', 'Try 2: 2 × 20 = 40. Pair 2 and 20.', 'Try 3: it does not work. Try 4: 4 × 10 = 40. Pair 4 and 10.', 'Try 5: 5 × 8 = 40. Pair 5 and 8.', 'Try 6 and 7: no. Next is 8, and we already have 8. Stop.', 'Factors: 1, 2, 4, 5, 8, 10, 20, 40. That is 8 factors.']),
     rule('<b>When to stop.</b> Test 1, 2, 3, and so on. Stop when the number you test is already in your list. After that you only see old pairs again.'),
-    p('A <b>multiple</b> of a number is what you get when you count by that number. The multiples of 6 are 6, 12, 18, 24, and so on. They go on forever.'),
+    tip('Every number has at least the pair 1 and itself, so start your list with those. To test a possible factor, divide. If there is a remainder, it is not a factor.'),
     tbl(['', 'Factors of 12', 'Multiples of 12'], [['Examples', '1, 2, 3, 4, 6, 12', '12, 24, 36, 48, …'], ['How many?', 'Only a few', 'Never stop'], ['Size', 'Never bigger than 12', 'Never smaller than 12']], 'Factors are small. Multiples are big.'),
     warn('<b>Watch out.</b> 3 is a factor of 12, but 3 is not a multiple of 12. "Factor" goes down to small numbers. "Multiple" goes up to big ones.'),
-    p('A <b>common factor</b> of two numbers divides both. A <b>common multiple</b> is a number on both lists of multiples. The widget shows both for two numbers.'),
+    def('common factor', 'A number that is a factor of <b>both</b> numbers. The common factors of 12 and 18 are 1, 2, 3 and 6.'),
+    def('common multiple', 'A number that is on <b>both</b> lists of multiples. 12 is a common multiple of 4 and 6, because 4 × 3 = 12 and 6 × 2 = 12.'),
     widget('lcmGcd', { a: 12, b: 18 }),
+    ex('Common factors of 12 and 18', ['Factors of 12: 1, 2, 3, 4, 6, 12.', 'Factors of 18: 1, 2, 3, 6, 9, 18.', 'Numbers in both lists: 1, 2, 3, 6.', 'The greatest common factor is 6.']),
+    ex('Smallest common multiple of 4 and 6', ['Multiples of 6: 6, 12, 18, 24, …', 'Test each one. Is 6 a multiple of 4? No. Is 12? Yes, 4 × 3 = 12.', 'The smallest common multiple is 12. Others, such as 24 and 36, are also common multiples.']),
     rule('<b>Squares.</b> A number like 36 = 6 × 6 has a pair that is one number twice. So its factors come in pairs plus one extra in the middle. A square number has an odd number of factors. Every other number has an even number.'),
     mcq('Dana says: "The factors of 20 are 1, 2, 4, 5, 10, 20, and also 40, because 20 × 2 = 40." What is wrong?', ['Nothing, 40 is a factor of 20.', '40 is a multiple of 20. A factor of 20 can never be bigger than 20.', '20 has no factor 2.'], 1, '20 ÷ 40 is not a whole number, so 40 does not divide 20. 40 is a multiple of 20, not a factor.', 'Spot the mistake'),
+    recap([['factor', 'divides a number exactly'], ['multiple', 'what you get counting by a number; never ends'], ['common factor', 'a factor of both numbers'], ['common multiple', 'a multiple of both numbers']], [['Factor pair', 'a × b = the number'], ['Stop rule', 'stop when a tested number is already in the list']]),
   ],
 
   practice: [

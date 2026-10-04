@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const c = (n) => n.toLocaleString('en-US');
 const wr = (ans, list) => { const seen = new Set([String(ans)]); return list.filter(([v]) => { if (!Number.isInteger(v) || v < 0 || seen.has(String(v))) return false; seen.add(String(v)); return true; }); };
@@ -23,17 +23,21 @@ export default lesson({
   ],
 
   learn: [
-    p('Long division shares a big number one place value at a time. Let us find 156 ÷ 6.'),
-    ex('156 ÷ 6, step by step', ['Start with the hundreds. There is 1 hundred. We cannot give 6 people a whole hundred each. So look at 15 tens.', '15 tens ÷ 6 = 2 tens, because 6 × 2 = 12. Each person gets 2 tens. 12 tens are used, 3 tens are left over.', '3 tens is 30 ones. Add the 6 ones. Now there are 36 ones.', '36 ones ÷ 6 = 6 ones. Nothing is left. The answer is 2 tens and 6 ones: 26.']),
+    p('Long division shares a big number one place value at a time. Let us find 198 ÷ 6.'),
+    def('long division', 'A written method that divides a number one place value at a time, from the largest place to the smallest. At each place you divide, multiply, subtract and bring down.'),
+    def('estimate', 'A quick answer found with rounded, friendly numbers. It is not exact, but it shows about how big the answer should be.'),
+    ex('198 ÷ 6, step by step', ['Start with the hundreds. There is 1 hundred. We cannot give 6 people a whole hundred each. So look at 19 tens.', '19 tens ÷ 6 = 3 tens, because 6 × 3 = 18. Each person gets 3 tens. 18 tens are used, 1 ten is left over.', '1 ten is 10 ones. Add the 8 ones. Now there are 18 ones.', '18 ones ÷ 6 = 3 ones. Nothing is left. The answer is 3 tens and 3 ones: 33.']),
     widget('arrayModel', { r: 4, c1: 5, c2: 3 }),
     p('This picture is 32 ÷ 4 = 8. The 4 rows are split into two parts, 5 columns and 3 columns. 4 × 5 = 20 and 4 × 3 = 12. So 32 = 20 + 12, and 32 ÷ 4 = 5 + 3. Splitting the dividend into easy parts is the idea behind long division.'),
     rule('<b>Each step has four moves.</b> Divide. Multiply. Subtract. Bring down the next digit. Then repeat. After each subtraction, the number left must be smaller than the divisor. If it is not, your quotient digit was too small.'),
-    ex('A bigger one: 4,208 ÷ 4', ['4 thousands ÷ 4 = 1 thousand. Multiply: 4. Subtract: 0.', 'Bring down 2 hundreds. 2 ÷ 4 = 0 hundreds. Write 0 in the quotient.', 'Bring down 0 tens: now we have 20 tens. 20 ÷ 4 = 5 tens. Multiply: 20. Subtract: 0.', 'Bring down 8 ones. 8 ÷ 4 = 2.', 'The quotient is 1,052.']),
-    warn('<b>Watch out for zeros.</b> If a step cannot be divided, you must still write 0 in the quotient. 4,208 ÷ 4 is 1,052. Writing 152 would leave out a place.'),
-    p('<b>Two-digit divisors.</b> Use the same four moves. To pick each quotient digit, estimate with friendly numbers. For 1,134 ÷ 18, think 18 is about 20. 113 tens ÷ 18? Try 6: 6 × 18 = 108. That fits, and 113 − 108 = 5 is less than 18.'),
-    rule('<b>Estimate first.</b> Round the divisor to a friendly number, and the dividend to match. 6,153 ÷ 29 is about 6,000 ÷ 30 = 200. So the answer is near 200. If you get 20 or 2,000, check again.'),
-    p('<b>Always check.</b> Multiply the quotient by the divisor. If you get the dividend back, the division is right. 18 × 63 = 1,134, so 1,134 ÷ 18 = 63.'),
+    ex('A bigger one: 8,408 ÷ 8', ['8 thousands ÷ 8 = 1 thousand. Multiply: 8. Subtract: 0.', 'Bring down 4 hundreds. 4 ÷ 8 = 0 hundreds. Write 0 in the quotient.', 'Bring down 0 tens: now we have 40 tens. 40 ÷ 8 = 5 tens. Multiply: 40. Subtract: 0.', 'Bring down 8 ones. 8 ÷ 8 = 1.', 'The quotient is 1,051.']),
+    warn('<b>Watch out for zeros.</b> If a step cannot be divided, you must still write 0 in the quotient. 8,408 ÷ 8 is 1,051. Writing 151 would leave out a place.'),
+    p('<b>Two-digit divisors.</b> Use the same four moves. To pick each quotient digit, estimate with friendly numbers. For 1,196 ÷ 23, think 23 is about 20. 119 tens ÷ 23? Try 5: 5 × 23 = 115. That fits, and 119 − 115 = 4 is less than 23. Then bring down the 6 ones: 46 ones ÷ 23 = 2.'),
+    tip('Write the first few multiples of the divisor at the side (23, 46, 69, 92, 115, 138, …). Then every quotient digit is a quick look-up instead of a guess.'),
+    rule('<b>Estimate first.</b> Round the divisor to a friendly number, and the dividend to match. 4,150 ÷ 51 is about 4,000 ÷ 50 = 80. So the answer is near 80. If you get 8 or 800, check again.'),
+    key('<b>Always check.</b> Multiply the quotient by the divisor. If you get the dividend back, the division is right. 23 × 52 = 1,196, so 1,196 ÷ 23 = 52.'),
     mcq('Leo divides 3,024 by 3. He writes: "3 ÷ 3 = 1. 0 ÷ 3 = 0. Then 24 ÷ 3 = 8." So he says the answer is 108. What went wrong?', ['Nothing. 108 is correct.', 'He skipped a place. After the 0 for the hundreds, the 2 tens do not make a whole 3, so another 0 is needed. 3,024 ÷ 3 = 1,008.', 'He should have divided 3,024 by 24.'], 1, 'Check by multiplying: 3 × 108 = 324, not 3,024. Every digit of the dividend needs its own quotient digit, including a 0. The answer is 1,008.', 'Spot the mistake'),
+    recap([['long division', 'divide one place value at a time'], ['quotient digit', 'one digit of the answer, placed above its place'], ['estimate', 'a quick, rounded answer used to check size']], [['Four moves', 'divide, multiply, subtract, bring down'], ['Check', 'quotient × divisor = dividend']]),
   ],
 
   practice: [

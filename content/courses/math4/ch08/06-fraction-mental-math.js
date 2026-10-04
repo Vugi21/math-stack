@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, mul, eq, cmp, fmt, fm, fmMixed } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, mul, eq, cmp, fmt, fm, fmMixed, tbl, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => {
   const seen = [];
@@ -26,19 +26,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Some fraction sums can be done in your head if you look first. Before you hunt for a common bottom, ask: does anything fit together?'),
+    p('Some fraction sums can be done in your head if you look first. Before you hunt for a common bottom, ask: does anything fit together? Good mental math is about noticing structure, not about working faster.'),
+    def('compensate', 'To change a number to a nearby easy number, do the easy calculation, and then correct the answer by the amount you changed.'),
+    def('benchmark fraction', 'An easy fraction to compare against: 0, {1/2} and 1. Rounding to a benchmark gives a quick estimate.'),
+    formula('Fractions that make a whole', '{a/n} + {(n − a)/n} = 1', 'Two fractions with the same bottom whose tops add to the bottom make exactly 1. {3/8} + {5/8} = 1.'),
     rule('<b>Make wholes.</b> Two fractions with the same bottom whose tops add to the bottom make exactly 1. {3/8} + {5/8} = 1. The order of adding does not matter, so you can pair up the fractions that fit.'),
     ex('Pairing', ['Add {2/7} + {3/5} + {5/7} + {2/5}.', 'Swap the order: ({2/7} + {5/7}) + ({3/5} + {2/5}).', 'Each bracket is 1.', 'The total is 2.']),
     rule('<b>Compensate.</b> If a number is just under an easy number, change it to the easy number and then fix the answer. 3 {7/8} is {1/8} short of 4.'),
     ex('Compensating in an addition', ['Add 3 {7/8} + 2 {5/8}.', 'Add 4 instead of 3 {7/8}: 4 + 2 {5/8} = 6 {5/8}.', 'But you added {1/8} too much. Take it back: 6 {5/8} − {1/8}.', 'The answer is 6 {4/8} = 6 {1/2}.']),
     ex('Compensating in a subtraction', ['Find 7 {1/2} − 2 {7/8}.', 'Take away 3 instead of 2 {7/8}: 7 {1/2} − 3 = 4 {1/2}.', 'But you took away {1/8} too much. Give it back: 4 {1/2} + {1/8}.', 'The answer is 4 {5/8}.']),
+    key('Look for <b>structure</b> before you calculate: pairs that make 1, numbers just under a whole, or sums where the middle parts cancel.'),
     p('<b>Halving sums.</b> Add {1/2} + {1/4} + {1/8} + {1/16}. Each new piece is half the gap that was left. The gap to 1 shrinks from {1/2} to {1/4} to {1/8} to {1/16}. The sum is 1 − {1/16} = {15/16}.'),
     widget('fractionExplorer', { n: 7, d: 8 }),
     rule('<b>Telescoping.</b> Some differences are easy: {1/2} − {1/3} = {1/6}. So {1/6} can be written as {1/2} − {1/3}. Likewise {1/12} = {1/3} − {1/4}. When you add them, the middle parts cancel: {1/6} + {1/12} = ({1/2} − {1/3}) + ({1/3} − {1/4}) = {1/2} − {1/4} = {1/4}.'),
-    ex('A longer chain', ['Add {1/2} + {1/6} + {1/12} + {1/20}.', 'These are {1/2} = 1 − {1/2}, {1/6} = {1/2} − {1/3}, {1/12} = {1/3} − {1/4}, {1/20} = {1/4} − {1/5}.', 'Everything in the middle cancels. What is left is 1 − {1/5}.', 'The answer is {4/5}.']),
+    ex('A longer chain', ['Add {1/6} + {1/12} + {1/20}.', 'Look at the bottoms: 6 = 2 × 3, 12 = 3 × 4, 20 = 4 × 5. Each is two neighbors multiplied, and each fraction is a difference of two neighbors.', 'These are {1/6} = {1/2} − {1/3}, {1/12} = {1/3} − {1/4}, {1/20} = {1/4} − {1/5}.', 'Everything in the middle cancels. What is left is {1/2} − {1/5}.', 'The answer is {5/10} − {2/10} = {3/10}.']),
     p('<b>Estimating.</b> You can often tell roughly how big an answer is. Round each fraction to the nearest of 0, {1/2} or 1. {7/8} is near 1. {5/12} is near {1/2}. {1/9} is near 0.'),
+    tip('Use an estimate to check an exact answer. If your exact answer is far from the estimate, look for a mistake, such as adding the bottoms.'),
     warn('<b>Watch out.</b> Pairing only works when the tops and bottoms fit exactly. {2/5} + {2/5} is not 1, and {1/3} + {1/4} cannot be paired. And an estimate is not an exact answer. Use it to check your work.'),
     mcq('Mia says "{1/2} + {1/3} + {1/4} + {1/5} is less than 1, because each of the four fractions is less than 1." What is wrong?', ['Each fraction is small, but they add up. {1/2} + {1/3} is already {5/6}, and {1/4} makes it more than 1.', 'Nothing. She is right.', 'The sum must be exactly 1.'], 0, '{1/2} + {1/3} = {5/6}. Adding {1/4} gives more than 1. The sum of all four is {77/60}. A sum of fractions less than 1 can be more than 1.', 'Spot the mistake'),
+    recap([['compensate', 'use an easy nearby number, then correct'], ['benchmark', '0, {1/2} or 1, used for estimating'], ['telescoping', 'a sum where the middle terms cancel']], [['Make a whole', '{a/n} + {(n − a)/n} = 1'], ['Easy difference', '{1/2} − {1/3} = {1/6}']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, ratio, mc, N, RT, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, ratio, mc, N, RT, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -25,14 +25,23 @@ export default lesson({
 
   learn: [
     p('A <b>ratio</b> compares two amounts by asking "how many of this for each that?" We write "3 to 5" as <b>3 : 5</b>. Ratios are about <i>multiplying</i>: if you make the punch twice as big, every part doubles.'),
+    def('ratio', 'A comparison of two quantities of the same kind by division. The ratio a : b says that for every a units of the first quantity there are b units of the second. It can also be written as the fraction {a/b} (with b not zero).'),
+    def('equivalent ratios', 'Ratios that describe the same comparison, such as 3 : 5, 6 : 10 and 9 : 15. Each one is the previous one scaled up by multiplying both parts by the same number.'),
     widget('ratioTable', { a: 3, b: 5, k: 2 }),
     rule('<b>Equivalent ratios.</b> Multiply or divide <i>both</i> parts by the same non-zero number and the ratio is unchanged. 3 : 5 = 6 : 10 = 9 : 15. To write a ratio in <b>lowest terms</b>, divide both parts by their greatest common factor.'),
+    ex('Lowest terms', ['Write 24 : 36 in lowest terms.', 'The greatest common factor of 24 and 36 is 12.', '24 ÷ 12 = 2 and 36 ÷ 12 = 3, so 24 : 36 = 2 : 3.', 'Check: 2 : 3 scaled by 12 gives back 24 : 36.']),
     ex('Scaling a recipe', ['Pancake mix: 2 cups flour for 3 cups milk. How much milk goes with 10 cups of flour?', '10 cups is 5 batches of 2 cups, because 10 ÷ 2 = 5.', 'Milk: 5 batches of 3 cups = 15 cups.', 'Check: 10 : 15 divided by 5 gives 2 : 3. ✓']),
+    ex('Ratios with decimals and units', ['Write 1.5 m to 60 cm as a ratio in lowest terms.', 'The units must match first: 1.5 m = 150 cm. The ratio is 150 : 60.', 'The greatest common factor of 150 and 60 is 30, so 150 : 60 = 5 : 2.', 'If you left the units different you would get 1.5 : 60 = 1 : 40, which is wrong.']),
     rule('<b>Part-to-part and part-to-whole.</b> "Boys : girls = 3 : 4" compares part to part. The whole group has 3 + 4 = 7 parts, so boys are {3/7} of the class and girls are {4/7}. Adding the parts is what turns a part-to-part ratio into a fraction of the whole.'),
+    formula('Part as a fraction of the whole', 'fraction for the first part = {a/a + b}', 'In the ratio a : b the whole is a + b parts. So the first part is {a/a + b} of the whole and the second is {b/a + b}. For 3 : 4 these are {3/7} and {4/7}.'),
     ex('Sharing by a ratio', ['Red : blue marbles is 3 : 4 and there are 35 marbles in all.', 'One batch is 3 + 4 = 7 marbles. 35 ÷ 7 = 5 batches.', 'Red: 3 × 5 = 15. Blue: 4 × 5 = 20. Check: 15 + 20 = 35. ✓']),
     tbl(['Say it as', 'Ratio', 'Meaning'], [['red to blue', '3 : 4', 'for every 3 red there are 4 blue'], ['blue to red', '4 : 3', 'the order flips with the words'], ['red to all', '3 : 7', 'part to whole'], ['red as a fraction', '{3/7}', 'same idea, written as a fraction']], 'The order of a ratio follows the order of the words'),
-    warn('<b>Watch out: adding is not scaling.</b> If punch is 3 : 5 and you add 4 cups to each part you get 7 : 9, a different taste. Ratios stay the same only when you <i>multiply or divide</i> both parts by the same number. Also, units must match: 40 cm to 1 m is 40 : 100, not 40 : 1.'),
+    warn('<b>Watch out: adding is not scaling.</b> If punch is 3 : 5 and you add 4 cups to each part you get 7 : 9, a different taste. Ratios stay the same only when you <i>multiply or divide</i> both parts by the same number. Also, units must match: 30 cm to 2 m is 30 : 200, not 30 : 2.'),
+    warn('<b>Watch out: order matters.</b> "Girls to boys" and "boys to girls" are different ratios. If there are 8 girls and 12 boys, girls : boys = 2 : 3 but boys : girls = 3 : 2. Read which quantity is named first and write it first.'),
+    tip('<b>Make a quick ratio table.</b> Write the original ratio as the first column and keep adding columns by the same multiplier: 3 : 5, 6 : 10, 9 : 15, 12 : 20. To find a missing number, look for the column that has the number you were given. And to test whether two ratios are equal, reduce both to lowest terms and compare.'),
+    key('A ratio is about <b>multiplying</b>, not adding. Equal ratios come from multiplying or dividing both parts by the same number. To share a total, add the parts, find the value of one part, and multiply.'),
     mcq('Priya says: "3 : 5 is the same as 5 : 7, because I added 2 to each part." What is wrong?', ['Nothing, adding the same number keeps a ratio.', 'Adding changes the ratio. Only multiplying or dividing both parts by the same number keeps it. 3 : 5 = 6 : 10, but 5 : 7 is different.', '5 : 7 can never equal any other ratio.'], 1, '3 : 5 is {3/5} = 0.6, but 5 : 7 is about 0.71. If it were the same, scaling up the recipe would break the taste.', 'Spot the mistake'),
+    recap([['ratio', 'a comparison a : b of two like quantities'], ['equivalent ratios', 'same comparison; multiply or divide both parts by one number'], ['lowest terms', 'divide both parts by their greatest common factor'], ['part-to-whole', 'add the parts to get the whole']], [['Equivalent', 'a : b = ka : kb'], ['First part of whole', '{a/a + b}'], ['Sharing a total', 'total ÷ (a + b) = one part']]),
   ],
 
   practice: [

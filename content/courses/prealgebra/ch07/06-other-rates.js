@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -23,14 +23,24 @@ export default lesson({
 
   learn: [
     p('A <b>rate</b> compares two quantities with <i>different</i> units: km per hour, dollars per kilogram, words per minute, litres per 100 km. The word "per" means "for each one", and it tells you to divide.'),
+    def('rate', 'A ratio that compares two quantities measured in different units, such as dollars and kilograms. The word "per" separates the two units: $2.50 per kg.'),
+    def('unit rate', 'A rate with 1 in the denominator, such as $0.60 per apple or 45 words per 1 minute. Dividing the top quantity by the bottom quantity produces it.'),
+    def('unit price', 'The price of one unit of an item (one pencil, one litre, one 100 g). Comparing unit prices is the fair way to compare items of different sizes.'),
     widget('rateModel', { r: 45, t: 6, per: 'minute', what: 'words' }),
     rule('<b>Unit rate.</b> A rate "with a 1 at the bottom" is a <b>unit rate</b>. To find it, divide the top quantity by the bottom quantity: $4.80 for 8 apples is 4.80 ÷ 8 = $0.60 per apple. Once you have the unit rate, any amount is one multiplication.'),
-    ex('Best buy', ['Which is the better buy: 500 mL for $3.00, or 750 mL for $4.20?', 'Per 100 mL: 3.00 ÷ 5 = $0.60 for the first and 4.20 ÷ 7.5 = $0.56 for the second.', 'The lower unit price wins: the 750 mL bottle is the better buy.']),
+    formula('Rate and total', 'total = rate × amount', 'With a rate of $18 per hour and 7.5 hours of work, the total pay is 18 × 7.5 = $135. Divide to get the rate back: 135 ÷ 7.5 = 18.'),
+    ex('Best buy', ['Which is the better buy: 400 mL for $2.40, or 600 mL for $3.30?', 'Per 100 mL: 2.40 ÷ 4 = $0.60 for the first and 3.30 ÷ 6 = $0.55 for the second.', 'The lower unit price wins: the 600 mL bottle is the better buy.']),
     tbl(['Rate', 'Means', 'Unit rate form'], [['$18 per hour', 'pay', '$18 per 1 hour'], ['7 L per 100 km', 'fuel use', '0.07 L per 1 km'], ['45 words per minute', 'typing speed', '45 words per 1 minute'], ['$2.50 per kg', 'price', '$2.50 per 1 kg']], 'Everyday rates'),
-    rule('<b>Work rates add.</b> If Ana paints a fence in 6 hours, her rate is {1/6} of the fence per hour. If Ben takes 3 hours, his rate is {1/3} per hour. Working together their rates add: {1/6} + {1/3} = {1/2} of the fence per hour, so the whole fence takes 2 hours. The time is the flip of the combined rate.'),
-    ex('Filling and draining', ['A tub fills in 12 minutes. When full, it drains in 20 minutes. If the tap and the drain are both open, how long to fill an empty tub?', 'Fill rate {1/12} per minute, drain rate {1/20} per minute.', 'Net rate: {1/12} − {1/20} = {5/60} − {3/60} = {2/60} = {1/30}.', 'So it takes 30 minutes.']),
-    warn('<b>Watch out.</b> The bigger package is not always cheaper per unit, and the cheaper package is not always the better deal. Compare <i>per one unit</i>. Also, do not average work times: two people with times 6 h and 3 h together take less than either alone, never 4.5 h.'),
+    ex('Using a unit rate', ['A typist types 40 words per minute. How many words in 6 minutes? How long to type 360 words?', 'Words in 6 minutes: 40 × 6 = 240.', 'Time for 360 words: 360 ÷ 40 = 9 minutes.', 'Multiply by the rate to find a total; divide by the rate to find the time.']),
+    rule('<b>Work rates add.</b> If Ana paints a fence in 10 hours, her rate is {1/10} of the fence per hour. If Ben takes 15 hours, his rate is {1/15} per hour. Working together their rates add: {1/10} + {1/15} = {3/30} + {2/30} = {1/6} of the fence per hour, so the whole fence takes 6 hours. The time is the flip of the combined rate.'),
+    ex('Two workers', ['Cai can mow a lawn in 5 hours. Dee can mow it in 20 hours. How long together?', 'Rates: {1/5} and {1/20} of the lawn per hour.', 'Together: {1/5} + {1/20} = {4/20} + {1/20} = {5/20} = {1/4} of the lawn per hour.', 'So the whole lawn takes 4 hours. That is less than either alone, as it should be.']),
+    ex('Filling and draining', ['A tub fills in 8 minutes. When full, it drains in 12 minutes. If the tap and the drain are both open, how long to fill an empty tub?', 'Fill rate {1/8} per minute, drain rate {1/12} per minute.', 'Net rate: {1/8} − {1/12} = {3/24} − {2/24} = {1/24}.', 'So it takes 24 minutes.']),
+    warn('<b>Watch out.</b> The bigger package is not always cheaper per unit, and the cheaper package is not always the better deal. Compare <i>per one unit</i>. Also, do not average work times: two people with times 10 h and 15 h together take less than either alone, never 12.5 h.'),
+    warn('<b>Watch out: divide the right way round.</b> "Dollars per kilogram" means dollars ÷ kilograms. If 3 kg cost $12, the rate is 12 ÷ 3 = $4 per kg. Dividing 3 ÷ 12 = 0.25 gives kilograms per dollar, a different (and here unwanted) rate.'),
+    tip('<b>Use a common amount.</b> When package sizes differ, find the price of the same amount for each (per 100 mL, per pencil, per kg). Always include the unit in your answer: "$0.55 per 100 mL" means something, "0.56" does not. And a quick estimate helps: if one item is bigger and costs only a little more, it is probably the better buy.'),
+    key('A rate is a division with units: <b>quantity per one unit</b>. Find the unit rate first, then every question is a multiplication or a division. Compare deals by unit rate, and for work problems add the rates, not the times.'),
     mcq('Sam says: "Pack A is 4 pencils for $2.00 and pack B is 6 pencils for $2.70. Pack A costs less, so it is the better buy." What is wrong?', ['Nothing, $2.00 is less than $2.70.', 'The packs have different sizes. Per pencil A is $0.50 and B is $0.45, so B is cheaper per pencil.', 'Pack B costs $0.45 each, which is more.'], 1, 'Compare unit prices. 2.00 ÷ 4 = 0.50 versus 2.70 ÷ 6 = 0.45.', 'Spot the mistake'),
+    recap([['rate', 'a comparison of two quantities with different units, using "per"'], ['unit rate', 'the amount for exactly 1 unit'], ['unit price', 'price of one unit; use it to compare deals'], ['work rate', 'fraction of the job done per unit of time']], [['Unit rate', 'top ÷ bottom'], ['Total', 'rate × amount'], ['Together', 'add the work rates, then flip for the time']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 export default lesson({
   id: 'pre-10-2-parallel-lines-and-transversals',
@@ -20,16 +20,24 @@ export default lesson({
   ],
 
   learn: [
-    p('<b>Parallel lines</b> never meet, because they point in exactly the same direction. A line that cuts across them is called a <b>transversal</b>. It makes 8 angles: 4 at each crossing. The big idea: because the lines point the same way, the picture at the second crossing is a slid copy of the first.'),
+    p('Parallel lines show up in railway tracks, ruled paper and the edges of a window. When another line cuts across them, a neat pattern of equal angles appears. Knowing the pattern lets you find many angles from just one.'),
+    def('parallel lines', 'Two lines in a flat surface that never meet, however far they are extended, because they point in exactly the same direction. We write l ∥ m.'),
+    def('transversal', 'A line that crosses two or more other lines. When it crosses two lines it makes 8 angles, 4 at each crossing.'),
     widget('transversal', { a: 60, pick: 2 }),
-    rule('<b>Corresponding angles</b> sit in the same spot at the two crossings (both upper right, say). Parallel lines make them <b>equal</b>. Slide the top crossing down the transversal and it lands exactly on the bottom one.'),
-    p('From corresponding angles, the others follow with the facts from 10.1 (vertical angles equal, a straight line is 180°):'),
+    p('The big idea: because the lines point the same way, the picture at the second crossing is a slid copy of the picture at the first crossing. Everything else in this lesson comes from that idea.'),
+    def('corresponding angles', 'Angles that sit in the same position at the two crossings (both upper right, say). When the lines are parallel, corresponding angles are <b>equal</b>. Slide the top crossing down the transversal and it lands exactly on the bottom one.'),
+    p('From corresponding angles, the other pairs follow with the facts from the last lesson (vertical angles are equal, a straight line is 180°):'),
+    rule('<b>Parallel lines and a transversal.</b> Corresponding angles are equal. Alternate interior angles are equal. Co-interior angles add to 180°. All three need the lines to be parallel.'),
     tbl(['Pair', 'Where', 'Relationship'], [['corresponding', 'same spot at each crossing (F shape)', 'equal'], ['alternate interior', 'between the lines, opposite sides of the transversal (Z shape)', 'equal'], ['co-interior', 'between the lines, same side of the transversal (C shape)', 'add to 180°'], ['vertical', 'opposite at one crossing', 'equal']], 'Angle pairs for parallel lines'),
-    ex('Finding all eight from one', ['One angle at the top crossing is 65°.', 'Vertical angle: the opposite angle is 65°. Neighbours on a straight line: 180 − 65 = 115°, twice.', 'Corresponding angles copy these to the second crossing: 65°, 65°, 115°, 115°.', 'So four angles are 65° and four are 115°. That is all!']),
-    rule('<b>Only two sizes.</b> When a transversal crosses parallel lines at an angle that is not 90°, exactly two angle sizes appear, a° and (180 − a)°, and they are supplementary. Every pair of angles is either equal or adds to 180°.'),
-    p('<b>The test works backwards.</b> If corresponding angles are equal (or alternate interior angles are equal, or co-interior angles add to 180°), the two lines are parallel. A carpenter uses this to check that two edges are truly parallel.'),
-    warn('<b>Watch out.</b> These equalities need the lines to be <i>parallel</i>. For two lines that are not parallel, corresponding angles are not equal, and co-interior angles do not add to 180°. Also do not confuse co-interior (add to 180°) with alternate interior (equal).'),
+    tip('<b>Letter shapes help you recognise the pairs.</b> F for corresponding, Z for alternate interior, C (or U) for co-interior. Trace the shape on the picture, and you see which two angles are paired.'),
+    ex('Finding all eight from one', ['One angle at the top crossing is 65°.', 'Vertical angle: the opposite angle is 65°. Neighbours on a straight line: 180 − 65 = 115°, twice.', 'Corresponding angles copy these to the second crossing: 65°, 65°, 115°, 115°.', 'So four angles are 65° and four are 115°.']),
+    key('When parallel lines are cut by a transversal that is not at right angles to them, there are only <b>two</b> angle sizes, a° and (180 − a)°. Any two of the eight angles are either equal or add to 180°. So you only need to decide which kind of pair you are looking at.'),
+    ex('Finding x', ['Parallel lines are cut by a transversal. Two corresponding angles are (5x + 8)° and (7x − 12)°. Find x.', 'Corresponding angles are equal: 5x + 8 = 7x − 12.', 'Add 12 to both sides: 5x + 20 = 7x, so 20 = 2x and x = 10.', 'Check: 5(10) + 8 = 58 and 7(10) − 12 = 58. Both angles are 58°.']),
+    ex('A co-interior pair', ['Between parallel lines, two co-interior angles are 3x° and (2x + 20)°. Find x and both angles.', 'They add to 180: 3x + 2x + 20 = 180.', 'So 5x = 160 and x = 32.', 'The angles are 96° and 84°. Check: 96 + 84 = 180.']),
+    p('<b>The test works backwards.</b> If a transversal makes equal corresponding angles (or equal alternate interior angles, or co-interior angles adding to 180°), then the two lines are parallel. A carpenter can use this to check that two edges are truly parallel.'),
+    warn('<b>Watch out.</b> These facts need the lines to be <i>parallel</i>. For two lines that are not parallel, corresponding angles are not equal and co-interior angles do not add to 180°. Also do not confuse co-interior (add to 180°) with alternate interior (equal). When you solve for x, remember that x is not yet the angle: put it back in the expression.'),
     mcq('Quinn says: "Co-interior angles are equal, like alternate ones." Check with a 70° angle at the top crossing.', ['Right: both interior angles are 70°.', 'Wrong: the co-interior angle on the same side is the neighbour-type angle, 110°, so they add to 180°.', 'Wrong: they are 20° apart.'], 1, 'Between the lines on the same side of the transversal, one angle is 70° and the other is 110°. They add to 180°. The equal one is the alternate interior angle on the opposite side.', 'Spot the mistake'),
+    recap([['parallel lines', 'same direction, never meet'], ['transversal', 'a line crossing the other lines'], ['corresponding', 'same position at each crossing; equal'], ['alternate interior', 'Z shape; equal'], ['co-interior', 'C shape; add to 180°']], [['Converse', 'equal corresponding or alternate angles mean parallel lines']]),
   ],
 
   practice: [

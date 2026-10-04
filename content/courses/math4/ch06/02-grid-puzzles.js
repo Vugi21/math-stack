@@ -1,4 +1,4 @@
-import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, NAMES } from '../../../../src/content/dsl.js';
+import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, NAMES, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const perms = (a) => (a.length <= 1 ? [a.slice()] : a.flatMap((x, i) => perms([...a.slice(0, i), ...a.slice(i + 1)]).map((q) => [x, ...q])));
 const count = (all, cl) => all.filter((s) => cl.every((k) => k.f(s))).length;
@@ -81,14 +81,20 @@ export default lesson({
 
   learn: [
     p('Some puzzles match <b>three</b> kinds of things: people, pets, drinks. A <b>grid</b> keeps them straight. Each row is one thing. Each column is another. A ✓ means "these match". A ✗ means "these do not match".'),
+    def('grid', 'A table for a matching puzzle. Each cell asks one question: do this row and this column match?'),
+    def('forced', 'A match is forced when a clue states it or every other choice for it has been ruled out. Only a forced match gets a ✓.'),
     rule('<b>Grid rules.</b> Every row has exactly one ✓. Every column has exactly one ✓. When you place a ✓, put ✗ in the rest of its row and the rest of its column.'),
     widget('logicGrid', { rows: ['Gus', 'Hana', 'Ivan'], cols: ['red', 'blue', 'green'] }),
     p('Try it. Gus does not live behind the blue door. Ivan lives behind the green door. Mark ✓ for Ivan and green. Then fill in ✗ for the rest of its row and column.'),
     ex('Linking two columns', ['Three friends have a pet (cat, dog or bird) and a drink. Clue: the cat owner drinks tea. Clue: Hana has the dog. Clue: Gus does not drink tea.', 'Hana has the dog. So the cat belongs to Gus or Ivan.', 'Gus does not drink tea. The cat owner does. So the cat owner is not Gus.', 'The cat is Ivan\'s, and Ivan drinks tea.', 'Gus is left with the bird.']),
     rule('<b>A clue about two things.</b> "The cat owner drinks tea" does not name a person. It joins two columns. Use it as soon as you know who owns the cat or who drinks tea.'),
+    tip('Work on one grid for each pair of kinds (people and pets, people and drinks, pets and drinks). When a ✓ appears in one grid, check whether it forces something in another.'),
+    key('Mark a ✗ whenever a clue allows it, but mark a ✓ only when it is forced. Each new ✓ fills in a whole row and column with ✗, and that often forces the next ✓.'),
     warn('<b>Do not put a ✓ unless you must.</b> "Gus does not drink tea" gives you a ✗ and nothing else. A ✓ is only for a match that is forced. If two cells are still possible, keep thinking.'),
     p('A good puzzle has <b>exactly one solution</b>. If you can fill the grid in two different ways, a clue is missing. If no way works, you made a mistake. You can test a puzzle by counting how many ways survive the clues.'),
+    ex('Counting the ways that survive', ['Three children get an apple, a pear and a plum. Ava does not get the pear. Ben does not get the pear.', 'There are 3 × 2 × 1 = 6 ways to hand out the fruit with no rules.', 'List those that break no clue: (Ava, Ben, Cy) = (apple, plum, pear), (plum, apple, pear).', 'So 2 ways survive. A third clue is needed to leave just one.']),
     mcq('The clue says "Ava does not own the cat." Zoe writes ✓ for Ava and dog. What is wrong?', ['Nothing. Ava must own the dog.', 'The clue only says that Ava does not have the cat. Ava could own the fish or the dog, so Zoe has no reason for ✓.', 'A grid can only hold ✗.'], 1, 'A "does not" clue rules out one cell. Other cells in the row are still possible. Put a ✓ only when every other cell in the row is ✗.', 'Spot the mistake'),
+    recap([['grid', 'a table of matches for a puzzle'], ['✓', 'a forced match'], ['✗', 'a ruled-out match'], ['unique solution', 'exactly one way fits all the clues']], []),
   ],
 
   practice: [

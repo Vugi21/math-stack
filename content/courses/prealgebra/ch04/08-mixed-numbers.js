@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, add, sub, mul, div, cmp, fmt, fm, fmMixed } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, add, sub, mul, div, cmp, fmt, fm, fmMixed, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -29,16 +29,23 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>mixed number</b> like 2 {3/4} means 2 <i>plus</i> {3/4}: two whole units and three more quarter-pieces. An <b>improper fraction</b> like {11/4} says the same thing with only pieces: 11 quarter-pieces. Both name the same point on the number line.'),
+    p(`Fractions greater than 1 can be written in two ways. A <b>mixed number</b> shows the wholes and the leftover part separately. An improper fraction shows everything as pieces of one size. Both name the same point on the number line, and you need to move easily between them.`),
+    def('mixed number', `A whole number together with a proper fraction, like 2 {3/4}. It means 2 <i>plus</i> {3/4}: two whole units and three more quarter-pieces. There is no hidden multiplication, even though no plus sign is written.`),
+    def('improper fraction', `A fraction whose top is at least as big as its bottom, like {11/4}. It says the same thing as 2 {3/4} with only pieces: 11 quarter-pieces. Improper fractions are the best form for multiplying and dividing.`),
     widget('fractionExplorer', { n: 11, d: 4 }),
-    rule('<b>Mixed to improper.</b> Turn each whole into pieces, then add the extra pieces. w {n/d} = {(w × d + n)/d}. Example: 3 {2/5}: 3 × 5 = 15 fifths, plus 2 more is {17/5}.'),
-    rule('<b>Improper to mixed.</b> Divide the top by the bottom. The quotient is the number of wholes and the remainder is what is left over as pieces. {47/6}: 47 ÷ 6 = 7 remainder 5, so 7 {5/6}.'),
-    ex('Adding mixed numbers', ['Find 3 {2/3} + 4 {3/4}.', 'Add the whole numbers: 3 + 4 = 7.', 'Add the fractions: {2/3} + {3/4} = {8/12} + {9/12} = {17/12} = 1 {5/12}.', 'Combine: 7 + 1 {5/12} = 8 {5/12}.']),
-    ex('Subtracting when you must regroup', ['Find 5 {1/4} − 2 {2/3}.', 'With twelfths: 5 {3/12} − 2 {8/12}. We cannot take 8 twelfths from 3 twelfths.', 'Regroup: take one whole from the 5 and cut it into twelfths. 5 {3/12} becomes 4 {15/12}.', 'Now subtract: 4 − 2 = 2 and {15/12} − {8/12} = {7/12}. The answer is 2 {7/12}.']),
-    rule('<b>Multiplying and dividing.</b> Always convert to improper fractions first, then multiply (or flip and multiply). 2 {1/3} × 1 {1/2} = {7/3} × {3/2} = {7/2} = 3 {1/2}.'),
-    tbl(['Mixed', 'Improper', 'Check'], [['1 ' + F(1, 2), F(3, 2), '1 whole = 2 halves, plus 1'], ['2 ' + F(3, 4), F(11, 4), '2 × 4 = 8, plus 3'], ['5 ' + F(2, 3), F(17, 3), '5 × 3 = 15, plus 2']], 'Converting'),
-    warn('<b>Watch out.</b> Do not multiply wholes and fractions separately. 2 {1/3} × 3 {1/2} is not 6 {1/6}. The correct work is {7/3} × {7/2} = {49/6} = 8 {1/6}. Splitting leaves out the cross terms: 2 × {1/2} and {1/3} × 3.'),
-    mcq('Quinn computes 5 {1/4} − 2 {1/2} as: "5 − 2 = 3, and {1/4} − {1/2} is {1/4} (the other way round), so 3 {1/4}." What went wrong?', ['Nothing.', 'You cannot take {1/2} from {1/4}, so you cannot just flip the subtraction. You must regroup: 4 {5/4} − 2 {2/4} = 2 {3/4}.', 'The answer should be negative.'], 1, 'Check by size: 5 {1/4} minus about 2 and a half should be about 2 and a half, not 3 and a quarter.', 'Spot the mistake'),
+    formula('Mixed to improper', `w {n/d} = {(w × d + n)/d}`, `Turn each whole into d pieces (w × d of them), then add the n extra pieces. Example: 3 {2/5}: 3 × 5 = 15 fifths, plus 2 more is {17/5}.`),
+    rule(`<b>Improper to mixed.</b> Divide the top by the bottom. The quotient is the number of wholes and the remainder is what is left over as pieces. {47/6}: 47 ÷ 6 = 7 remainder 5, so 7 {5/6}.`),
+    tbl(['Mixed', 'Improper', 'Check'], [['1 {1/2}', '{3/2}', '1 whole = 2 halves, plus 1'], ['2 {3/4}', '{11/4}', '2 × 4 = 8, plus 3'], ['5 {2/3}', '{17/3}', '5 × 3 = 15, plus 2']], 'Converting'),
+    ex('Adding mixed numbers', [`Find 3 {2/3} + 4 {3/4}.`, `Add the whole numbers: 3 + 4 = 7.`, `Add the fractions: {2/3} + {3/4} = {8/12} + {9/12} = {17/12} = 1 {5/12}.`, `Combine: 7 + 1 {5/12} = 8 {5/12}.`]),
+    ex('Subtracting when you must regroup', [`Find 5 {1/4} − 2 {2/3}.`, `With twelfths: 5 {3/12} − 2 {8/12}. We cannot take 8 twelfths from 3 twelfths.`, `Regroup: take one whole from the 5 and cut it into twelfths. 5 {3/12} becomes 4 {15/12}.`, `Now subtract: 4 − 2 = 2 and {15/12} − {8/12} = {7/12}. The answer is 2 {7/12}.`]),
+    key(`<b>Add and subtract mixed numbers by parts (wholes, then fractions). Multiply and divide them as improper fractions.</b> Adding is just counting, so wholes and parts can be kept apart. Multiplying mixes every piece with every piece, so the numbers must be single fractions first.`),
+    rule(`<b>Multiplying and dividing.</b> Always convert to improper fractions first, then multiply (or flip and multiply). 2 {1/3} × 1 {1/2} = {7/3} × {3/2} = {7/2} = 3 {1/2}.`),
+    ex('Dividing mixed numbers', [`Find 4 {1/2} ÷ 1 {1/5}.`, `Convert: 4 {1/2} = {9/2} and 1 {1/5} = {6/5}.`, `Flip and multiply: {9/2} × {5/6}. Cancel 3 into 9 (giving 3) and 3 into 6 (giving 2): {3/2} × {5/2} = {15/4}.`, `{15/4} = 3 {3/4}. Check: 3 {3/4} × 1 {1/5} = {15/4} × {6/5} = {90/20} = {9/2} = 4 {1/2}. ✓`]),
+    ex('A leftover problem', [`A board is 9 {1/3} feet long. Four pieces, each 2 {1/4} feet, are cut from it. How long is what is left?`, `Four pieces: 4 × 2 {1/4} = 4 × {9/4} = 9 feet.`, `Leftover: 9 {1/3} − 9 = {1/3} foot.`, `Check: 9 + {1/3} = 9 {1/3}. ✓ (Multiplying as an improper fraction made the 4 cancel neatly.)`]),
+    tip(`<b>Use the number line to check.</b> Between which two whole numbers does your answer sit? 4 {1/2} ÷ 1 {1/5} is about 4.5 ÷ 1.2, a bit less than 4, so 3 {3/4} is sensible. Also, if the fraction part of a subtraction is too small, regroup with a whole turned into <i>the same denominator</i> pieces: one whole is {d/d}.`),
+    warn(`<b>Watch out.</b> Do not multiply wholes and fractions separately. 2 {1/3} × 3 {1/2} is not 6 {1/6}. The correct work is {7/3} × {7/2} = {49/6} = 8 {1/6}. Splitting leaves out the cross terms: 2 × {1/2} and {1/3} × 3. Also, 3 {2/5} is not 3 × {2/5}: a mixed number is a sum.`),
+    mcq(`Quinn computes 5 {1/4} − 2 {1/2} as: "5 − 2 = 3, and {1/4} − {1/2} is {1/4} (the other way round), so 3 {1/4}." What went wrong?`, [`Nothing.`, `You cannot take {1/2} from {1/4}, so you cannot just flip the subtraction. You must regroup: 4 {5/4} − 2 {2/4} = 2 {3/4}.`, `The answer should be negative.`], 1, `Check by size: 5 {1/4} minus about 2 and a half should be about 2 and a half, not 3 and a quarter.`, 'Spot the mistake'),
+    recap([['mixed number', 'whole number plus a proper fraction'], ['improper fraction', 'top at least as big as the bottom'], ['regrouping', 'turning one whole into d/d to subtract']], [['Mixed to improper', 'w {n/d} = {(w × d + n)/d}'], ['Improper to mixed', 'divide: quotient = wholes, remainder = top of the fraction']]),
   ],
 
   practice: [

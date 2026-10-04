@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 // units digit of b^e, computed by repeated multiplication
@@ -24,16 +24,23 @@ export default lesson({
   ],
 
   learn: [
-    p('The <b>units digit</b> is the last digit of a number. In 4,326 it is 6.'),
+    p('Sometimes you do not need the whole answer to a multiplication. You only need its last digit. That last digit is easy to find, and it is also a quick way to check your work.'),
+    def('units digit', 'The last digit of a number. It is the digit in the ones place. In 4,326 the units digit is 6.'),
     p('When you multiply, the units digit of the answer comes only from the units digits of the factors. Everything else lands in the tens place or higher.'),
-    rule('<b>Last digit rule.</b> The units digit of a × b is the units digit of (units digit of a) × (units digit of b). For 237 × 58, look at 7 × 8 = 56. The answer ends in 6.'),
-    ex('A cycle: powers of 7', ['7 × 1 = 7, units digit 7.', '7 × 7 = 49, units digit 9.', '49 × 7 = 343, units digit 3. (Just do 9 × 7 = 63.)', '3 × 7 = 21, units digit 1.', '1 × 7 = 7. Back to 7. The pattern repeats: 7, 9, 3, 1, 7, 9, 3, 1, ...']),
-    tbl(['Number', 'Units digits of its powers', 'Cycle length'], [['2', '2, 4, 8, 6, then repeat', '4'], ['3', '3, 9, 7, 1, then repeat', '4'], ['7', '7, 9, 3, 1, then repeat', '4'], ['8', '8, 4, 2, 6, then repeat', '4'], ['4', '4, 6, then repeat', '2'], ['9', '9, 1, then repeat', '2'], ['0, 1, 5, 6', 'the same digit forever', '1']], 'Powers here mean multiplying a number by itself again and again'),
-    rule('<b>Use the cycle.</b> To find the units digit of 3 multiplied by itself 50 times, ask where 50 lands in the cycle 3, 9, 7, 1. The cycle has length 4. 50 = 12 × 4 + 2, so we land on the 2nd digit: 9.'),
-    ex('Seven multiplied by itself 20 times', ['The cycle of 7 is 7, 9, 3, 1. It has length 4.', '20 is exactly 5 full cycles, with nothing left over.', 'Finishing a cycle means we are on its last digit: 1.']),
-    warn('<b>Multiplying the exponent is wrong.</b> 3 multiplied by itself 8 times does not have units digit 3 × 8 = 24 → 4. The units digit comes from the cycle, not from a product of the base and the count.'),
-    warn('<b>Matching last digits is not proof.</b> It only shows an answer might be right. If the last digit is wrong, the answer is definitely wrong.'),
+    rule('<b>Last digit rule.</b> The units digit of a × b is the units digit of (units digit of a) × (units digit of b). For 164 × 73, look at 4 × 3 = 12. The answer ends in 2.'),
+    ex('Several factors: 13 × 27 × 19', ['Take the units digits: 3, 7 and 9.', '3 × 7 = 21, units digit 1.', '1 × 9 = 9.', 'The product ends in 9.']),
+    tip('<b>Keep only one digit at each step.</b> After every multiplication, throw away all but the last digit and carry on. The numbers stay tiny.'),
+    def('cycle', 'A pattern that repeats forever in the same order. When you multiply a number by itself again and again, the units digits of the results form a cycle.'),
+    ex('A cycle: multiplying 7 by itself', ['One 7 is 7, units digit 7.', 'Two 7s: 7 × 7 = 49, units digit 9.', 'Three 7s: 49 × 7 = 343, units digit 3. (Just do 9 × 7 = 63.)', 'Four 7s: units digit 3 × 7 = 21, so 1.', 'Five 7s: 1 × 7 = 7. Back to 7. The pattern repeats: 7, 9, 3, 1, 7, 9, 3, 1, ...']),
+    tbl(['Number', 'Units digits when you multiply it by itself again and again', 'Cycle length'], [['2', '2, 4, 8, 6, then repeat', '4'], ['3', '3, 9, 7, 1, then repeat', '4'], ['7', '7, 9, 3, 1, then repeat', '4'], ['8', '8, 4, 2, 6, then repeat', '4'], ['4', '4, 6, then repeat', '2'], ['9', '9, 1, then repeat', '2'], ['0, 1, 5, 6', 'the same digit forever', '1']], 'The first entry is one copy of the number, the second is two copies multiplied, and so on'),
+    rule('<b>Use the cycle.</b> To find the units digit when 50 threes are multiplied together, ask where 50 lands in the cycle 3, 9, 7, 1. The cycle has length 4. Divide: 50 = 12 × 4 + 2, so the remainder is 2 and we land on the 2nd digit: 9. If the remainder is 0, you land on the <b>last</b> digit of the cycle.'),
+    ex('Twenty-eight sevens multiplied together', ['The cycle of 7 is 7, 9, 3, 1. It has length 4.', '28 = 7 × 4. That is exactly 7 full cycles, with nothing left over (remainder 0).', 'Finishing a cycle means we are on its last digit: 1.']),
+    ex('Thirteen twos multiplied together', ['The cycle of 2 is 2, 4, 8, 6. It has length 4.', '13 = 3 × 4 + 1. The remainder is 1.', 'The 1st digit of the cycle is 2. The units digit is 2.']),
+    warn('<b>Multiplying the count is wrong.</b> When 6 threes are multiplied together, the units digit is not 3 × 6 = 18, so 8. The cycle 3, 9, 7, 1 gives 9. The units digit comes from the cycle, not from multiplying the base by the count.'),
+    key('A units-digit check can <b>reject</b> a wrong answer, but it cannot prove an answer is right. If the last digit is wrong, the answer is definitely wrong. If it matches, the answer might still be wrong.'),
+    warn('<b>Matching last digits is not proof.</b> Many different numbers share the same last digit. Use the units digit together with an estimate.'),
     mcq('Mo checks 38 × 47 = 1796. He says: "8 × 7 = 56, which ends in 6. 1796 ends in 6. So I am sure it is right." What is wrong with his reasoning?', ['Nothing. Matching units digits proves the answer.', 'Many different numbers end in 6. The check cannot show that 1796 is right. (In fact 38 × 47 = 1786.)', 'He should have used 3 × 4 instead.'], 1, 'The units digit check can only reject answers. 1796 and 1786 both end in 6, but only 1786 is the true product. Pair this check with an estimate.', 'Spot the mistake'),
+    recap([['units digit', 'the last digit of a number'], ['cycle', 'a pattern of digits that repeats'], ['remainder', 'what is left after dividing by the cycle length']], [['Last digit rule', 'units digit of the product = units digit of (unit × unit)'], ['Cycle position', 'count ÷ cycle length, use the remainder'], ['Remainder 0', 'last digit of the cycle']]),
   ],
 
   practice: [

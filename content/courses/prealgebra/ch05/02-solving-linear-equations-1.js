@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const term = (a, v = 'x') => (a === 1 ? v : a === -1 ? '−' + v : m(a) + v);
@@ -27,15 +27,22 @@ export default lesson({
   ],
 
   learn: [
-    p('An <b>equation</b> is a statement that two expressions have the same value, like 2x + 3 = 11. <b>Solving</b> it means finding the number that x must be so the statement is true. Picture a balance scale: both pans weigh the same, and an equation stays true as long as you keep it balanced.'),
+    p(`An <b>equation</b> says that two expressions have the same value, like 2x + 3 = 11. Solving it means finding the number that x must be so the statement is true. The central idea is balance: if you treat both sides alike, the equation stays true.`),
+    def('equation', `A statement that two expressions are equal, written with an equals sign. It can be true or false depending on the value of the letter. 2x + 3 = 11 is true when x = 4 and false for any other number.`),
+    def('solution', `A value of the variable that makes the equation true. To <b>solve</b> an equation is to find its solution. Check a solution by substituting it for the letter in the <i>original</i> equation and seeing that both sides agree.`),
     widget('balanceScale', { a: 2, b: 3, s: 4 }),
-    rule('<b>The golden rule of equations.</b> Whatever you do to one side, do the same to the other side. Add the same number, subtract the same number, multiply or divide by the same non-zero number, and the equation stays true.'),
-    ex('A two-step equation', ['Solve 3x + 5 = 26.', 'First goal: get the 3x alone. The 5 is added, so subtract 5 from both sides: 3x = 21.', 'Now x is multiplied by 3. Divide both sides by 3: x = 7.', 'Check by plugging in: 3(7) + 5 = 26. It works.']),
-    rule('<b>Undo in reverse order.</b> The expression 3x + 5 does "multiply by 3, then add 5". To undo it, undo the last thing done first: subtract 5, then divide by 3. It is like taking off shoes before socks, because you put on socks before shoes.'),
-    ex('A fraction and a negative', ['Solve x/4 − 3 = 2.', 'Undo the "−3" by adding 3 to both sides: x/4 = 5.', 'Undo the division by multiplying both sides by 4: x = 20.', 'Next, −2x + 1 = 9. Subtract 1: −2x = 8. Divide by −2 (a negative!): x = −4. Check: −2(−4) + 1 = 9.']),
+    rule(`<b>The golden rule of equations.</b> Whatever you do to one side, do the same to the other side. Add the same number, subtract the same number, multiply or divide by the same non-zero number, and the equation stays true.`),
+    def('inverse operation', `The operation that undoes another. Subtraction undoes addition, and division undoes multiplication (and the other way round). To free x, you apply inverse operations to <i>both</i> sides.`),
     tbl(['Operation on x', 'Undo it by'], [['+ 7', 'subtracting 7'], ['− 7', 'adding 7'], ['× 7', 'dividing by 7'], ['÷ 7', 'multiplying by 7']], 'Inverse operations'),
-    warn('<b>Do it to both sides, and to the whole side.</b> In 2x + 6 = 14, dividing by 2 means dividing <i>every</i> term: x + 3 = 7. Dividing only the 2x (x + 6 = 7) is wrong. Plugging your answer back in will always catch this.'),
-    mcq('Leo solves 2x + 6 = 14. He writes: "divide by 2: x + 6 = 7, so x = 1." What is the real problem?', ['He should have added 2 instead of dividing.', 'Dividing by 2 has to hit every term, including the 6. The solution is x = 4, and x = 1 fails the check: 2(1) + 6 = 8, not 14.', 'The equation has no solution.'], 1, 'Subtract 6 first: 2x = 8, then x = 4. Always test your answer in the original equation.', 'Spot the mistake'),
+    ex('A two-step equation', [`Solve 3x + 5 = 26.`, `First goal: get the 3x alone. The 5 is added, so subtract 5 from both sides: 3x = 21.`, `Now x is multiplied by 3. Divide both sides by 3: x = 7.`, `Check by plugging in: 3(7) + 5 = 26. It works.`]),
+    key(`<b>Undo in reverse order.</b> The expression 3x + 5 does "multiply by 3, then add 5". To undo it, undo the last thing done first: subtract 5, then divide by 3. It is like taking off shoes before socks, because you put on socks before shoes.`),
+    formula('Solving ax + b = c', `x = (c − b) ÷ a`, `Subtract b from both sides to get ax = c − b, then divide by a. This works for any a other than 0. For example, in 3x + 5 = 26, x = (26 − 5) ÷ 3 = 7.`),
+    ex('A fraction and a negative', [`Solve x/4 − 3 = 2.`, `Undo the "−3" by adding 3 to both sides: x/4 = 5.`, `Undo the division by multiplying both sides by 4: x = 20.`, `Next, −2x + 1 = 9. Subtract 1: −2x = 8. Divide by −2 (a negative!): x = −4. Check: −2(−4) + 1 = 9.`]),
+    ex('A missing piece, and an equation read backwards', [`The equation 3x + □ = 20 has the solution x = 4. Find the number in the box.`, `Substitute x = 4: 3(4) + □ = 20, so 12 + □ = 20.`, `Subtract 12 from both sides: □ = 8.`, `Check: 3x + 8 = 20 gives 3x = 12, so x = 4. ✓ An equation reads the same backwards, so 7 = 3x − 8 is solved just like 3x − 8 = 7, giving 3x = 15 and x = 5.`]),
+    tip(`<b>Always check.</b> Put your answer back into the original equation. It takes ten seconds and catches nearly every sign slip. For equations with a negative coefficient like −5x + 2 = 17, say aloud "divide both sides by negative five" so the sign is not lost. If the equation is in the form "number = expression", you may leave it that way.`),
+    warn(`<b>Do it to both sides, and to the whole side.</b> In 2x + 6 = 14, dividing by 2 means dividing <i>every</i> term: x + 3 = 7. Dividing only the 2x (x + 6 = 7) is wrong. Also, to undo "−4" you add 4, not subtract: in 3x − 4 = 11, the next line is 3x = 11 + 4 = 15, so x = 5. Plugging your answer back in will always catch this.`),
+    mcq(`Leo solves 2x + 6 = 14. He writes: "divide by 2: x + 6 = 7, so x = 1." What is the real problem?`, [`He should have added 2 instead of dividing.`, `Dividing by 2 has to hit every term, including the 6. The solution is x = 4, and x = 1 fails the check: 2(1) + 6 = 8, not 14.`, `The equation has no solution.`], 1, `Subtract 6 first: 2x = 8, then x = 4. Always test your answer in the original equation.`, 'Spot the mistake'),
+    recap([['equation', 'two expressions set equal'], ['solution', 'a value that makes the equation true'], ['inverse operation', 'the operation that undoes another'], ['check', 'substitute the answer into the original equation']], [['Golden rule', 'do the same to both sides'], ['Solving ax + b = c', 'x = (c − b) ÷ a']]),
   ],
 
   practice: [

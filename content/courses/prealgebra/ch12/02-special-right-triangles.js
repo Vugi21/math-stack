@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const ws = (ans, list) => list.filter(([v], i) => v !== ans && v > 0 && list.findIndex((x) => x[0] === v) === i);
 
@@ -22,17 +22,26 @@ export default lesson({
   ],
 
   learn: [
-    p('Most right triangles have messy sides. But two of them show up everywhere and have sides that follow a simple pattern. Both come from shapes you know: a square and an equilateral triangle.'),
+    p('Most right triangles have messy sides. But two of them show up everywhere, and their sides follow a simple pattern, so you can write down the third side without using the Pythagorean theorem each time. Both come from shapes you know: a square and an equilateral triangle. These patterns work with square roots, and you will need that √2 is about 1.41 and √3 is about 1.73.'),
+    def('45-45-90 triangle', 'A right triangle whose two other angles are both 45°. Equal angles mean equal legs, so it is also called the isosceles right triangle.'),
     p('<b>Half a square.</b> Cut a square along its diagonal. You get a triangle with angles 45°, 45°, and 90°. The two legs are equal, say s. The Pythagorean theorem gives c² = s² + s² = 2s², so the hypotenuse is s√2.'),
     widget('pythagoras', { a: 3, b: 3 }),
-    rule('<b>45-45-90 triangle.</b> Legs: s and s. Hypotenuse: s√2. To go from a leg to the hypotenuse, multiply by √2. From the hypotenuse back to a leg, divide by √2: a hypotenuse of 8√2 means legs of 8.'),
+    formula('45-45-90 triangle', 'legs s, s;  hypotenuse s√2', 'To go from a leg to the hypotenuse, multiply by √2. From the hypotenuse back to a leg, divide by √2: a hypotenuse of 8√2 means legs of 8.'),
     ex('Half a square, in practice', ['A square has side 7. How long is its diagonal?', 'The diagonal is the hypotenuse of a 45-45-90 triangle with legs 7.', 'Hypotenuse = 7√2, which is about 7 × 1.41 = 9.9, a bit more than 7 and less than 14. That matches what we would expect.']),
-    p('<b>Half an equilateral triangle.</b> Cut an equilateral triangle in half along an altitude. You get a triangle with angles 30°, 60°, and 90°. Its hypotenuse is a full side of the equilateral triangle, 2s, and its short leg is half the base, s. The long leg: (2s)² − s² = 3s², so it is s√3.'),
-    rule('<b>30-60-90 triangle.</b> Short leg: s (opposite the 30°). Long leg: s√3 (opposite the 60°). Hypotenuse: 2s. The short leg is always half the hypotenuse.'),
+    ex('From the hypotenuse down to the legs', ['A 45-45-90 triangle has hypotenuse 6√2. Find each leg.', 'The leg times √2 equals 6√2, so the leg is 6√2 ÷ √2 = 6.', 'Check: 6 × √2 = 6√2.', 'Sanity check: each leg must be shorter than the hypotenuse. 6 is less than 6√2, which is about 8.5.']),
+    def('30-60-90 triangle', 'A right triangle with angles 30°, 60°, and 90°. It is exactly half of an equilateral triangle.'),
+    p('<b>Half an equilateral triangle.</b> Cut an equilateral triangle in half along an altitude (the straight line from a corner down to the opposite side at a right angle). You get a triangle with angles 30°, 60°, and 90°. Its hypotenuse is a full side of the equilateral triangle, 2s, and its short leg is half the base, s. The long leg: (2s)² − s² = 3s², so it is s√3.'),
+    formula('30-60-90 triangle', 'short leg s;  long leg s√3;  hypotenuse 2s', 'The short leg is opposite the 30° angle, the long leg is opposite the 60° angle, and the short leg is always half the hypotenuse.'),
+    rule('<b>In a 30-60-90 triangle the short leg is half the hypotenuse.</b> In a 45-45-90 triangle the legs are equal.'),
     tbl(['Triangle', 'Sides in order', 'Where the root goes'], [['45-45-90', 's, s, s√2', 'on the hypotenuse'], ['30-60-90', 's, s√3, 2s', 'on the long leg']], 'Two patterns to memorize'),
-    ex('Working back from the long leg', ['A 30-60-90 triangle has long leg 5√3. Find the other two sides.', 'The long leg is s√3, so s = 5.', 'Short leg = 5. Hypotenuse = 2 × 5 = 10.']),
+    ex('Working back from the long leg', ['A 30-60-90 triangle has long leg 4√3. Find the other two sides.', 'The long leg is s√3, so s = 4.', 'Short leg = 4. Hypotenuse = 2 × 4 = 8.']),
+    ex('An equilateral triangle', ['An equilateral triangle has side 10. Find its altitude and area.', 'The altitude splits it into two 30-60-90 triangles with hypotenuse 10, so the short leg is 5.', 'The altitude is the long leg: 5√3, about 8.66.', 'Area = ½ × 10 × 5√3 = 25√3, about 43.3.']),
+    tip('<b>Order of sizes.</b> The smallest side is opposite the smallest angle. Since 1 &lt; √2 &lt; √3 &lt; 2 (about 1, 1.41, 1.73, 2), the 30-60-90 sides s, s√3, 2s are in increasing order, and so are the angles 30°, 60°, 90°. If you place the roots on the wrong sides, this order will not line up.'),
+    tip('<b>Which pattern?</b> Two equal legs, or a 45° angle: use s, s, s√2. A 30° or 60° angle, or an equilateral triangle cut in half: use s, s√3, 2s. In the second pattern, first find s, the short leg, and then everything else follows.'),
     warn('<b>Watch out.</b> Only the hypotenuse of a 45-45-90 gets the √2, and only the long leg of a 30-60-90 gets the √3. The hypotenuse of a 30-60-90 is a plain 2s: no root at all.'),
-    mcq('A 30-60-90 triangle has hypotenuse 10. Sam writes: "The legs are 5 and 5√2." What is wrong?', ['Nothing, that is right.', 'The √2 belongs to the 45-45-90 triangle. In a 30-60-90 the legs are 5 and 5√3.', 'The short leg should be 20.'], 1, 'Half of 10 is the short leg: 5. The long leg is the short leg times √3: 5√3. Check: 25 + 75 = 100 = 10².', 'Spot the mistake'),
+    key('Everything starts from the <b>one side you know</b>. Decide which side it is (leg, long leg, short leg, or hypotenuse), turn it into s, and then use the pattern to find the others.'),
+    mcq('A 30-60-90 triangle has hypotenuse 14. Sam writes: "The legs are 7 and 7√2." What is wrong?', ['Nothing, that is right.', 'The √2 belongs to the 45-45-90 triangle. In a 30-60-90 the legs are 7 and 7√3.', 'The short leg should be 20.'], 1, 'Half of 14 is the short leg: 7. The long leg is the short leg times √3: 7√3. Check: 49 + 147 = 196 = 14².', 'Spot the mistake'),
+    recap([['45-45-90 triangle', 'half a square: equal legs'], ['30-60-90 triangle', 'half an equilateral triangle'], ['short leg', 'opposite the 30° angle, half the hypotenuse'], ['altitude', 'perpendicular from a corner to the opposite side']], [['45-45-90', 's, s, s√2'], ['30-60-90', 's, s√3, 2s'], ['Equilateral altitude', 'side × √3 ÷ 2'], ['Square diagonal', 'side × √2']]),
   ],
 
   practice: [

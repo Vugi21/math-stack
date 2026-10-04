@@ -15,6 +15,10 @@ DSL: `src/content/dsl.js`. Judge rules: header of `src/engine/judge.js`. Markup:
 | challenge | 2 `chain`s (3+ parts, close starts "The idea:") + 1 find-the-error `mc` |
 | quiz | 6–8 `tpl` generators; each must make 25+ distinct problems over 250 seeds; vary shape, numbers, wording |
 
+## The Learn tab (reading depth)
+Blocks: `p`, `def(term, html)`, `key(html)`, `rule`, `formula(name, expr, where)`, `tip`, `warn`, `ex(title, steps)`, `tbl`, `widget`, `mcq`, `recap(terms, formulas)`.
+Every lesson needs 10+ blocks, 2+ definitions, a key idea, a tip, 2+ worked examples, a rule box, a watch-out or spot-the-mistake, and exactly one `recap` as the last block. Worked examples must use different numbers from the practice, challenge and quiz problems, or they give the answer away.
+
 ## Rules of the road
 - Original content only. Never copy or closely paraphrase AoPS / any textbook problems.
 - Beast-Academy style: reasoning over rote; make the student explain/predict; include at least one non-routine problem per lesson.

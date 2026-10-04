@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
@@ -24,17 +24,30 @@ export default lesson({
   ],
 
   learn: [
-    p('Counting is not just "1, 2, 3...". Good counters never list everything. They find a way to <i>compute</i> how many.'),
-    rule('<b>Counting a run.</b> The number of whole numbers from a to b, with both ends included, is <b>b − a + 1</b>. The "+1" fixes the fence-post problem: a fence with 10 sections needs 11 posts.'),
+    p('Counting is not just saying "1, 2, 3, ...". Good counters almost never list every item. They look at how the items are built and <i>compute</i> how many there are. This lesson gives three computing tools: counting a run of numbers, splitting into cases and adding, and counting the opposite (total minus unwanted). Then it shows how to handle groups that overlap.'),
+    def('inclusive', 'A range is <b>inclusive</b> when both end numbers count. "The whole numbers from 15 to 40 inclusive" includes 15 and includes 40.'),
+    formula('Counting a run', 'b − a + 1', 'The number of whole numbers from a to b, both ends included, where a ≤ b. Subtracting b − a counts the <i>steps</i> between the numbers; there is always one more number than there are steps.'),
+    p('Think of a fence. A fence with 10 sections needs 11 posts, because the first post starts the fence and every section adds one more. The same "+1" appears whenever both ends are counted. If one end is left out, the "+1" disappears: the numbers from 15 up to but not including 40 number 40 − 15 = 25.'),
+    ex('Counting a run', ['How many whole numbers are there from 23 to 61, inclusive?', 'Steps between them: 61 − 23 = 38.', 'Numbers = steps + 1 = 39.', 'Check on a small case: from 3 to 5 inclusive is 5 − 3 + 1 = 3 numbers (3, 4, 5). Correct.']),
+    def('multiple', 'A multiple of k is what you get when you multiply k by a whole number: k, 2k, 3k, and so on. The multiples of 6 are 6, 12, 18, ...'),
     ex('Multiples in a range', ['How many multiples of 6 are there from 1 to 100?', 'The multiples are 6×1, 6×2, ..., 6×k, and we need 6k ≤ 100.', '100 ÷ 6 = 16.67, so k can be at most 16.', 'So there are 16 multiples of 6.']),
-    rule('<b>Adding cases.</b> If every thing you want falls into exactly one of several separate cases, count each case and add. The cases must not overlap.'),
-    rule('<b>Subtracting what you do not want.</b> Sometimes it is easier to count everything, then remove the bad ones: <b>wanted = total − unwanted</b>.'),
+    ex('Multiples that do not start at 1', ['How many multiples of 7 are there from 20 to 100, inclusive?', 'The first multiple of 7 that is at least 20 is 21 = 7 × 3.', 'The last multiple of 7 that is at most 100 is 98 = 7 × 14.', 'The multipliers run from 3 to 14, so count them as a run: 14 − 3 + 1 = 12 multiples.']),
+    tip('To count multiples of k in a range, count the <b>multipliers</b>, not the multiples. Find the smallest and largest multiplier that fit, then use b − a + 1 on them.'),
+    rule('<b>Adding cases.</b> If every thing you want falls into exactly one of several separate cases, count each case and add. The cases must not overlap, and no wanted item may be left out of every case.'),
+    ex('Separate cases', ['How many whole numbers from 1 to 30 are multiples of 5 or end in the digit 3?', 'Multiples of 5: 5, 10, 15, 20, 25, 30, which is 6 numbers. They end in 0 or 5, never in 3.', 'Numbers ending in 3: 3, 13, 23, which is 3 numbers.', 'No number is in both lists, so add: 6 + 3 = 9.']),
+    rule('<b>Subtracting what you do not want.</b> Sometimes it is easier to count everything, then remove the bad ones: <b>wanted = total − unwanted</b>. The bad ones are called the <b>complement</b> of the wanted ones.'),
     ex('A complement', ['How many whole numbers from 1 to 50 are <i>not</i> multiples of 5?', 'All numbers: 50.', 'Multiples of 5: 5, 10, ..., 50, which is 10 of them.', 'Not multiples: 50 − 10 = 40.']),
+    tip('Phrases such as "at least one", "not all the same" and "not" are signals to try the complement. Counting the single bad case is often far easier than counting the many good ones.'),
     widget('venn', { A: 'soccer', B: 'chess', onlyA: 16, both: 2, onlyB: 12, neither: 0 }),
-    rule('<b>Overlapping groups.</b> |A or B| = |A| + |B| − |both|. Adding |A| + |B| counts the overlap twice, so subtract it once.'),
-    ex('Using the overlap rule', ['In a group of 40, 25 like pizza, 20 like tacos, and 8 like neither.', 'People who like at least one: 40 − 8 = 32.', 'Pizza + tacos = 45, which is 13 more than 32.', 'So 13 people were counted twice: 13 like both.']),
-    warn('<b>Double counting.</b> Never add overlapping groups without checking. "Multiples of 2 or of 3" is not (count of 2s) + (count of 3s), because multiples of 6 are in both lists.'),
+    p('Overlap is the new difficulty. Suppose some students play soccer, some play chess, and a few do both. If you add the soccer count to the chess count, every student who does both is counted twice. The Venn diagram above shows this: the middle region belongs to both circles. Below, |A| means "the number of items in group A".'),
+    formula('Overlapping groups', '|A or B| = |A| + |B| − |both|', '|A or B| is the number of items in at least one group. Adding |A| + |B| counts the overlap twice, so subtract it once. "Or" here means one or the other or both.'),
+    ex('Using the overlap rule', ['In a group of 50, 30 like pizza, 28 like tacos, and 6 like neither.', 'People who like at least one: 50 − 6 = 44.', 'Pizza + tacos = 58, which is 14 more than 44.', 'So 14 people were counted twice: 14 like both.']),
+    ex('Multiples of 2 or 3', ['How many whole numbers from 1 to 30 are multiples of 2 or of 3?', 'Multiples of 2: 15. Multiples of 3: 10.', 'Numbers in both lists are multiples of 6: 5 of them.', '15 + 10 − 5 = 20.']),
+    warn('<b>Double counting.</b> Never add overlapping groups without checking. "Multiples of 2 or of 3" is not (count of 2s) + (count of 3s) = 25, because multiples of 6 are in both lists.'),
+    warn('<b>The fence-post slip.</b> Writing b − a for an inclusive range is the most common counting error. Test your formula on a tiny range such as 3 to 5 before trusting it.'),
+    key('Counting is a skill of <b>structure</b>: find a run, split into separate cases and add, or take the total and subtract the unwanted. When groups overlap, subtract the overlap once.'),
     mcq('Ben says: "There are 40 − 15 = 25 whole numbers from 15 to 40 inclusive." What is wrong?', ['Nothing, 25 is right.', 'He forgot that both ends count. The answer is 40 − 15 + 1 = 26.', 'He should have added 40 + 15.'], 1, 'Subtracting counts the 25 steps between the numbers. The numbers themselves are one more than the steps: 26.', 'Spot the mistake'),
+    recap([['inclusive', 'both end numbers are counted'], ['multiple', 'k times a whole number'], ['complement', 'the items you do not want; wanted = total − unwanted'], ['overlap', 'items in both groups, counted twice if you just add']], [['Counting a run', 'b − a + 1'], ['Complement', 'wanted = total − unwanted'], ['Overlapping groups', '|A or B| = |A| + |B| − |both|']]),
   ],
 
   practice: [

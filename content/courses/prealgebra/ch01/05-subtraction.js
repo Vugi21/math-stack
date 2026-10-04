@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const par = (n) => (n < 0 ? '(−' + Math.abs(n) + ')' : String(n));
@@ -24,19 +24,28 @@ export default lesson({
   ],
 
   learn: [
-    p('Subtraction looks like a brand new operation, but it is secretly addition in disguise. Taking 7 away from 10 moves you 7 steps left. Adding −7 also moves you 7 steps left.'),
-    rule('<b>Subtracting is adding the opposite.</b> a − b = a + (−b). To subtract a number, add its opposite.'),
+    p('Subtraction looks like a brand new operation, but it is secretly addition in disguise. Taking 7 away from 10 moves you 7 steps left. Adding −7 also moves you 7 steps left. In a difference a − b, the number a is the <b>minuend</b> (what you start with) and b is the <b>subtrahend</b> (what you take away).'),
+    def('subtraction', 'Subtracting b means adding the opposite of b: a − b = a + (−b). The answer is called the <b>difference</b>.'),
+    formula('Subtracting is adding the opposite', 'a − b = a + (−b)', 'a and b can be any numbers, positive or negative. First change the subtraction into an addition, and change the sign of the second number. Then add.'),
     widget('numberLineWalk', { a: 5, b: -3, mode: 'sub' }),
     p('Slide the subtract control to a negative value above. Subtracting a negative moves you to the <i>right</i>, the opposite of what subtracting normally does.'),
-    ex('Subtracting a negative', ['Find 5 − (−3).', 'Rewrite as adding the opposite: 5 + 3.', 'The opposite of −3 is 3.', 'Answer: 8.']),
+    ex('Subtracting a negative', ['Find 4 − (−7).', 'Rewrite as adding the opposite: 4 + 7.', 'The opposite of −7 is 7.', 'Answer: 11. Check: subtraction undoes addition, and −7 + 11 = 4, so 4 − (−7) must be 11.']),
     ex('Subtracting from a negative', ['Find −6 − 9.', 'Rewrite: −6 + (−9).', 'Both are on the left of 0, so they pile up: −15.']),
-    rule('<b>A difference is a signed gap.</b> a − b tells you how far to move, and in which direction, to get from b to a. From −4 to 9 you move 9 − (−4) = 13 steps to the right. From 9 to −4 you move (−4) − 9 = −13.'),
-    rule('<b>Opposite differences.</b> b − a is the opposite of a − b: −(a − b) = b − a. Subtraction is NOT commutative, but swapping just flips the sign.'),
+    ex('Two negatives meet', ['Find −3 − (−10).', 'Rewrite: −3 + 10.', 'Start at −3 and move 10 to the right: you land on 7.']),
+    def('signed gap', 'The difference a − b tells you how far to move, and in which direction, to get from b to a. From −4 to 9 you move 9 − (−4) = 13 steps to the right. From 9 to −4 you move (−4) − 9 = −13, which is 13 steps to the left. In words: <b>change = new − old</b>.'),
+    formula('Signed change', 'change = new − old', 'A temperature that goes from 3 degrees to −8 degrees has change (−8) − 3 = −11. The negative sign says the temperature fell.'),
+    rule('<b>Swapping flips the sign.</b> b − a is the opposite of a − b: −(a − b) = b − a. Subtraction is NOT commutative, but swapping the two numbers just flips the sign. For example, if x − 7 = −3 then 7 − x = 3.'),
     rule('<b>Minus in front of brackets.</b> a − (b + c) = a − b − c and a − (b − c) = a − b + c. The minus flips every term inside.'),
-    ex('Brackets after a minus', ['Find 20 − (8 − 3).', 'The minus flips each term: 20 − 8 + 3.', '12 + 3 = 15.', 'Check by working inside first: 8 − 3 = 5 and 20 − 5 = 15.']),
+    ex('Brackets after a minus', ['Find 30 − (9 − 4).', 'The minus flips each term: 30 − 9 + 4.', '21 + 4 = 25.', 'Check by working inside first: 9 − 4 = 5 and 30 − 5 = 25.']),
+    ex('A bracket with a negative inside', ['Find 30 − (6 − (−5)).', 'Work inside first: 6 − (−5) = 6 + 5 = 11.', 'Then 30 − 11 = 19.']),
+    ex('Pairs in a long alternating sum', ['Find 60 − 59 + 58 − 57 + … + 2 − 1.', 'Group neighbours: (60 − 59) = 1, (58 − 57) = 1, down to (2 − 1) = 1.', 'There are 60 numbers, so 30 groups of 1.', 'The total is 30.']),
     tbl(['Subtraction', 'Same as adding', 'Value'], [['9 − 4', '9 + (−4)', '5'], ['9 − (−4)', '9 + 4', '13'], ['−9 − 4', '−9 + (−4)', '−13'], ['−9 − (−4)', '−9 + 4', '−5']], 'Four sign cases'),
-    warn('<b>Watch out.</b> 20 − (8 − 3) is not 20 − 8 − 3. The minus outside the bracket flips the 3 too. Also (10 − 4) − 3 and 10 − (4 − 3) differ: 3 and 9.'),
+    key('There is really only one operation here: <b>addition</b>. Every subtraction becomes an addition of the opposite, and then all the addition properties work again: you can reorder and regroup.'),
+    tip('Read "− (−" as <b>"plus"</b> and you will rarely slip: 5 − (−3) is 5 + 3. For a quick check, ask if the answer should be bigger or smaller than where you started. Subtracting a positive moves left (smaller), subtracting a negative moves right (bigger).'),
+    tip('To check a subtraction, add back: if a − b = c, then b + c should equal a. For −9 − (−4) = −5, check −4 + (−5) = −9. It works.'),
+    warn('<b>Watch out.</b> 30 − (9 − 4) is not 30 − 9 − 4. The minus outside the bracket flips the 4 too. Also (10 − 4) − 3 and 10 − (4 − 3) differ: they are 3 and 9.'),
     mcq('Sam says: "5 − (−3) = 5 − 3 = 2." What did Sam do wrong?', ['Nothing, the double signs just disappear.', 'He ignored that the 3 is negative. Subtracting −3 is adding 3, so the answer is 8.', 'He should have got −8.'], 1, 'Subtracting a negative is adding its opposite: 5 − (−3) = 5 + 3 = 8.', 'Spot the mistake'),
+    recap([['difference', 'the result of a subtraction'], ['subtracting', 'adding the opposite'], ['signed change', 'new − old; negative means a decrease'], ['minus before brackets', 'flips every term inside']], [['Subtraction', 'a − b = a + (−b)'], ['Swap', 'b − a = −(a − b)'], ['Brackets', 'a − (b − c) = a − b + c']]),
   ],
 
   practice: [

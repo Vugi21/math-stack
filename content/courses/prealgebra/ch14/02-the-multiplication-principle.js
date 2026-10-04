@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const fall = (n, k) => { let t = 1; for (let i = 0; i < k; i++) t *= n - i; return t; };
@@ -24,17 +24,27 @@ export default lesson({
   ],
 
   learn: [
-    p('Imagine you build something by making choices one after another: pick a shirt, then pick pants, then pick a hat. A <b>tree diagram</b> draws every possibility as a path from the root to a leaf.'),
+    p('Imagine you build something by making choices one after another: pick a shirt, then pick pants, then pick a hat. The question "how many different outfits?" can be answered without listing a single one. All you need is the number of choices at each stage.'),
+    def('outcome', 'One complete result of a sequence of choices, such as the outfit (red shirt, blue pants, no hat).'),
+    def('tree diagram', 'A picture that draws every possible outcome as a path from the start (the root) to the end of a branch (a leaf). Each stage of choosing splits every path into new branches.'),
     widget('countingTree', { a: 3, b: 2, c: 0, labels: ['shirts', 'pants', 'hats (0 = none)'] }),
-    rule('<b>The multiplication principle.</b> If you make choices in a row, and there are a ways to make the first choice, b ways for the second (no matter what the first was), c for the third, and so on, then the total number of ways is <b>a × b × c × ...</b>'),
-    p('Why? Each branch splits into the same number of new branches. Every time you add a stage, you replicate the whole tree for each leaf. That is multiplication.'),
+    formula('Multiplication principle', 'a × b × c × ...', 'If you make choices in a row, with a ways to make the first choice, b ways for the second (no matter what the first was), c ways for the third, and so on, the total number of outcomes is the product of these numbers.'),
+    p('Why does it work? Each branch of the tree splits into the same number of new branches. Adding a stage replicates the whole tree once for every leaf. Replicating a number of times is multiplication: 3 shirts, each with 2 pants, gives 3 × 2 = 6 paths, and each of those is split again by the hat choice.'),
+    key('The count at each stage may depend on <i>earlier choices being used up</i>, but it must not depend on <i>which</i> earlier choice you made. "4 letters are left" is fine whichever letter was used first.'),
     ex('Slots method', ['How many 3-letter "words" can be made from A, B, C, D, E if no letter is used twice?', 'Draw 3 slots: ___ ___ ___.', 'First slot: 5 choices. Second: one letter is used up, so 4. Third: 3.', '5 × 4 × 3 = 60.']),
     widget('arrangements', { n: 5, k: 3, nlabel: 'letters', klabel: 'slots' }),
-    rule('<b>Arranging in a line.</b> The number of ways to put n different things in a row is n × (n−1) × ... × 2 × 1, called <b>n factorial</b>, written n!. So 5! = 120 and 3! = 6.'),
+    tip('Draw one slot for each choice and write the number of options under it. Multiply at the end. Slots turn a vague problem into a short row of numbers.'),
+    def('factorial', 'For a whole number n, <b>n factorial</b>, written n!, is n × (n − 1) × ... × 2 × 1. It counts the ways to put n different things in a row.'),
     tbl(['n', '1', '2', '3', '4', '5', '6', '7'], [['n!', '1', '2', '6', '24', '120', '720', '5040']], 'Factorials grow very fast'),
-    p('<b>Restrictions: fill the fussy slot first.</b> If a rule limits one slot, count that slot first. How many 3-digit numbers are even? The last digit must be 0, 2, 4, 6 or 8 (5 choices); the first digit cannot be 0 (9 choices); the middle can be anything (10). Total: 9 × 10 × 5 = 450.'),
-    warn('<b>Add or multiply?</b> Multiply when you do one thing <i>and then</i> another. Add when you do one thing <i>or</i> another (separate cases). 3 soups and 4 salads: choosing a soup <i>and</i> a salad is 3 × 4 = 12; choosing a soup <i>or</i> a salad is 3 + 4 = 7.'),
+    ex('Arranging in a line', ['In how many orders can 4 different books stand on a shelf?', 'Four slots: 4 choices, then 3, then 2, then 1.', '4 × 3 × 2 × 1 = 4! = 24 orders.']),
+    rule('<b>Arranging in a line.</b> The number of ways to put n different things in a row is n!. Fill the first place in n ways, the next in n − 1 ways, and so on down to 1.'),
+    p('<b>Restrictions: fill the fussy slot first.</b> If a rule limits one slot, count that slot first, then fill the rest. If you fill the easy slots first, you may not know how many options remain for the fussy one.'),
+    ex('Even three-digit numbers', ['How many 3-digit whole numbers are even?', 'The last digit must be 0, 2, 4, 6 or 8: 5 choices.', 'The first digit cannot be 0 (or it would not be a 3-digit number): 9 choices. The middle digit can be anything: 10 choices.', 'Total: 9 × 10 × 5 = 450.']),
+    ex('Odd numbers, no repeated digit', ['How many 3-digit numbers have all different digits and are odd, using only the digits 1 to 5?', 'Fussy slot first: the last digit is 1, 3 or 5: 3 choices.', 'The first digit: any of the remaining 4 digits. The middle digit: any of the remaining 3.', '3 × 4 × 3 = 36.']),
+    warn('<b>Add or multiply?</b> Multiply when you do one thing <i>and then</i> another. Add when you do one thing <i>or</i> another (separate cases). With 3 soups and 4 salads, choosing a soup <i>and</i> a salad is 3 × 4 = 12; choosing a soup <i>or</i> a salad is 3 + 4 = 7.'),
+    warn('<b>Do not forget the used-up options.</b> If the problem says "no repeats", the number of choices shrinks at every slot: 5 × 4 × 3, not 5 × 5 × 5. If repeats are allowed, it is 5 × 5 × 5 = 125.'),
     mcq('A menu has 3 starters and 4 mains. Dev says "I can pick a starter and a main in 3 + 4 = 7 ways." What is wrong?', ['Nothing, 7 is right.', 'Choosing both is a pair, so the choices multiply: 3 × 4 = 12.', 'He should have subtracted: 4 − 3 = 1.'], 1, 'Each of the 3 starters can go with each of the 4 mains. Picking a starter and a main is a two-stage choice, so 3 × 4 = 12.', 'Spot the mistake'),
+    recap([['outcome', 'one complete result of the choices'], ['tree diagram', 'every outcome drawn as a path'], ['factorial', 'n! = n × (n − 1) × ... × 1, the number of ways to line up n things'], ['fussy slot', 'a slot with a restriction; fill it first']], [['Multiplication principle', 'a × b × c × ...'], ['Arrangements in a line', 'n!']]),
   ],
 
   practice: [

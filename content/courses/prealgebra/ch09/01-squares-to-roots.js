@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const g = (a, b) => { while (b) { [a, b] = [b, a % b]; } return a; };
 
@@ -22,15 +22,22 @@ export default lesson({
   ],
 
   learn: [
-    p('Squaring a number means multiplying it by itself: 6^[2] = 36. Picture it as a square of tiles, 6 tiles on each side, 36 tiles in all. A <b>square root</b> goes the other way. Someone hands you the 36 tiles and asks, "how long is the side?" The answer is sqrt[36] = 6.'),
+    p('Squaring a number means multiplying it by itself: 6^[2] = 36. Picture a square of tiles with 6 tiles on each side. It holds 36 tiles in all. A <b>square root</b> goes the other way. Someone hands you the 36 tiles and asks, "how long is the side?" The answer is sqrt[36] = 6.'),
+    def('perfect square', 'A number you get by squaring a whole number: 1, 4, 9, 16, 25, 36, … Its square root is a whole number.'),
+    def('square root', 'The square root of N, written sqrt[N], is the <b>non-negative</b> number that gives N when multiplied by itself. The symbol √ is called the radical sign, and the number under it is the radicand.'),
     widget('squareRoot', { n: 7 }),
-    rule('<b>Square root.</b> sqrt[N] is the non-negative number that, multiplied by itself, gives N. So sqrt[N] × sqrt[N] = N, and sqrt[k^[2]] = k when k is not negative.'),
+    formula('Squares and roots undo each other', 'sqrt[k^[2]] = k      sqrt[N] × sqrt[N] = N', 'The first holds when k is not negative. The second holds for any N that is 0 or positive. For example sqrt[49] = 7 and sqrt[49] × sqrt[49] = 49.'),
+    rule('<b>Roots and products.</b> The root of a product is the product of the roots: sqrt[a × b] = sqrt[a] × sqrt[b] for a, b ≥ 0. The root of a fraction works the same way (with b &gt; 0): sqrt[{a/b}] = {sqrt[a]/sqrt[b]}.'),
     tbl(['Number k', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'], [['k^[2]', '1', '4', '9', '16', '25', '36', '49', '64', '81', '100', '121', '144', '169', '196', '225']], 'The perfect squares you should know on sight'),
+    tip('<b>Learn the squares in a row.</b> Each square is the one before plus the next odd number: 9 + 7 = 16, 16 + 9 = 25, 25 + 11 = 36. If you forget 13^[2], start from 12^[2] = 144 and add 25 to get 169.'),
     ex('Roots of fractions and products', ['Find sqrt[{9/16}]. Ask: what fraction times itself gives {9/16}?', 'Top: 3 × 3 = 9. Bottom: 4 × 4 = 16. So sqrt[{9/16}] = {3/4}.', 'Find sqrt[4 × 25]. First 4 × 25 = 100, and sqrt[100] = 10.', 'Notice sqrt[4] × sqrt[25] = 2 × 5 = 10 as well. For a product, you may take the roots separately.']),
-    p('<b>Why only one answer?</b> The equation x^[2] = 25 has two solutions, 5 and −5, because (−5) × (−5) = 25 too. But the symbol sqrt[25] is a promise to give just the non-negative one: sqrt[25] = 5. If you want both, you write "x = 5 or x = −5".'),
-    warn('<b>Watch out.</b> A root does not split over addition. sqrt[9 + 16] = sqrt[25] = 5, but sqrt[9] + sqrt[16] = 3 + 4 = 7. Roots and products get along, roots and sums do not.'),
-    mcq('Dev says: "sqrt[100 − 36] must be 10 − 6 = 4." What is wrong?', ['Nothing, subtracting roots is fine.', 'He split the root over a subtraction. First compute 100 − 36 = 64, then sqrt[64] = 8.', 'sqrt[64] is not a whole number.'], 1, 'Work inside the root first: 100 − 36 = 64 and sqrt[64] = 8. Splitting a root across minus (or plus) gives a different answer.', 'Spot the mistake'),
-    p('<b>Estimating a perfect square.</b> A quick test: a number that ends in 2, 3, 7 or 8 is never a perfect square, because no square ends that way. 1, 4, 5, 6, 9 and 0 are the only possible last digits.'),
+    key('The root sign works like a pair of brackets. Everything under the bar is calculated <b>first</b>, and the root is taken <b>last</b>. So sqrt[100 − 36] means sqrt[64], not "sqrt[100] − 36".'),
+    ex('Work inside, then root', ['Find sqrt[13^[2] − 12^[2]].', 'Squares first: 13^[2] = 169 and 12^[2] = 144.', 'Subtract under the root: 169 − 144 = 25.', 'Take the root: sqrt[25] = 5.']),
+    p('<b>Why only one answer?</b> The equation x^[2] = 25 has two solutions, 5 and −5, because (−5) × (−5) = 25 too. But the symbol sqrt[25] is a promise to give just the non-negative one: sqrt[25] = 5. If you want both, write "x = 5 or x = −5". Also, no number multiplied by itself gives a negative result, so sqrt[−4] is not a number you can find on the number line.'),
+    warn('<b>Watch out.</b> A root does not split over addition. sqrt[9 + 16] = sqrt[25] = 5, but sqrt[9] + sqrt[16] = 3 + 4 = 7. Roots and products get along, roots and sums (or differences) do not.'),
+    mcq('Dev says: "sqrt[25 + 144] must be 5 + 12 = 17." What is wrong?', ['Nothing, adding roots is fine.', 'He split the root over an addition. First compute 25 + 144 = 169, then sqrt[169] = 13.', 'sqrt[169] is not a whole number.'], 1, 'Work inside the root first: 25 + 144 = 169 and sqrt[169] = 13. Splitting a root across plus (or minus) gives a different answer.', 'Spot the mistake'),
+    p('<b>A quick test for perfect squares.</b> A number that ends in 2, 3, 7 or 8 is never a perfect square, because no square ends that way. The only possible last digits are 0, 1, 4, 5, 6 and 9. This test can rule a number out but cannot prove it is a square: 24 ends in 4 and is not a perfect square.'),
+    recap([['perfect square', 'the square of a whole number'], ['square root', 'the non-negative number that squares to N'], ['radicand', 'the number under the root sign']], [['Root undoes square', 'sqrt[k^[2]] = k for k ≥ 0'], ['Root of a product', 'sqrt[a × b] = sqrt[a] × sqrt[b]'], ['Root of a sum', 'sqrt[a + b] is NOT sqrt[a] + sqrt[b]']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, sub, mul, div, recip, fmt, fm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, R, eq, sub, mul, div, recip, fmt, fm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -25,16 +25,23 @@ export default lesson({
   ],
 
   learn: [
-    p('Dividing asks <b>how many fit?</b> 12 ÷ 3 asks how many 3s fit into 12. In the same way, 3 ÷ {1/4} asks how many quarters fit into 3. Quarters are small, so lots fit. Dividing by a small fraction gives a <b>bigger</b> answer.'),
+    p(`Dividing asks <b>how many fit?</b> 12 ÷ 3 asks how many 3s fit into 12. In the same way, 3 ÷ {1/4} asks how many quarters fit into 3. Quarters are small, so lots fit. Dividing by a small fraction gives a <b>bigger</b> answer.`),
+    def('reciprocal', `The reciprocal of a nonzero number is the number you multiply it by to get 1. To find the reciprocal of a fraction, flip it: the reciprocal of {c/d} is {d/c}. The reciprocal of 5 is {1/5}, because 5 = {5/1}.`),
+    def('quotient', `The result of dividing. In 3 ÷ {1/4} = 12, the quotient is 12, the number being divided (3) is the <b>dividend</b>, and the number you divide by ({1/4}) is the <b>divisor</b>.`),
     widget('fractionDivide', { a: 3, b: 1, c: 1, d: 4 }),
-    rule('<b>Dividing by a unit fraction.</b> Dividing by {1/n} multiplies by n. How many {1/n}s fit in 1 whole? Exactly n of them. So in 5 wholes there are 5 × n.'),
-    p('What about a fraction like {2/3} on the bottom? Dividing by {2/3} has two steps in disguise. First, count the {1/3}s that fit: that is multiplying by 3. But each piece we want is <i>two</i> of those thirds wide, so we group them in pairs, which is dividing by 2. Multiply by 3, divide by 2: that is multiplying by {3/2}.'),
-    rule('<b>Dividing by a fraction.</b> To divide by a fraction, multiply by its <b>reciprocal</b> (flip the top and the bottom). {a/b} ÷ {c/d} = {a/b} × {d/c}. The reciprocal of {c/d} is {d/c}, and a number times its reciprocal is always 1.'),
-    ex('Dividing two fractions', ['Find {2/3} ÷ {4/5}.', 'Flip the second fraction and multiply: {2/3} × {5/4}.', 'Cancel the common factor 2 in 2 and 4: {1/3} × {5/2} = {5/6}.', 'Check by size: {4/5} is bigger than {2/3}, so less than one piece fits. {5/6} is under 1. ✓']),
-    ex('Fraction divided by a whole number', ['Find {3/5} ÷ 6.', 'Write 6 as {6/1}. Its reciprocal is {1/6}.', '{3/5} × {1/6} = {3/30} = {1/10}.', 'Makes sense: splitting three-fifths into 6 equal parts gives small parts.']),
-    tbl(['Number', 'Reciprocal', 'Product'], [['5', F(1, 5), '1'], [F(3, 7), F(7, 3), '1'], [F(1, 2), '2', '1']], 'Reciprocals multiply to 1'),
-    warn('<b>Watch out.</b> Flip only the fraction you are dividing <i>by</i>, the second one. {3/4} ÷ {1/2} is {3/4} × {2/1}, not {4/3} × {1/2}. Also, 0 has no reciprocal, because you cannot divide by 0.'),
-    mcq('Leo says: "{3/4} ÷ {1/2} = {3/4} × {1/2} = {3/8}." Use common sense: how many halves fit in {3/4}?', ['{3/8} is right.', 'More than one half fits in {3/4}, so the answer must be bigger than 1. Leo did not flip the second fraction. The answer is {3/2}.', 'Dividing fractions is impossible.'], 1, 'Dividing by {1/2} should double the number: {3/4} × 2 = {3/2}.', 'Spot the mistake'),
+    rule(`<b>Dividing by a unit fraction.</b> Dividing by {1/n} multiplies by n. How many {1/n}s fit in 1 whole? Exactly n of them. So in 5 wholes there are 5 × n.`),
+    p(`What about a fraction like {2/3} as the divisor? Dividing by {2/3} has two steps in disguise. First, count the {1/3}s that fit: that is multiplying by 3. But each piece we want is <i>two</i> of those thirds wide, so we group them in pairs, which is dividing by 2. Multiply by 3, divide by 2: that is multiplying by {3/2}.`),
+    formula('Dividing by a fraction', `{a/b} ÷ {c/d} = {a/b} × {d/c}`, `Keep the first fraction, flip the second one, and multiply. The fraction you divide by cannot be 0, so c must not be 0.`),
+    key(`<b>Division is "how many fit?"</b> and the flip is a shortcut for counting. Multiplying a number by its reciprocal always gives 1, so dividing by a number undoes multiplying by it, and dividing by {c/d} is the same as multiplying by {d/c}.`),
+    ex('Dividing two fractions', [`Find {5/6} ÷ {10/9}.`, `Flip the second fraction and multiply: {5/6} × {9/10}.`, `Cancel 5 with 10 (giving 1 and 2) and 9 with 6 (giving 3 and 2): {1/2} × {3/2} = {3/4}.`, `Check by size: {10/9} is bigger than {5/6}, so less than one piece fits. {3/4} is under 1. ✓`]),
+    ex('Fraction divided by a whole number', [`Find {3/5} ÷ 6.`, `Write 6 as {6/1}. Its reciprocal is {1/6}.`, `{3/5} × {1/6} = {3/30} = {1/10}.`, `Makes sense: splitting three-fifths into 6 equal parts gives small parts.`]),
+    ex('Working backwards', [`A number divided by {3/4} equals 12. What is the number?`, `Division by {3/4} was undone by multiplying: the number is 12 × {3/4}.`, `12 × {3/4} = 9.`, `Check: 9 ÷ {3/4} = 9 × {4/3} = 12. ✓`]),
+    ex('A word problem', [`A recipe uses {3/4} cup of sugar per batch. How many batches can you make from 6 cups?`, `The question is how many {3/4}s fit in 6: 6 ÷ {3/4}.`, `6 × {4/3} = {24/3} = 8.`, `You can make 8 batches. Check: 8 × {3/4} = 6. ✓`]),
+    tbl(['Number', 'Reciprocal', 'Product'], [['5', '{1/5}', '1'], ['{3/7}', '{7/3}', '1'], ['{1/2}', '2', '1']], 'Reciprocals multiply to 1'),
+    tip(`<b>Estimate the size first.</b> Dividing by a number below 1 makes the answer bigger than the dividend. Dividing by a number above 1 makes it smaller. If you divide {3/4} by {1/2}, the answer must be bigger than {3/4}. This quick check catches the most common mistake, forgetting to flip.`),
+    warn(`<b>Watch out.</b> Flip only the fraction you are dividing <i>by</i>, the second one. {3/4} ÷ {1/2} is {3/4} × {2/1}, not {4/3} × {1/2}. Also, do not flip and then divide: after flipping, the operation becomes multiplication. And 0 has no reciprocal, because you cannot divide by 0.`),
+    mcq(`Leo says: "{3/4} ÷ {1/2} = {3/4} × {1/2} = {3/8}." Use common sense: how many halves fit in {3/4}?`, [`{3/8} is right.`, `More than one half fits in {3/4}, so the answer must be bigger than 1. Leo did not flip the second fraction. The answer is {3/2}.`, `Dividing fractions is impossible.`], 1, `Dividing by {1/2} should double the number: {3/4} × 2 = {3/2}.`, 'Spot the mistake'),
+    recap([['reciprocal', 'the flip of a fraction; the product of a number and its reciprocal is 1'], ['divisor', 'the number you divide by'], ['quotient', 'the result of a division'], ['dividing', 'asks how many of the divisor fit in the dividend']], [['Dividing by a fraction', '{a/b} ÷ {c/d} = {a/b} × {d/c}'], ['Dividing by a unit fraction', 'x ÷ {1/n} = x × n'], ['Reciprocal', '{c/d} × {d/c} = 1']]),
   ],
 
   practice: [

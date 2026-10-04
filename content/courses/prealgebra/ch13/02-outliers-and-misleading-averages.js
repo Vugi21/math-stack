@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const sum = (a) => a.reduce((x, y) => x + y, 0);
@@ -24,16 +24,23 @@ export default lesson({
   ],
 
   learn: [
-    p('An <b>outlier</b> is a value that sits far away from the rest of the data. A mansion on a street of ordinary houses, a 3-minute lap in a race of 60-second laps, a typo that gives 450 instead of 45: all outliers.'),
+    def('outlier', 'A value that sits far away from the rest of the data. A mansion on a street of ordinary houses, a 3-minute lap in a race of 60-second laps, a typo that gives 450 instead of 45: all outliers.'),
     widget('dataPlot', { data: [4, 5, 5, 6, 6, 7, 8], lo: 0, hi: 30, extra: 28, addable: true }),
     p('In the picture, add the extra value and slide it all the way to 28. The mean races toward it. The median hardly moves. That is the whole story of this lesson.'),
     rule('<b>The mean is pulled by outliers; the median is not.</b> The mean uses the size of every value. The median only cares about the order. So for lopsided data with an extreme value, the median is the better description of "typical".'),
     ex('Seeing the pull', ['Salaries (thousands): 30, 32, 35, 36, 37 and a boss at 250.', 'Mean: (30 + 32 + 35 + 36 + 37 + 250) ÷ 6 = 420 ÷ 6 = 70.', 'Median: the middle two of the sorted list are 35 and 36, so 35.5.', 'Nobody except the boss earns anything near 70. The mean is a "fair share" of the payroll, not a typical paycheck.']),
-    p('The mean is still the right tool when you really do want the fair share: splitting a bill, finding total cost, predicting the total of many items. The median is better to describe a typical individual in skewed data. The <b>mode</b> is best for "which one is most popular?", like which shoe size to stock.'),
+    ex('Adding one extreme value', ['Weekly savings: 20, 22, 25, 26, 27. The total is 120, so the mean is 24. The middle value is 25, so the median is 25.', 'Now a sixth person with 95 joins. The total is 215 and the mean is 215 ÷ 6, about 35.8.', 'The sorted list is 20, 22, 25, 26, 27, 95, so the median is (25 + 26) ÷ 2 = 25.5.', 'The mean jumped by almost 12. The median moved by half a unit.']),
+    formula('A change in one value', 'change in the mean = (change in the total) ÷ (number of values)', 'If one value in a list of n numbers rises by k, the total rises by k and the mean rises by k ÷ n. Example: in a list of 5 numbers, changing one value from 12 to 17 raises the mean by 5 ÷ 5 = 1.'),
+    p('The mean is still the right tool when you really do want the fair share: splitting a bill, finding total cost, predicting the total of many items. The median is better to describe a typical individual in skewed data. The <b>mode</b> is best for "which one is most popular?", like which shoe size to stock. The <b>range</b> is the most sensitive of all, because it is built from the two most extreme values.'),
     tbl(['Situation', 'Best choice', 'Why'], [['Typical house price with one mansion', 'Median', 'Ignores the extreme value'], ['Which shoe size to order most of', 'Mode', 'Most common size'], ['Share a pizza bill evenly', 'Mean', 'Fair share of the total'], ['How uneven are the temperatures', 'Range', 'Greatest minus least']], 'Choosing the right statistic'),
-    warn('<b>Watch out for "average".</b> In a news story "the average" could mean mean, median or mode, and whoever wrote it picked the one that supports their point. A company saying "average pay is 70 thousand" (mean) and a worker saying "typical pay is 35 thousand" (median) can both be telling the truth.'),
-    p('Another trap: you cannot average averages carelessly. If you drive 60 miles at 30 mph and then 60 miles back at 60 mph, your average speed is <i>not</i> 45 mph, because you spent more time driving slowly. Always go back to totals: total distance ÷ total time.'),
+    def('average', 'An everyday word that can mean the mean, the median, or the mode. In a news story you cannot tell which one, so ask.'),
+    p('<b>What to do with an outlier.</b> First find out why it is there. If it is a mistake (a typo, a quiz someone left half done), correct it or leave it out. If it is real (the boss really does earn 250), keep it, and report the median alongside the mean so readers see both the typical value and the effect of the extreme one.'),
+    p('<b>Averages of averages.</b> You cannot average averages carelessly. If you drive 60 miles at 30 mph and then 60 miles back at 60 mph, your average speed is <i>not</i> 45 mph, because you spent more time driving slowly. Always go back to totals: the first half takes 2 hours, the second 1 hour, so 120 miles ÷ 3 hours = 40 mph.'),
+    tip('<b>Compare mean and median.</b> If they are close, the data is fairly balanced. If the mean is far above the median, a few high values are pulling it up (and far below means low values pull it down). That gap is a quick signal that an outlier or a lopsided shape is present.'),
+    warn('<b>Watch out for "average".</b> A company saying "average pay is 70 thousand" (mean) and a worker saying "typical pay is 35 thousand" (median) can both be telling the truth. Whoever writes the story picks the statistic that supports their point.'),
+    key('Choose the statistic by the <b>question</b>: fair share (mean), typical individual (median), most popular (mode), spread (range). When an outlier is present, report the median too.'),
     mcq('A town reports: "The average income rose from 40 to 55 thousand, so everyone is richer." Which is the best reply?', ['It is true: if the mean rose, every person gained.', 'A single very rich newcomer could lift the mean while most people earn the same. We would need the median, or the data.', 'The mean can never go up.'], 1, 'Rises in the mean can come from an outlier. Everyone could be flat while one person earns a fortune. The median would reveal what a typical person earns.', 'Spot the mistake'),
+    recap([['outlier', 'a value far from the rest of the data'], ['mean', 'pulled toward outliers'], ['median', 'hardly affected by outliers'], ['average', 'may mean mean, median or mode; ask which']], [['Change in the mean', '(change in one value) ÷ n'], ['Average speed', 'total distance ÷ total time']]),
   ],
 
   practice: [

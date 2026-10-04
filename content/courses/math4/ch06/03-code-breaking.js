@@ -1,4 +1,4 @@
-import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const count = (all, cl) => all.filter((s) => cl.every((k) => k.f(s))).length;
 function minimal(all, pool, r) {
@@ -53,15 +53,21 @@ export default lesson({
 
   learn: [
     p('A <b>code</b> is a short string of digits. You cannot see it. You make a <b>guess</b>, and you get a clue about how well the guess matches. In this lesson the digits in a code are all different.'),
+    def('code', 'A hidden list of digits in a fixed order, such as 735. The order matters: 735 and 357 are different codes.'),
+    def('clue', 'The answer you get for a guess. It says how many digits are right and in the right place, and how many are right but in the wrong place.'),
     rule('<b>Two kinds of clue.</b> <i>Right and in the right place:</i> the digit is in the code and in the same spot. <i>Right but in the wrong place:</i> the digit is in the code, but in a different spot.'),
     ex('Reading a clue', ['The code is 735. Guess 758.', '7 is in the same spot in both: right place.', '5 is in the code, but it is third in the code and second in the guess: wrong place.', '8 is not in the code at all.', 'The clue says: one digit right and in the right place, and one digit right but in the wrong place.']),
     p('Keep track of each spot with a grid. Each row is a spot in the code. Each column is a digit. Put ✗ when a digit cannot go there. Put ✓ when it must.'),
     widget('logicGrid', { rows: ['1st digit', '2nd digit', '3rd digit'], cols: ['1', '2', '3', '4', '5', '6', '7', '8', '9'], partial: true }),
+    tip('A clue that says "no digit is right" is the most useful one. Cross those digits out of every spot at the start. Then the other clues have fewer digits to choose from.'),
     rule('<b>Test every clue.</b> A possible code must agree with all the clues at once. To check a candidate code, imitate the guesser: compare it with each guess and count. If one count is off, cross out the candidate.'),
+    ex('Solving a code', ['The code has 3 different digits from 1 to 9. Guess 123: no digit is right. Guess 456: one digit is right and in the right place. Guess 748: two digits are right and in the right place.', 'The digits 1, 2 and 3 are not in the code.', 'Suppose 4 is in the code. In guess 456 only one digit is right, so 4 would be that digit, and it would have to be in the first spot. But then in guess 748 the 4 is in the wrong place, and that guess shows no wrong-place digit. So 4 is not in the code.', 'In 748, two of the three digits are right and in place, and 4 is not one of them. So the code is 7 _ 8.', 'In 456, the 4 and the 6 are not in their places, since the code starts with 7 and ends with 8. So the right digit is 5, in the middle.', 'The code is 758. Check: 758 against 456 gives one right place (the 5). 758 against 748 gives two (7 and 8). 758 against 123 gives none.']),
     warn('<b>"Wrong place" is not "not in the code".</b> A digit that is right but in the wrong place is in the code. It just has to move to another spot.'),
     ex('Missing digits', ['Fill in the boxes: 2□ + □7 = 91.', 'Start with the ones place. □ + 7 must end in 1. So the first box is 4, and 4 + 7 = 11. Write 1, carry 1.', 'Now the tens place. 2 + □ + 1 (carried) must make 9. So 2 + 6 + 1 = 9, and the second box is 6.', 'Check: 24 + 67 = 91.']),
     rule('<b>Missing-digit sums.</b> Work from the right. Solve the ones place, remember what you carry, then do the tens place.'),
-    mcq('Ben says: "Guess 135: one digit is right and in the right place. So the code starts with 1." What is wrong?', ['Nothing is wrong.', 'The clue does not say which digit it is. It could be 1 in the first spot, 3 in the second, or 5 in the third.', 'The first digit of a code is always 1.'], 1, 'One of the three digits is right and in its own spot, but you do not know which one. You need other clues to decide.', 'Spot the mistake'),
+    key('Never guess blindly. Use each clue to cross out digits or spots, and test the survivors against every clue.'),
+    mcq('Ben says: "Guess 246: one digit is right and in the right place. So the code starts with 2." What is wrong?', ['Nothing is wrong.', 'The clue does not say which digit it is. It could be 2 in the first spot, 4 in the second, or 6 in the third.', 'The first digit of a code is always 1.'], 1, 'One of the three digits is right and in its own spot, but you do not know which one. You need other clues to decide.', 'Spot the mistake'),
+    recap([['code', 'a hidden list of digits in order'], ['right place', 'right digit, same spot'], ['wrong place', 'right digit, different spot'], ['candidate', 'a possible code you are testing']], [['Missing-digit sums', 'work from the right and carry']]),
   ],
 
   practice: [

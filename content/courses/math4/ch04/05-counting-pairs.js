@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (ans, list) => {
   const seen = new Set([ans]);
@@ -27,15 +27,21 @@ export default lesson({
 
   learn: [
     p('A <b>pair</b> is two things picked from a group. Here the order does not matter: the pair Ana and Ben is the same as Ben and Ana. A handshake is a pair of people.'),
+    def('pair', 'Two different things picked from a group, where the order does not matter.'),
+    def('ordered pair', 'Two things picked in a certain order. (Ana, Ben) and (Ben, Ana) are different ordered pairs. A president and a vice president form an ordered pair.'),
     tbl(['People', 'Handshakes'], [['2', '1'], ['3', '3'], ['4', '6'], ['5', '10'], ['6', '15']], 'Count them, one new person at a time'),
     p('Look at the pattern. Going from 3 people to 4 people adds 3 handshakes. The new person shakes hands with all 3 people already there. From 4 to 5 adds 4. From 5 to 6 adds 5.'),
     rule('<b>Adding people.</b> With n people there are 1 + 2 + 3 + … + (n − 1) handshakes. The last person to arrive shakes with the (n − 1) people before.'),
     p('Here is a faster way. Each of n people shakes hands with n − 1 others. That is n × (n − 1) counted this way. But every handshake was counted twice, once from each person.'),
-    widget('arrangements', { n: 6, k: 2, nlabel: 'people', klabel: 'people in the order' }),
-    rule('<b>Pairs from a group.</b> The number of pairs among n different things is <b>n × (n − 1) ÷ 2</b>. The product n × (n − 1) counts <i>ordered</i> pairs, where (Ana, Ben) and (Ben, Ana) differ. Divide by 2 for pairs.'),
-    ex('A tournament', ['8 teams, every team plays every other once.', 'Each team plays 7 games. 8 × 7 = 56 team-games.', 'Each game has 2 teams, so divide by 2.', '56 ÷ 2 = 28 games.', 'Check with adding: 7 + 6 + 5 + 4 + 3 + 2 + 1 = 28.']),
-    warn('<b>Watch out.</b> If order matters, do not divide. A class picks a president and a vice president from 6 students. Ana as president and Ben as VP is different from Ben as president and Ana as VP. That is 6 × 5 = 30, not 15.'),
-    mcq('Kai says: "9 teams each play each other once, so 9 × 8 = 72 games." What is wrong?', ['Nothing. 72 is right.', 'He counted every game twice, once from each team. The answer is 72 ÷ 2 = 36.', 'He should have used 9 + 8 = 17.'], 1, 'Each game has two teams. In 9 × 8, the game "team A plays team B" is counted from A and again from B. Divide by 2: 36 games.', 'Spot the mistake'),
+    widget('arrangements', { n: 9, k: 2, nlabel: 'people', klabel: 'people in the order' }),
+    formula('Pairs from a group', 'pairs = n × (n − 1) ÷ 2', 'The product n × (n − 1) counts <i>ordered</i> pairs, where (Ana, Ben) and (Ben, Ana) differ. Dividing by 2 gives pairs. With 9 people: 9 × 8 ÷ 2 = 36.'),
+    ex('A tournament', ['11 teams, every team plays every other once.', 'Each team plays 10 games. 11 × 10 = 110 team-games.', 'Each game has 2 teams, so divide by 2.', '110 ÷ 2 = 55 games.', 'Check with adding: 10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 55.']),
+    ex('Handshakes at a party', ['13 people at a party. Each person shakes hands with every other person once.', 'Each person shakes 12 hands. 13 × 12 = 156 counts every handshake twice.', '156 ÷ 2 = 78 handshakes.', 'Check with adding: 1 + 2 + 3 + … + 12 = 78.']),
+    key('Ask: does the order matter? If it does not (handshakes, games, segments), divide n × (n − 1) by 2. If it does (president and vice president), do not divide.'),
+    tip('Check a pair count by adding: the answer for n people is 1 + 2 + … + (n − 1). Doing both methods catches slips. For 14 people: 14 × 13 ÷ 2 = 91 and 1 + 2 + … + 13 = 91.'),
+    warn('<b>Watch out.</b> If order matters, do not divide. A class picks a president and a vice president from 7 students. Ana as president and Ben as VP is different from Ben as president and Ana as VP. That is 7 × 6 = 42, not 21.'),
+    mcq('Kai says: "15 teams each play each other once, so 15 × 14 = 210 games." What is wrong?', ['Nothing. 210 is right.', 'He counted every game twice, once from each team. The answer is 210 ÷ 2 = 105.', 'He should have used 15 + 14 = 29.'], 1, 'Each game has two teams. In 15 × 14, the game "team A plays team B" is counted from A and again from B. Divide by 2: 105 games.', 'Spot the mistake'),
+    recap([['pair', 'two things, order does not matter'], ['ordered pair', 'two things where order matters'], ['handshake problem', 'count pairs of people']], [['Pairs from n things', 'n × (n − 1) ÷ 2'], ['Ordered pairs from n things', 'n × (n − 1)']]),
   ],
 
   practice: [

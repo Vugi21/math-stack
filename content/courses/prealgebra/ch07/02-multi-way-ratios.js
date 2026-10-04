@@ -1,4 +1,4 @@
-import { lesson, num, ratio, mc, N, RT, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, ratio, mc, N, RT, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -26,14 +26,24 @@ export default lesson({
 
   learn: [
     p('A <b>three-way ratio</b> like <b>2 : 3 : 5</b> compares three amounts at once. Everything from the two-way case still works: multiply or divide all three parts by the same number to get an equivalent ratio, and add the parts to get the whole.'),
+    def('three-way ratio', 'A ratio a : b : c comparing three quantities. For every a of the first there are b of the second and c of the third. The whole is a + b + c parts.'),
+    def('share (part)', 'One equal slice of the total. In a ratio 2 : 3 : 7, the total is cut into 12 equal parts, and the three people get 2, 3 and 7 of them. The value of one part is total ÷ 12.'),
     widget('ratioTable', { a: 2, b: 3, k: 3 }),
     rule('<b>Sharing a total.</b> (1) Add the parts to find how many parts there are. (2) Divide the total by that number to get the value of one part. (3) Multiply by each person\'s number of parts. Check that the shares add back to the total.'),
-    ex('Splitting $84', ['Ana, Ben, and Cam share $84 in the ratio 2 : 3 : 7.', 'Parts: 2 + 3 + 7 = 12.', 'One part: 84 ÷ 12 = 7 dollars.', 'Shares: Ana 14, Ben 21, Cam 49. Check: 14 + 21 + 49 = 84. ✓']),
+    formula('Share of a total', 'share = total × {own parts/all parts}', 'For a ratio 3 : 4 : 9 the number of all parts is 16. With a total of 96, the person with 3 parts gets 96 × {3/16} = 18.'),
+    ex('Splitting $96', ['Ana, Ben, and Cam share $96 in the ratio 3 : 4 : 9.', 'Parts: 3 + 4 + 9 = 16.', 'One part: 96 ÷ 16 = 6 dollars.', 'Shares: Ana 18, Ben 24, Cam 54. Check: 18 + 24 + 54 = 96. ✓']),
+    ex('When one amount is known', ['Flour : sugar : butter = 2 : 3 : 5, and there are 18 cups of sugar. Find all three amounts and the total.', 'Sugar is 3 parts and equals 18 cups, so one part is 18 ÷ 3 = 6 cups.', 'Flour: 2 × 6 = 12. Sugar: 18. Butter: 5 × 6 = 30.', 'Total: 12 + 18 + 30 = 60 cups, which is 10 parts of 6. Check: 10 × 6 = 60. ✓']),
+    ex('When a difference is known', ['Two sisters split marbles in the ratio 5 : 3, and the older one gets 14 more than the younger.', 'The difference is 5 − 3 = 2 parts, and 2 parts equal 14 marbles.', 'One part is 7 marbles. The older sister has 5 × 7 = 35 and the younger has 3 × 7 = 21.', 'Check: 35 − 21 = 14. ✓']),
     rule('<b>Joining two ratios.</b> If a : b and b : c share the quantity b, rescale each ratio until the b-values match, then read off a : b : c. The matching value is a common multiple of the two b numbers; the least common multiple keeps the numbers small.'),
     ex('Matching the middle', ['Cats : dogs = 2 : 3 and dogs : birds = 6 : 5. Find cats : dogs : birds.', 'The dogs numbers are 3 and 6. Make both 6: multiply 2 : 3 by 2 to get 4 : 6.', 'Now cats : dogs = 4 : 6 and dogs : birds = 6 : 5.', 'Combined: 4 : 6 : 5.']),
-    tbl(['Ratio a : b : c', 'Total parts', 'b as a fraction of the whole'], [['1 : 2 : 3', '6', '{2/6} = {1/3}'], ['2 : 3 : 5', '10', '{3/10}'], ['4 : 6 : 5', '15', '{6/15} = {2/5}']], 'The whole is always the sum of the parts'),
+    ex('Matching with the least common multiple', ['a : b = 3 : 4 and b : c = 6 : 5. Find a : b : c.', 'The b numbers are 4 and 6. Their least common multiple is 12.', 'Multiply 3 : 4 by 3 to get 9 : 12. Multiply 6 : 5 by 2 to get 12 : 10.', 'So a : b : c = 9 : 12 : 10. No common factor divides all three, so this is in lowest terms.']),
+    tbl(['Ratio a : b : c', 'Total parts', 'b as a fraction of the whole'], [['1 : 3 : 4', '8', '{3/8}'], ['2 : 3 : 5', '10', '{3/10}'], ['4 : 6 : 5', '15', '{6/15} = {2/5}']], 'The whole is always the sum of the parts'),
     warn('<b>Watch out.</b> A three-way ratio does not shrink to a two-way one by ignoring a part. If a : b : c = 2 : 3 : 5, then a : b = 2 : 3 but a : c = 2 : 5. And when you join two ratios, the shared quantity must have the <i>same number</i> in both before you merge them.'),
-    mcq('Mia says: "Red : blue = 3 : 4 and blue : green = 2 : 5, so red : blue : green = 3 : 4 : 5." What is wrong?', ['Nothing, she lined them up correctly.', 'The blue numbers (4 and 2) are not equal. Rescale first: 3 : 4 becomes 6 : 8 and 2 : 5 becomes 8 : 20, giving 6 : 8 : 20.', 'You can never combine ratios.'], 1, 'Blue is 4 parts in one ratio and 2 parts in the other, so those "parts" are different sizes. Match them at 8, then combine: 6 : 8 : 20 = 3 : 4 : 10.', 'Spot the mistake'),
+    warn('<b>Watch out: do not divide by the wrong total.</b> In 2 : 3 : 5 the whole is 10 parts, not 5. Splitting 60 as 60 ÷ 5 = 12 per part gives shares that add up to 120, not 60. Always check that your shares add back to the total.'),
+    tip('<b>Reduce first, then check.</b> The ratio 4 : 6 : 10 is the same as 2 : 3 : 5, with smaller numbers and an easier sum. After finding the shares, add them: the sum should equal the total exactly. If it does not, a part count or a multiplication is wrong.'),
+    key('Every ratio problem has one hidden number: <b>the size of one part</b>. Find it by dividing a known amount (the total, one share, or a difference) by the number of parts it covers, then multiply for the other shares.'),
+    mcq('Mia says: "Red : blue = 2 : 3 and blue : green = 4 : 5, so red : blue : green = 2 : 3 : 5." What is wrong?', ['Nothing, she lined them up correctly.', 'The blue numbers (4 and 2) are not equal. Rescale first: 3 : 4 becomes 6 : 8 and 2 : 5 becomes 8 : 20, giving 6 : 8 : 20.', 'You can never combine ratios.'], 1, 'Blue is 4 parts in one ratio and 2 parts in the other, so those "parts" are different sizes. Match them at 8, then combine: 6 : 8 : 20 = 3 : 4 : 10.', 'Spot the mistake'),
+    recap([['three-way ratio', 'a : b : c; the whole is a + b + c parts'], ['one part', 'a known amount ÷ the number of parts it covers'], ['joining ratios', 'make the shared quantity equal in both, then merge']], [['Share of a total', 'total × {own parts/all parts}'], ['Common multiple', 'use the LCM of the shared numbers']]),
   ],
 
   practice: [

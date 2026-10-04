@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 export default lesson({
   id: 'pre-10-1-angles',
@@ -20,15 +20,24 @@ export default lesson({
   ],
 
   learn: [
-    p('An <b>angle</b> measures how much you turn. A full turn is <b>360°</b> (the degree sign ° says "degrees"). A half turn is 180°, which is a straight line. A quarter turn is 90°, the corner of a sheet of paper, called a <b>right angle</b>.'),
+    p('An <b>angle</b> measures how much you turn. Two rays that start at the same point form an angle, and the size of the angle tells how far one ray has turned away from the other. Angles describe corners, slopes, directions and the shapes of every polygon, so the facts in this lesson are used for the rest of geometry.'),
+    def('angle', 'The amount of turning between two rays that share an endpoint. The shared endpoint is the <b>vertex</b>, and the rays are the <b>arms</b>. We measure angles in <b>degrees</b>, written with the sign °.'),
+    def('degree', 'The unit of angle. One full turn is 360°, because the circle was divided into 360 equal parts long ago. A half turn is 180°, which is a straight line. A quarter turn is 90°, the corner of a sheet of paper, called a <b>right angle</b>.'),
     widget('angleExplorer', { a: 50 }),
     tbl(['Name', 'Size'], [['acute', 'less than 90°'], ['right', 'exactly 90°'], ['obtuse', 'more than 90° and less than 180°'], ['straight', 'exactly 180°'], ['reflex', 'more than 180° and less than 360°']], 'Naming angles by size'),
-    rule('<b>Complementary</b> angles add to 90°. <b>Supplementary</b> angles add to 180°. So the complement of 35° is 55°, and the supplement of 35° is 145°.'),
-    ex('Angles on a straight line', ['Three angles sit side by side on a straight line. Two of them are 40° and 75°.', 'The three together make a straight line: 180°.', 'Third angle = 180 − 40 − 75 = 65°.', 'Check: 40 + 75 + 65 = 180. Good.']),
+    def('complementary angles', 'Two angles whose sizes add to 90°. Each one is the <b>complement</b> of the other.'),
+    def('supplementary angles', 'Two angles whose sizes add to 180°. Each one is the <b>supplement</b> of the other.'),
+    formula('Complement and supplement', 'complement of a = 90° − a        supplement of a = 180° − a', 'The complement of 35° is 55°, and the supplement of 35° is 145°. The angles do not have to touch each other, only their sizes matter.'),
+    tip('<b>C comes before S</b> in the alphabet, just as 90 comes before 180. Complementary goes with 90°, supplementary with 180°.'),
+    ex('Angles on a straight line', ['Three angles sit side by side on a straight line. Two of them are 40° and 75°.', 'The three together make a straight line: 180°.', 'Third angle = 180 − 40 − 75 = 65°.', 'Check: 40 + 75 + 65 = 180.']),
+    key('Three totals cover most angle problems: <b>90°</b> in a right angle, <b>180°</b> on a straight line, and <b>360°</b> all the way around a point. When an angle is missing, decide which total applies and subtract the angles you know.'),
     rule('<b>Vertical angles.</b> When two straight lines cross, they make four angles. The two that sit opposite each other (vertical angles) are always equal. Neighbours add to 180°. Around the crossing point all four add to 360°.'),
     p('<b>Why are vertical angles equal?</b> Call the four angles a, b, a\' and b\' going around. Each neighbour pair sits on a straight line, so a + b = 180° and also b + a\' = 180°. The same b is in both, so a and a\' must be equal.'),
-    warn('<b>Watch out.</b> Complementary is 90°, supplementary is 180°. A handy memory: <b>C</b> comes before <b>S</b> in the alphabet, just as 90 comes before 180. And an angle cannot have a complement if it is 90° or more.'),
+    ex('Using algebra with angle facts', ['An angle is 30° bigger than its complement. How large is the angle?', 'Let the angle be a. Its complement is 90 − a. So a = (90 − a) + 30.', 'Then a = 120 − a, so 2a = 120 and a = 60.', 'Check: the complement is 30°, and 60 is 30 more than 30. Also 60 + 30 = 90.']),
+    ex('Two crossing lines', ['Two lines cross and one angle is 54°. Find the other three.', 'The opposite angle is also 54°.', 'The neighbours are 180 − 54 = 126°, and there are two of them.', 'Check: 54 + 54 + 126 + 126 = 360.']),
+    warn('<b>Watch out.</b> Do not mix up complementary (90°) and supplementary (180°). Also, an angle of 90° or more has no complement, since the complement would be zero or negative. And a 38° angle has a 142° partner on a straight line, not a 52° one.'),
     mcq('Ben says: "Two angles that add to 180° must be next to each other." Is he right?', ['Yes, supplementary angles always touch.', 'No. Two angles can be supplementary without touching, such as 110° and 70° in different places. Neighbours on a line are supplementary, but supplementary only describes the sum.', 'No, supplementary angles add to 90°.'], 1, 'Supplementary describes the sum 180°, not the position. The opposite is true: angles on a straight line are always supplementary.', 'Spot the mistake'),
+    recap([['angle', 'turning between two rays at a vertex'], ['right / straight / full turn', '90° / 180° / 360°'], ['complementary', 'two angles adding to 90°'], ['supplementary', 'two angles adding to 180°'], ['vertical angles', 'opposite angles at a crossing; equal']], [['Complement', '90° − a'], ['Supplement', '180° − a'], ['Angles around a point', '360°']]),
   ],
 
   practice: [

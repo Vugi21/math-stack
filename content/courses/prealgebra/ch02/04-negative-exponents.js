@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const pw = (b, e) => Math.pow(b, e);
 const W = (v, a, msg) => (String(v) === String(a) ? [] : [[v, msg]]);
@@ -28,13 +28,24 @@ export default lesson({
   learn: [
     p('We showed that b<sup>0</sup> = 1 by watching a pattern. The pattern does not have to stop at zero. Each step down in the exponent <b>divides</b> by the base, so the numbers keep shrinking: 1, then 1 divided by the base, then that divided again.'),
     widget('negExponent', { b: 3 }),
-    rule('<b>Negative exponents.</b> b<sup>−n</sup> = {1/b^[n]}. A negative exponent flips the power to the bottom of a fraction: 2<sup>−3</sup> = {1/2^[3]} = {1/8}.'),
+    def('negative exponent', 'For a base b that is not zero, b<sup>−n</sup> is the reciprocal of b<sup>n</sup>: b<sup>−n</sup> = {1/b^[n]}. A negative exponent flips the power to the bottom of a fraction: 2<sup>−3</sup> = {1/2^[3]} = {1/8}.'),
+    rule('<b>Negative exponents.</b> b<sup>−n</sup> = {1/b^[n]}. The exponent rules still work: 2<sup>5</sup> × 2<sup>−5</sup> = 2<sup>0</sup> = 1.'),
+    formula('Negative exponent', 'b<sup>−n</sup> = {1/b^[n]}', 'b is not 0. The answer is the reciprocal of b<sup>n</sup>, so it has the same sign as b<sup>n</sup>. The reverse also holds: {1/b^[−n]} = b<sup>n</sup>. For example {1/3^[−2]} = 3<sup>2</sup> = 9.'),
     ex('Why that is the only choice', ['Multiply: 2<sup>3</sup> × 2<sup>−3</sup>. Same base, so add exponents: 2<sup>3 + (−3)</sup> = 2<sup>0</sup> = 1.', 'So 2<sup>−3</sup> must be the number which times 8 makes 1.', 'That number is {1/8}, the <b>reciprocal</b> of 8. So 2<sup>−3</sup> = {1/8}.']),
     ex('Another look: counting down in tenths', ['10<sup>2</sup> = 100, 10<sup>1</sup> = 10, 10<sup>0</sup> = 1.', '10<sup>−1</sup> = {1/10} = 0.1, 10<sup>−2</sup> = {1/100} = 0.01, 10<sup>−3</sup> = 0.001.', 'The exponent tells you how many places you travel right of the decimal point to find the 1.']),
     tbl(['Power', 'Meaning', 'Value'], [['5<sup>2</sup>', '5 × 5', '25'], ['5<sup>1</sup>', '5', '5'], ['5<sup>0</sup>', 'empty product', '1'], ['5<sup>−1</sup>', '1 ÷ 5', '{1/5}'], ['5<sup>−2</sup>', '1 ÷ (5 × 5)', '{1/25}']], 'Walking down the powers of 5'),
+    ex('Products with negative exponents', ['Find 5<sup>−2</sup> × 5<sup>2</sup>.', 'Same base, so add the exponents: −2 + 2 = 0.', '5<sup>0</sup> = 1.', 'Check: {1/25} × 25 = 1.']),
+    ex('Solving for an exponent', ['What n makes 3<sup>n</sup> = {1/81}?', '3<sup>4</sup> = 81, so {1/81} = {1/3^[4]}.', 'A negative exponent flips: {1/3^[4]} = 3<sup>−4</sup>.', 'So n = −4.']),
+    def('reciprocal (review)', 'The reciprocal of a number x is the number that multiplies with x to give 1. The reciprocal of 8 is {1/8}. A negative exponent produces exactly this number.'),
     p('<b>Flipping works both ways.</b> Because b<sup>−n</sup> is the reciprocal of b<sup>n</sup>, the exponent on a fraction flips it: ({2/3})<sup>−1</sup> = {3/2}, and ({2/3})<sup>−2</sup> = ({3/2})<sup>2</sup> = {9/4}.'),
-    warn('<b>Watch out.</b> A negative exponent does <i>not</i> make the answer negative. 3<sup>−2</sup> is {1/9}, a small positive number. The minus sign in the exponent means "go down the pattern / take the reciprocal", not "make it negative".'),
+    formula('Negative exponent on a fraction', '({a/b})<sup>−n</sup> = ({b/a})<sup>n</sup>', 'a and b are not 0. Flip the fraction, then use the positive exponent.'),
+    ex('Halving backwards in time', ['A medicine halves in amount every day. Today exactly 1 gram is left. How much was there 3 days ago?', 'Going back one day doubles the amount: 2, 4, 8.', 'So there were 8 grams.', 'In the other direction, 3 days from now the amount is multiplied by {1/2} three times: 1 × {1/8} = {1/8} gram. That is why halving three times is written with the exponent −3 on the 2: 2<sup>−3</sup> = {1/8}.']),
+    key('A negative exponent is not a negative number. It is a <b>reciprocal</b>: b<sup>−n</sup> = 1 ÷ b<sup>n</sup>. All the exponent rules (adding when multiplying, subtracting when dividing) keep working.'),
+    tip('Rewrite first, then compute. To evaluate 4<sup>−2</sup>, write {1/4^[2]} = {1/16}. To compare powers like 2<sup>−1</sup> and 3<sup>−1</sup>, convert to fractions: {1/2} is bigger than {1/3}. Bigger bases give smaller results when the exponent is negative.'),
+    tip('Sanity check with size. If the exponent is negative and the base is bigger than 1, the answer must be a small positive fraction, below 1. If your answer is negative or bigger than 1, you have misread the sign.'),
+    warn('<b>Watch out.</b> A negative exponent does <i>not</i> make the answer negative. 3<sup>−2</sup> is {1/9}, a small positive number. The minus sign in the exponent means "go down the pattern / take the reciprocal", not "make it negative". Also 0 cannot have a negative exponent, since 0 has no reciprocal.'),
     mcq('Maya says "2<sup>−3</sup> = −8." What is the real value, and what did she do?', ['She is right.', '{1/8}. She treated the negative exponent as making the number negative; it actually flips 2<sup>3</sup> into a fraction.', '−6, because 2 × (−3) = −6.'], 1, 'Negative exponent = reciprocal: 2<sup>−3</sup> = 1 ÷ 2<sup>3</sup> = {1/8}. It is positive and tiny.', 'Spot the mistake'),
+    recap([['negative exponent', 'the reciprocal of the matching positive power'], ['reciprocal', 'the number that multiplies with b to give 1']], [['Negative exponent', 'b<sup>−n</sup> = {1/b^[n]}'], ['Fraction flip', '({a/b})<sup>−n</sup> = ({b/a})<sup>n</sup>']]),
   ],
 
   practice: [

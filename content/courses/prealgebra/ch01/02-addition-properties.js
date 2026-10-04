@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 // keep only wrong answers that really differ from the right one (and from each other)
@@ -24,17 +24,26 @@ export default lesson({
   ],
 
   learn: [
-    p('Adding is the most basic thing you do with numbers, and it has some rules that feel too obvious to mention. They are worth naming because they let you <i>rearrange</i> a sum however you like, and a good rearrangement can turn a nasty problem into an easy one.'),
-    rule('<b>Commutative property.</b> You can swap the order of two numbers in a sum: a + b = b + a. Walking 3 steps then 5 steps takes you to the same place as 5 then 3.'),
+    p('Adding is the most basic thing you do with numbers, and it has a few rules that feel too obvious to mention. They are worth naming because they let you <i>rearrange</i> a sum however you like, and a good rearrangement can turn a nasty calculation into an easy one. A <b>sum</b> is the result of adding. The numbers being added are called <b>addends</b> or <b>terms</b>.'),
+    def('commutative property', 'Order does not matter when you add: a + b = b + a. The word comes from "commute", which means to swap places. Walking 3 steps right and then 5 steps left ends at the same spot as walking 5 steps left and then 3 steps right.'),
     widget('numberLineWalk', { a: 3, b: -5 }),
-    p('Play with the sliders above. Try start = 3, add = −5, then swap them to start = −5, add = 3. The arrows are different but the endpoint is the same.'),
-    rule('<b>Associative property.</b> When you add three or more numbers, it does not matter which two you add first: (a + b) + c = a + (b + c). That is why we can write 4 + 9 + 6 with no brackets at all.'),
+    p('Use the controls above. Try start = 3 and add = −5, then swap them: start = −5 and add = 3. The arrows are different, but the endpoint is the same.'),
+    def('associative property', 'Grouping does not matter when you add three or more numbers: (a + b) + c = a + (b + c). Brackets mean "do this first", and for a sum it never matters which pair you add first. That is why we can write 4 + 9 + 6 with no brackets at all.'),
     ex('Making tens', ['Find 18 + 47 + 2 + 3.', 'Do not go left to right. Hunt for pairs that make a round number.', '18 + 2 = 20 and 47 + 3 = 50.', 'Regroup: (18 + 2) + (47 + 3) = 20 + 50 = 70.']),
-    rule('<b>Identity and inverse.</b> Adding 0 changes nothing: a + 0 = a. Every number has an opposite that cancels it: a + (−a) = 0. So 0 is called the <b>additive identity</b>, and −a is the <b>additive inverse</b> of a.'),
-    ex('Cancelling with negatives', ['Find −46 + 18 + 46.', 'Swap the order so the opposites sit together: −46 + 46 + 18.', 'Those two cancel to 0, leaving 0 + 18 = 18.', 'No arithmetic on 46 was needed at all.']),
+    def('additive identity', 'The number 0. Adding it changes nothing: a + 0 = a. An identity is a number that leaves every other number exactly as it was.'),
+    def('additive inverse', 'The number you add to a to get back to the identity 0. For a it is −a, the opposite of a. So a + (−a) = 0. The additive inverse of 15 is −15, and the additive inverse of −7 is 7.'),
+    rule('<b>Identity and inverse.</b> Adding 0 changes nothing: a + 0 = a. Every number has an opposite that cancels it: a + (−a) = 0.'),
+    key('Commutative and associative together mean that a sum can be <b>reordered and regrouped freely</b>. The skill is to look before you add: find opposites that cancel, and pairs that make 10, 100 or 1000.'),
+    ex('Cancelling with negatives', ['Find −58 + 27 + 58.', 'Swap the order so the opposites sit together: −58 + 58 + 27.', 'Those two cancel to 0, leaving 0 + 27 = 27.', 'No arithmetic on 58 was needed at all.']),
+    ex('Pairing from both ends', ['Find 1 + 2 + 3 + … + 20.', 'Pair the first number with the last, the second with the second to last, and so on: 1 + 20, 2 + 19, 3 + 18, …, 10 + 11.', 'Every pair makes 21, and twenty numbers make 10 pairs.', 'The sum is 10 × 21 = 210.']),
+    formula('Sum of 1 to n', 'n × (n + 1) ÷ 2', 'n is the last number in the list. There are n numbers, and each pair of ends adds to n + 1. For n = 100 this gives 100 × 101 ÷ 2 = 5050. It also works when n is odd.'),
+    ex('Alternating signs', ['Find −1 + 2 + (−3) + 4 + … + (−59) + 60.', 'Group neighbours: (−1 + 2) = 1, (−3 + 4) = 1, and so on up to (−59 + 60) = 1.', 'There are 60 numbers, so 30 groups, and every group equals 1.', 'The total is 30.']),
     tbl(['Property', 'In symbols', 'Example'], [['Commutative', 'a + b = b + a', '9 + 4 = 4 + 9'], ['Associative', '(a + b) + c = a + (b + c)', '(7 + 5) + 5 = 7 + (5 + 5)'], ['Identity', 'a + 0 = a', '−12 + 0 = −12'], ['Inverse', 'a + (−a) = 0', '15 + (−15) = 0']], 'The four addition properties'),
-    warn('<b>Watch out.</b> These freedoms belong to <i>addition</i>. Subtraction does not get them: 10 − 3 is not 3 − 10, and (10 − 4) − 3 is not 10 − (4 − 3). The next lessons show how to turn subtraction into addition so the freedom comes back.'),
+    tip('Before adding a long list, scan it for three things: <b>opposites</b> (like −46 and 46), <b>pairs that make a round number</b> (like 38 and 62), and <b>runs that repeat a pattern</b> (like +1, −1, +1, −1). Mark them, combine them first, and add what is left.'),
+    tip('To check a rearranged sum, add the numbers in a different order. If the two totals match, you probably did not drop a number. If they differ, one of the regroupings lost or changed a term.'),
+    warn('<b>Watch out.</b> These freedoms belong to <i>addition</i>. Subtraction does not get them: 10 − 3 is not 3 − 10, and (10 − 4) − 3 is not 10 − (4 − 3). The next lessons show how to turn subtraction into addition so the freedom comes back. Also remember that an additive inverse is not always negative: the inverse of −7 is +7.'),
     mcq('Priya says: "Addition is commutative, so 12 − 5 = 5 − 12." What went wrong?', ['Nothing, the rule works for any operation.', 'The commutative property is about addition only. 12 − 5 is 7 but 5 − 12 is −7.', 'She should have used the associative property instead.'], 1, 'Swapping the order is allowed in a sum, not in a difference. 12 − 5 = 7 while 5 − 12 = −7, which are opposites, not equal.', 'Spot the mistake'),
+    recap([['commutative', 'swapping the order of a sum changes nothing'], ['associative', 'regrouping a sum changes nothing'], ['additive identity', '0, since a + 0 = a'], ['additive inverse', '−a, since a + (−a) = 0']], [['Commutative', 'a + b = b + a'], ['Associative', '(a + b) + c = a + (b + c)'], ['Inverse', 'a + (−a) = 0'], ['Sum of 1 to n', 'n × (n + 1) ÷ 2']]),
   ],
 
   practice: [

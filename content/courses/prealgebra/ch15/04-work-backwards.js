@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => String(x[0]) !== String(ans));
 
@@ -22,15 +22,23 @@ export default lesson({
   ],
 
   learn: [
-    p('Sometimes you know the <i>ending</i> of a story and need to find the <i>beginning</i>. If you try to guess the start and test forward, you waste time. The better idea: start at the end and walk the story <b>backwards</b>.'),
+    p('Sometimes you know the <i>ending</i> of a story and need to find the <i>beginning</i>. If you guess the start and test forward, you waste time. The better idea: start at the end and walk the story <b>backwards</b>.'),
+    def('inverse operation', 'The operation that undoes another one. Subtracting 5 undoes adding 5. Dividing by 4 undoes multiplying by 4. Doing an operation and then its inverse returns you to where you started.'),
     rule('<b>Working backwards.</b> (1) List the steps in order. (2) Start from the final result. (3) Undo the <b>last</b> step first, then the one before it, and so on, using the opposite (inverse) operation each time. (4) Check by running the story forwards.'),
     tbl(['Forward step', 'Undo it by'], [['add 5', 'subtract 5'], ['subtract 5', 'add 5'], ['multiply by 4', 'divide by 4'], ['divide by 4', 'multiply by 4'], ['take away half', 'double what is left'], ['spend {1/3} of it', 'what remains is {2/3}: multiply by {3/2}']], 'Inverse operations'),
-    ex('A number machine', ['A machine does: add 8, multiply by 5, subtract 12. Out comes 53. What went in?', 'Undo subtract 12: 53 + 12 = 65.', 'Undo multiply by 5: 65 ÷ 5 = 13.', 'Undo add 8: 13 − 8 = 5.', 'Check: 5 + 8 = 13, 13 × 5 = 65, 65 − 12 = 53. ✓']),
-    ex('Half plus one', ['A bakery sells half its loaves plus 1 each morning. After three mornings it has 0 left. How many at the start?', 'End: 0. On day 3, after selling, 0 were left. Before day 3: if half plus 1 is everything, the stock was 2.', 'Before day 2: it sold half plus 1 and had 2 left, so half minus 1 is 2, so half is 3, so the stock was 6.', 'Before day 1: half minus 1 is 6, so half is 7, so the stock was 14.']),
+    p('The order of undoing matters. Think of putting on socks and then shoes: to undo, you take off the shoes first, then the socks. A story with steps A, then B, then C is undone by undoing C, then B, then A.'),
+    ex('A number machine', ['A machine does: add 6, multiply by 4, subtract 10. Out comes 38. What went in?', 'Undo subtract 10: 38 + 10 = 48.', 'Undo multiply by 4: 48 ÷ 4 = 12.', 'Undo add 6: 12 − 6 = 6.', 'Check: 6 + 6 = 12, 12 × 4 = 48, 48 − 10 = 38. ✓']),
+    ex('Money story', ['Ana spends {1/3} of her money on a book, then $6 on lunch, and has $10 left. How much did she start with?', 'Undo lunch: 10 + 6 = 16. That is what she had after the book.', 'After spending {1/3} she kept {2/3}, so {2/3} of the start is 16. One third is 8.', 'The start was 3 × 8 = 24. Check: {1/3} of 24 is 8, leaving 16; minus 6 leaves 10.']),
+    ex('Half plus one', ['A bakery sells half its loaves plus 1 each morning. After three mornings it has 0 left. How many at the start?', 'Each morning, if there are S loaves, the bakery keeps S ÷ 2 − 1. Undo that: add 1, then double.', 'End: 0. Before day 3: (0 + 1) × 2 = 2.', 'Before day 2: (2 + 1) × 2 = 6. Before day 1: (6 + 1) × 2 = 14.', 'Check forwards: 14 → sells 8, keeps 6 → sells 4, keeps 2 → sells 2, keeps 0. ✓']),
+    tip('Write the forward steps as a chain with arrows, then write the undo steps underneath in reverse. Doing this on paper prevents the most common slip, undoing in the wrong order.'),
+    def('winning and losing position', 'In a turn-taking game, a <b>losing position</b> is one in which the player about to move loses if the other player plays perfectly. A <b>winning position</b> is one from which the player to move can force a win.'),
     p('<b>Games.</b> Working backwards also wins games. Suppose two players take turns removing 1, 2 or 3 stones from a pile, and whoever takes the last stone wins. Work back from the end: if it is your turn with 1, 2 or 3 stones, you win. With 4 stones, whatever you take (1, 2, 3) leaves 3, 2 or 1 for your opponent, who wins. So 4 is a <i>losing</i> position. With 5, 6 or 7 you take 1, 2 or 3 to leave 4. With 8, whatever you take leaves 5, 6, 7: losing again. <b>The losing piles are 4, 8, 12, ...: the multiples of 4.</b>'),
     ex('Winning the game', ['A pile has 30 stones and you go first. Aim to leave a multiple of 4.', '30 ÷ 4 leaves remainder 2, so take 2 and leave 28.', 'Whatever your opponent takes (1, 2, or 3), you take enough to make the pair add to 4, and leave 24, 20, ..., 4, 0.']),
+    key('Working backwards turns an unknown start into a chain of simple undoing steps. In a game, it finds the positions you must leave your opponent in.'),
     warn('<b>Undo in reverse order, and watch for squares.</b> If the story says "square it, then add 5", you must subtract 5 <i>first</i>, then take a square root. Also remember that a square root might give a positive or negative answer: check the problem for hints like "positive number".'),
+    warn('<b>Do not apply the same operation backwards.</b> If the forward step is "multiply by 3", the backward step is "divide by 3", not "multiply by 3 again". Always write the inverse down, then check by running the story forward.'),
     mcq('Ben: "I think of a number, multiply by 3 and add 4. I get 25. So I do 25 × 3 = 75, then 75 − 4 = 71." What is wrong?', ['Nothing, 71 is right.', 'He multiplied by 3 when he should have undone the multiplication by dividing by 3, and he should undo "add 4" first: (25 − 4) ÷ 3 = 7.', 'He should have added 4 and then divided by 3.'], 1, 'To undo "multiply by 3, then add 4": first subtract 4 (21), then divide by 3 (7). Check: 7 × 3 + 4 = 25.', 'Spot the mistake'),
+    recap([['inverse operation', 'the operation that undoes another'], ['working backwards', 'start at the result and undo the last step first'], ['losing position', 'the player to move loses against perfect play']], [['Undo order', 'reverse the order of the steps'], ['Stone game (take 1 to 3)', 'leave a multiple of 4']]),
   ],
 
   practice: [

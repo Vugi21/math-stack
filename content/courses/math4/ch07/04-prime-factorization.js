@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fac = (n) => { const f = {}; let m = n; for (let q = 2; m > 1; q++) while (m % q === 0) { f[q] = (f[q] || 0) + 1; m /= q; } return f; };
 const sup = (e) => (e > 1 ? '^[' + e + ']' : '');
@@ -27,17 +27,24 @@ export default lesson({
   ],
 
   learn: [
-    p('Every number bigger than 1 can be built by multiplying primes. This is its <b>prime factorization</b>.'),
-    p('A <b>factor tree</b> finds it. Split the number into two factors. Split any factor that is not prime. Stop when every branch ends in a prime.'),
+    p('Every number bigger than 1 is either a prime or a product of primes. Primes are like the atoms of multiplication: they cannot be broken down any further, and everything else is built from them. Writing a number as a product of primes is a powerful tool for finding factors.'),
+    def('prime factorization', 'A number written as a product of <b>primes only</b>. For example, 12 = 2 × 2 × 3.'),
+    def('factor tree', 'A picture that finds the prime factorization. Split the number into two factors. Split any factor that is not prime. Stop when every branch ends in a prime.'),
     ex('Factor tree for 180', ['180 = 18 × 10.', '18 = 2 × 9 and 10 = 2 × 5. Now 9 = 3 × 3.', 'The primes at the ends: 2, 3, 3, 2, 5.', 'Write them in order: 180 = 2 × 2 × 3 × 3 × 5.']),
     widget('factorTree', { n: 180 }),
+    def('exponent', 'A small raised number that tells how many times a number appears in a product. 2 × 2 × 2 = 2³, because 2 appears three times.'),
     rule('<b>Exponents.</b> When a prime repeats we count it with a small raised number. 2 × 2 × 3 × 3 × 5 = 2² × 3² × 5. The raised number is the <b>exponent</b>. It tells how many times the prime appears.'),
+    tip('Divide by the smallest primes first: 2, then 3, then 5. Keep dividing by the same prime while it still goes in. At the end, multiply all the primes back together to check that you get the original number.'),
     rule('<b>One answer only.</b> No matter how you split the tree, you get the same primes at the end. 180 can start as 18 × 10 or 4 × 45 or 6 × 30. It always ends as 2² × 3² × 5. This is called unique factorization.'),
     ex('Count the factors of 180', ['180 = 2² × 3² × 5.', 'A factor uses 0, 1, or 2 twos: 3 choices.', 'It uses 0, 1, or 2 threes: 3 choices.', 'It uses 0 or 1 fives: 2 choices.', 'Total: 3 × 3 × 2 = 18 factors.']),
+    formula('Number of factors', '(a + 1) × (b + 1) × (c + 1) …', 'Here a, b, c are the exponents in the prime factorization. 72 = 2³ × 3², so it has (3 + 1) × (2 + 1) = 4 × 3 = 12 factors.'),
     rule('<b>Counting factors.</b> Add 1 to each exponent. Multiply the results. For 2² × 3² × 5 that is 3 × 3 × 2 = 18.'),
-    rule('<b>Squares.</b> A number is a square when every exponent is even. 36 = 2² × 3² is a square. 72 = 2³ × 3² is not, because of the 3 in 2³.'),
+    rule('<b>Squares.</b> A number is a square when every exponent is even. 36 = 2² × 3² is a square. 72 = 2³ × 3² is not, because the exponent 3 in 2³ is odd.'),
+    ex('Make 12 a square', ['12 = 2 × 2 × 3 = 2² × 3.', 'The exponent of 2 is even, but the exponent of 3 is 1, which is odd.', 'Multiply by one more 3: 12 × 3 = 36 = 2² × 3² = 6 × 6.']),
+    key('Prime factorization is <b>unique</b>, and the exponents tell you everything: how many factors a number has, and whether it is a square.'),
     warn('<b>Watch out.</b> A factor tree must end in primes only. 2 × 6 × 5 is not a prime factorization of 60, because 6 can still be split.'),
     mcq('Pia says: "The prime factorization of 24 is 2 × 3 × 4." What is wrong?', ['Nothing, 2 × 3 × 4 = 24.', '4 is not prime. It splits into 2 × 2, so the answer is 2 × 2 × 2 × 3 = 2³ × 3.', 'The factorization should use only odd numbers.'], 1, 'The product is right, but a prime factorization may only use primes. 4 = 2 × 2.', 'Spot the mistake'),
+    recap([['prime factorization', 'a number written as a product of primes'], ['factor tree', 'splitting until every branch is prime'], ['exponent', 'how many times a prime appears'], ['unique', 'every number has only one prime factorization']], [['Counting factors', '(a + 1)(b + 1)… from the exponents'], ['Square number', 'every exponent is even']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, R, mul, div, fmt, fmMixed } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, R, mul, div, fmt, fmMixed, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -32,13 +32,19 @@ export default lesson({
     rule('<b>A whole number divided by a unit fraction.</b> N ÷ {1/d} = N × d. Each whole holds d pieces, so N wholes hold N × d pieces.'),
     p('Now go the other way. What is {1/2} ÷ 3? Share half a pizza between 3 people. Cut the half in 3 equal parts. Each part is {1/6} of the pizza.'),
     rule('<b>A unit fraction divided by a whole number.</b> {1/d} ÷ N = {1/(d × N)}. Sharing a piece among N people makes the pieces N times smaller, so the bottom gets N times bigger.'),
+    def('quotient', 'The answer to a division. In 6 ÷ {1/4} = 24, the quotient is 24.'),
     p('Look for a pattern in this table of 6 ÷ (a fraction).'),
     tbl(['Division', 'How many fit', 'Same as'], [['6 ÷ {1/3}', '18', '6 × 3'], ['6 ÷ {2/3}', '9', '6 × {3/2}'], ['6 ÷ {3/4}', '8', '6 × {4/3}'], ['6 ÷ {2/5}', '15', '6 × {5/2}']], 'Dividing by a fraction'),
     p('Why is 6 ÷ {2/3} = 9? A piece of {2/3} is twice as big as a piece of {1/3}. Twice as big means half as many fit. Half of 18 is 9. So 6 ÷ {2/3} = 6 × 3 ÷ 2 = 6 × {3/2}.'),
-    rule('<b>The pattern.</b> To divide by {a/b}, multiply by {b/a}. The fraction {b/a} is called the <b>reciprocal</b> of {a/b}. You get it by flipping the fraction upside down.'),
-    ex('Fractions that fit into fractions', ['Find {3/4} ÷ {1/8}.', 'How many eighths fit in three quarters? Three quarters is {6/8}.', 'Six eighths hold 6 pieces of {1/8}. So the answer is 6.', 'The rule agrees: {3/4} × {8/1} = {24/4} = 6.']),
+    def('reciprocal', 'The reciprocal of {a/b} is {b/a}. You get it by flipping the fraction upside down. A fraction times its reciprocal is 1. For example {2/3} × {3/2} = 1.'),
+    formula('Dividing by a fraction', '{a/b} ÷ {c/d} = {a/b} × {d/c}', 'Keep the first fraction. Change ÷ to ×. Flip the second fraction, the one you divide by. A whole number is a fraction with bottom 1.'),
+    key('Dividing by a fraction asks how many of that piece fit. Dividing by {1/4} is the same as multiplying by 4, because 4 quarters fit in each whole.'),
+    ex('Fractions that fit into fractions', ['Find {2/3} ÷ {1/12}.', 'How many twelfths fit in two thirds? Two thirds is {8/12}.', 'Eight twelfths hold 8 pieces of {1/12}. So the answer is 8.', 'The rule agrees: {2/3} × {12/1} = {24/3} = 8.']),
+    ex('Dividing a whole number by a fraction', ['Find 9 ÷ {3/4}.', 'Flip {3/4} to get {4/3}. Now multiply: 9 × {4/3} = {36/3}.', '{36/3} = 12.', 'Check: 12 pieces of {3/4} make 12 × {3/4} = 9.']),
+    tip('Check a division by multiplying back. If 9 ÷ {3/4} = 12, then 12 × {3/4} must be 9. It is. Also remember: dividing by a number less than 1 gives an answer bigger than what you started with.'),
     warn('<b>Watch out.</b> Dividing does not always make things smaller. 6 ÷ {1/2} = 12, which is bigger than 6. And the flip applies only to the fraction you divide <i>by</i>, never to the first number.'),
     mcq('Ben says: "{1/2} ÷ 4 = 2, because 4 halves make 2." What is wrong?', ['Nothing, he is right.', 'He found 4 × {1/2}. But {1/2} ÷ 4 means to share half among 4, and each part is {1/8}.', 'The answer is {1/4}.'], 1, 'Cut half a pizza into 4 equal parts. Eight such parts make a whole pizza, so each is {1/8}. Check: 4 × {1/8} = {1/2}.', 'Spot the mistake'),
+    recap([['reciprocal', 'a fraction flipped upside down: {2/3} and {3/2}'], ['dividing by a fraction', 'asks how many of that piece fit'], ['unit fraction ÷ whole', 'the bottom is multiplied: {1/2} ÷ 3 = {1/6}']], [['Dividing by a fraction', '{a/b} ÷ {c/d} = {a/b} × {d/c}'], ['Whole ÷ unit fraction', 'N ÷ {1/d} = N × d']]),
   ],
 
   practice: [

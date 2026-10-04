@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 import { dec } from '../../../../src/widgets/decimals.js';
 
@@ -27,15 +27,20 @@ export default lesson({
   learn: [
     p('To add or subtract decimals, the digits must have the same place value. Tenths with tenths, hundredths with hundredths. The way to do that is to <b>line up the decimal points</b>.'),
     rule('<b>Line up the points.</b> Write the numbers in a column with the decimal points exactly above one another. Fill empty places with zeros if it helps. Then add or subtract as with whole numbers, working from the right.'),
+    def('regroup', 'To trade between places. Ten hundredths make one tenth. Ten tenths make one whole. We regroup when we carry in addition or borrow in subtraction.'),
+    def('sum and difference', 'The <b>sum</b> is the answer to an addition. The <b>difference</b> is the answer to a subtraction.'),
     widget('decimalGrid', { a: 35, b: 48 }),
-    p('The grid shows 0.35 + 0.48. That is 35 hundredths plus 48 hundredths. Together there are 83 hundredths: 0.83. Now try 0.75 + 0.48. That is 123 hundredths. Ten hundredths make one tenth and ten tenths make one whole, so we <b>regroup</b>: 123 hundredths is 1.23.'),
-    ex('Adding with regrouping', ['Find 4.7 + 2.85.', 'Write 4.7 as 4.70 so both have two places.', 'Hundredths: 0 + 5 = 5. Tenths: 7 + 8 = 15 tenths. Write 5 and carry 1 whole.', 'Ones: 4 + 2 + 1 = 7.', 'Answer: 7.55.']),
-    ex('Subtracting from a whole number', ['Find 5 − 2.37.', 'Write 5 as 5.00.', 'Think: 5.00 is 500 hundredths. 237 hundredths taken away leaves 263 hundredths.', 'Answer: 2.63. Check: 2.63 + 2.37 = 5.00.']),
+    p('The grid shows 0.35 + 0.48. That is 35 hundredths plus 48 hundredths. Together there are 83 hundredths: 0.83. Now try 0.75 + 0.48. That is 123 hundredths. Ten hundredths make one tenth and ten tenths make one whole, so we regroup: 123 hundredths is 1.23.'),
+    key('Adding decimals is adding like units. 3 tenths + 4 tenths = 7 tenths, just as 3 apples + 4 apples = 7 apples. That is why the places must match.'),
+    ex('Adding with regrouping', ['Find 5.6 + 3.75.', 'Write 5.6 as 5.60 so both have two places.', 'Hundredths: 0 + 5 = 5. Tenths: 6 + 7 = 13 tenths. Write 3 in the tenths place and carry 1 to the ones.', 'Ones: 5 + 3 + 1 = 9.', 'Answer: 9.35.']),
+    ex('Subtracting from a whole number', ['Find 6 − 2.48.', 'Write 6 as 6.00.', 'Think: 6.00 is 600 hundredths. 248 hundredths taken away leaves 352 hundredths.', 'Answer: 3.52. Check: 3.52 + 2.48 = 6.00.']),
     rule('<b>Check by the opposite operation.</b> After subtracting, add the answer to the number you took away. You should get back to the start.'),
-    p('<b>Money</b> uses two decimal places. $20 − $13.75 means 2000 cents − 1375 cents = 625 cents = $6.25. Change from a purchase is a subtraction.'),
+    p('<b>Money</b> uses two decimal places. $10 − $6.85 means 1000 cents − 685 cents = 315 cents = $3.15. Change from a purchase is a subtraction.'),
     tbl(['Problem', 'In hundredths', 'Answer'], [['0.6 + 0.07', '60 + 7', '0.67'], ['1.5 − 0.25', '150 − 25', '1.25'], ['3 − 0.01', '300 − 1', '2.99']], 'Changing to hundredths'),
+    tip('If you are unsure, change everything to the smallest place and work with whole numbers. 1.5 − 0.25 is 150 hundredths − 25 hundredths = 125 hundredths = 1.25. Then estimate: 1.5 − 0.25 is a bit more than 1, so 1.25 makes sense.'),
     warn('<b>Watch out.</b> Do not line up the digits on the right. 3.4 + 2.25 is not 34 + 225. The 4 is in the tenths place and must be above the 2 in the tenths place of 2.25. Right answer: 5.65.'),
     mcq('Ava says: "3.4 + 2.25 = 2.59, because 34 + 225 = 259." What is wrong?', ['Nothing, she is right.', 'She lined up the digits on the right instead of the decimal points. 3.40 + 2.25 = 5.65.', 'She should have subtracted.'], 1, 'The 3.4 should be 3.40. Then 340 + 225 = 565 hundredths, which is 5.65. A sum of two numbers can never be smaller than either one.', 'Spot the mistake'),
+    recap([['line up the points', 'same places go in the same column'], ['regroup', 'trade 10 of a small place for 1 of the next place'], ['check', 'add back after subtracting']], [['Tenths and hundredths', '10 hundredths = 1 tenth'], ['Money', '$1 = 100 cents']]),
   ],
 
   practice: [

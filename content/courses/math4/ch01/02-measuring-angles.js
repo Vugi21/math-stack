@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const clockAngle = (h, m) => { const d = Math.abs(30 * (h % 12) + m / 2 - 6 * m); return Math.min(d, 360 - d); };
 const t2 = (h, m) => h + ':' + String(m).padStart(2, '0');
@@ -23,16 +23,28 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>protractor</b> measures angles. It is a half circle with a scale from 0 to 180. Put the vertex at the center. Put one ray along the 0 line. Read where the other ray crosses the scale.'),
+    p('You already know that an angle is two rays that start at one vertex, and that we measure turning in degrees. This lesson is about <b>measuring</b> angles carefully and about adding and subtracting them to find angles you cannot measure directly.'),
+    def('protractor', 'A tool for measuring angles. It is a half circle with a scale from 0 to 180 degrees. Many protractors have <b>two</b> scales that run in opposite directions.'),
+    p('To measure an angle, put the center mark of the protractor on the vertex. Turn the protractor so that one ray lies along the 0 line. Then read where the other ray crosses the scale.'),
     widget('angleMeasure', { from: 0, to: 70 }),
+    warn('<b>Watch out.</b> Use the scale that starts at 0 on your ray. If the ray points to the right, read the scale that starts at 0 on the right. If you pick the wrong scale you will read the supplement of the angle, for example 110° instead of 70°.'),
+    tip('<b>Estimate first.</b> Before you read the scale, ask: is the angle smaller or bigger than a square corner (90°)? If it looks smaller, your reading must be less than 90. This catches a wrong-scale mistake at once.'),
     rule('<b>Rays not on zero.</b> If neither ray sits on 0, read both marks on the same scale. The angle is the bigger reading minus the smaller reading. Rays at 30 and 110 make an angle of 110 − 30 = 80°.'),
-    warn('<b>Watch out.</b> A protractor has two scales. Always use the scale that starts at 0 on your ray. A quick check: an angle that looks smaller than a square corner must be less than 90.'),
-    rule('<b>Angles add.</b> Angles that share a vertex and do not overlap add up. All around one point they make 360°. On one side of a straight line they make 180°. Two angles that make 90° together are <b>complementary</b>.'),
-    ex('A missing angle', ['Four angles surround a point. Three are 100°, 80° and 120°. Find the fourth.', 'The four angles make a full turn: 360°.', '100 + 80 + 120 = 300.', '360 − 300 = 60°.']),
+    key('Angles that share a vertex and do not overlap can be <b>added</b>. A big angle can be split into smaller angles, and its measure is the sum of the parts.'),
+    def('complementary angles', 'Two angles that add up to <b>90°</b>. Each one is called the complement of the other. A 30° angle and a 60° angle are complementary.'),
+    def('supplementary angles', 'Two angles that add up to <b>180°</b>. Two angles side by side on a straight line are supplementary. A 110° angle and a 70° angle are supplementary.'),
+    rule('<b>Angle totals.</b> All the angles around one point make 360°, a full turn. All the angles on one side of a straight line make 180°. All the angles inside a right angle make 90°.'),
+    formula('Missing angle', 'missing angle = total − the angles you know', 'The total is 360° around a point, 180° on a straight line, and 90° inside a right angle.'),
+    ex('A missing angle around a point', ['Four angles surround a point. Three are 100°, 80° and 120°. Find the fourth.', 'The four angles make a full turn: 360°.', '100 + 80 + 120 = 300.', '360 − 300 = 60°.']),
+    ex('A missing angle on a straight line', ['Three angles sit side by side on a straight line. Two of them are 50° and 85°. Find the third.', 'The three angles make 180° together.', '50 + 85 = 135.', '180 − 135 = 45°.']),
     p('A clock is a full circle with 12 numbers. From one number to the next is 360 ÷ 12 = 30°. The minute hand turns 360° in 60 minutes. That is 6° each minute. The hour hand turns 30° in 60 minutes. That is 0.5° each minute.'),
     tbl(['Hand', 'Turns in 1 hour', 'Turns in 1 minute'], [['minute hand', '360°', '6°'], ['hour hand', '30°', '0.5°']], 'The two hands'),
+    formula('Clock hands', 'minute hand = 6° × minutes     hour hand = 30° × hours + 0.5° × minutes', 'Both hands are measured as a turn clockwise from the 12. Use hours from 0 to 11, so 12:00 counts as 0 hours.'),
     ex('The angle at 2:30', ['The minute hand points at 6. That is 6 × 30 = 180° from 12.', 'The hour hand left 2 at 2:00. It has moved 30 minutes, which is 15°. It is at 2 × 30 + 15 = 75°.', 'The angle between the hands is 180 − 75 = 105°.']),
-    mcq('Mia says: "At 3:30 the hour hand points exactly at 3 and the minute hand at 6, so the angle is 3 × 30 = 90°." What is wrong?', ['Nothing, 90° is right.', 'By 3:30 the hour hand has moved halfway toward the 4, so the angle is only 75°.', 'The angle is 180° because the minute hand points straight down.'], 1, 'The hour hand never sits still. At 3:30 it is halfway between 3 and 4: 105°. The minute hand is at 180°. The angle is 180 − 105 = 75°.', 'Spot the mistake'),
+    ex('The angle at 10:10, smaller angle', ['Minute hand: 10 × 6 = 60°.', 'Hour hand: 10 × 30 + 5 = 305°. (10 minutes is 5° of hour-hand turn.)', 'The difference is 305 − 60 = 245°. That is more than a half turn.', 'The smaller angle is the other way around: 360 − 245 = 115°.']),
+    tip('<b>The smaller angle.</b> Two hands make two angles that together fill 360°. If your difference is more than 180°, subtract it from 360 to get the smaller one.'),
+    mcq('Mia says: "At 5:30 the hour hand points exactly at 5 and the minute hand at 6, so the angle is 30°." What is wrong?', ['Nothing, 30° is right.', 'By 5:30 the hour hand has moved halfway toward the 6, so the angle is only 15°.', 'The angle is 180° because the minute hand points straight down.'], 1, 'The hour hand never sits still. At 5:30 it is halfway between 5 and 6: 165°. The minute hand is at 180°. The angle is 180 − 165 = 15°.', 'Spot the mistake'),
+    recap([['protractor', 'half-circle tool, scale 0 to 180'], ['complementary', 'two angles that add to 90°'], ['supplementary', 'two angles that add to 180°'], ['angle totals', '360° around a point, 180° on a line, 90° in a right angle']], [['Two readings', 'bigger reading − smaller reading'], ['Missing angle', 'total − known angles'], ['Minute hand', '6° each minute'], ['Hour hand', '0.5° each minute']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 import { dec } from '../../../../src/widgets/decimals.js';
 
@@ -26,16 +26,22 @@ export default lesson({
   ],
 
   learn: [
-    p('Our number system uses <b>place value</b>. Each place is worth 10 times the place on its right. Going left, a place gets 10 times bigger. Going right, it gets 10 times smaller.'),
-    p('The <b>decimal point</b> separates whole numbers from parts of a whole. Right after the point is the tenths place. Tenths come from cutting 1 into 10 equal parts.'),
+    p('Our number system uses <b>place value</b>. Each place is worth 10 times the place on its right. Going left, a place gets 10 times bigger. Going right, it gets 10 times smaller. This does not stop at the ones place. It keeps going into parts smaller than 1.'),
+    def('decimal point', 'The dot that separates whole numbers from parts of a whole. The ones place is on its left. The tenths place is right after it.'),
+    def('decimal', 'A number written with a decimal point, like 4.372. The digits after the point show parts smaller than 1.'),
+    p('Tenths come from cutting 1 into 10 equal parts. One tenth is 0.1. Cut a tenth into 10 equal parts and you get hundredths. Cut a hundredth into 10 parts and you get thousandths.'),
     tbl(['Place', 'Value', 'As a fraction'], [['tens', '10', '—'], ['ones', '1', '—'], ['tenths', '0.1', '{1/10}'], ['hundredths', '0.01', '{1/100}'], ['thousandths', '0.001', '{1/1000}']], 'Places around the decimal point'),
     rule('<b>Reading digits.</b> The digits to the right of the point name tenths, then hundredths, then thousandths. So 4.372 has 4 ones, 3 tenths, 7 hundredths and 2 thousandths.'),
     widget('decimalGrid', { a: 30, b: 4 }),
     p('The big square is 1 whole. It has 100 small squares, each worth 0.01. A full column of 10 squares is 0.1. Shade 3 columns and 4 more squares. That is 0.3 + 0.04 = 0.34.'),
-    rule('<b>Decimals are fractions.</b> The number of digits after the point tells the bottom of the fraction. One digit means tenths. Two digits means hundredths. Three digits means thousandths. 0.37 = {37/100}. 0.205 = {205/1000}.'),
-    ex('Expanded form', ['Write 5.304 in expanded form.', 'The 5 is in the ones place: 5.', 'The 3 is in the tenths place: 0.3, which is {3/10}.', 'The 0 is in the hundredths place: nothing.', 'The 4 is in the thousandths place: 0.004.', 'So 5.304 = 5 + 0.3 + 0.004. The zero keeps the 4 in the thousandths place.']),
+    key('<b>Decimals are fractions.</b> The number of digits after the point tells the bottom of the fraction. One digit means tenths. Two digits means hundredths. Three digits means thousandths. 0.37 = {37/100}. 0.205 = {205/1000}.'),
+    def('expanded form', 'A number written as the sum of its places. 6.207 = 6 + 0.2 + 0.007.'),
+    ex('Expanded form', ['Write 6.207 in expanded form.', 'The 6 is in the ones place: 6.', 'The 2 is in the tenths place: 0.2, which is {2/10}.', 'The 0 is in the hundredths place: nothing.', 'The 7 is in the thousandths place: 0.007.', 'So 6.207 = 6 + 0.2 + 0.007. The zero keeps the 7 in the thousandths place.']),
+    ex('From pieces to a decimal', ['A square has 100 small squares. 6 full columns and 7 extra small squares are shaded. What decimal is that?', '6 columns are 6 tenths: 0.6.', '7 small squares are 7 hundredths: 0.07.', '0.6 + 0.07 = 0.67, which is {67/100}.']),
+    tip('To check the size of a digit, say its place out loud. In 8.062, the 6 is "6 hundredths" because it is two places after the point. A digit is worth its place, not just its face.'),
     warn('<b>Watch out.</b> 0.5 and 0.05 are different. 0.5 is five tenths. 0.05 is five hundredths, which is ten times smaller. A zero right after the point pushes the digits one place to the right.'),
     mcq('Maya writes thirty-five thousandths as 0.35. What is wrong?', ['Nothing, she is right.', '0.35 is thirty-five hundredths. Thirty-five thousandths needs three digits after the point: 0.035.', 'She should write 0.350.'], 1, '0.035 = {35/1000}. Thousandths need three places, so a zero goes in the tenths place. 0.35 and 0.350 are the same number, and it is thirty-five hundredths.', 'Spot the mistake'),
+    recap([['decimal point', 'separates whole numbers from parts'], ['tenths', 'one of 10 equal parts of 1: 0.1'], ['hundredths', 'one of 100 equal parts of 1: 0.01'], ['thousandths', 'one of 1000 equal parts of 1: 0.001'], ['expanded form', 'a number written as a sum of its places']], [['Place pattern', 'each place is 10 times the place on its right'], ['Decimal as fraction', '0.37 = {37/100}']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, R, mul, div, fmt } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, R, mul, div, fmt, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -26,18 +26,22 @@ export default lesson({
   ],
 
   learn: [
-    p('Remember: "of" means multiply. Half <b>of</b> a third is {1/2} × {1/3}. Taking a part of a part gives something smaller than either.'),
+    p('Remember: "of" means multiply. Half <b>of</b> a third is {1/2} × {1/3}. Taking a part of a part gives something smaller than either one.'),
     widget('fractionProduct', { a: 2, b: 3, c: 3, d: 4 }),
-    p('This is an <b>area model</b>. The big square is 1 whole. One fraction cuts it into columns. The other cuts it into rows. Where the shaded columns and shaded rows cross is the answer.'),
-    p('Count the small cells in the crossing. Then count all the cells in the square. The bottom number of the answer is the number of cells in the whole square.'),
-    rule('<b>Multiply fractions.</b> Multiply the tops. Multiply the bottoms. {a/b} × {c/d} = {(a × c)/(b × d)}. The top counts cells in the overlap. The bottom counts all the cells.'),
+    p('This is an <b>area model</b>. The big square is 1 whole. One fraction cuts it into columns. The other fraction cuts it into rows. Where the shaded columns and shaded rows cross is the answer.'),
+    def('area model', 'A picture of a product. A square stands for 1 whole. Columns show one fraction and rows show the other. The overlap of the shaded parts is the product.'),
+    p('Count the small cells in the overlap. Then count all the cells in the square. The bottom of the answer is the number of cells in the whole square. The top is the number of cells in the overlap.'),
+    formula('Multiplying fractions', '{a/b} × {c/d} = {(a × c)/(b × d)}', 'Multiply the tops to get the top of the answer. Multiply the bottoms to get the bottom of the answer.'),
     ex('Multiplying straight across', ['Find {3/4} × {2/5}.', 'Tops: 3 × 2 = 6. Bottoms: 4 × 5 = 20.', 'That is {6/20}. Both numbers divide by 2.', '{3/4} × {2/5} = {3/10}.']),
-    rule('<b>Cancel first.</b> If a top and a bottom share a factor, divide both by it before you multiply. This works even when the top and the bottom come from different fractions. The numbers stay small.'),
-    ex('Cancelling first', ['Find {8/15} × {5/12}.', '8 on top and 12 on bottom both divide by 4. They become 2 and 3.', '5 on top and 15 on bottom both divide by 5. They become 1 and 3.', 'Now multiply: {2/3} × {1/3} = {2/9}.']),
-    p('A whole number is a fraction with bottom 1. So 6 × {2/9} = {6/1} × {2/9} = {12/9} = {4/3}.'),
+    def('simplest form', 'A fraction is in simplest form when the top and bottom have no common factor except 1. {3/10} is in simplest form. {6/20} is not.'),
+    rule('<b>Cancel first.</b> If a top and a bottom share a factor, divide both by it before you multiply. This works even when the top and the bottom come from different fractions. The numbers stay small, and the answer comes out in simplest form.'),
+    ex('Cancelling first', ['Find {8/15} × {5/12}.', '8 on top and 12 on the bottom both divide by 4. They become 2 and 3.', '5 on top and 15 on the bottom both divide by 5. They become 1 and 3.', 'Now multiply: {2/3} × {1/3} = {2/9}.']),
+    key('A whole number is a fraction with bottom 1. So 6 × {2/9} = {6/1} × {2/9} = {12/9} = {4/3}. Any whole number can join the multiplication this way.'),
     tbl(['Multiply by', 'What happens', 'Example'], [['a fraction below 1', 'the result is smaller', F(3, 4) + ' × 20 = 15'], ['exactly 1', 'the result is the same', F(5, 5) + ' × 20 = 20'], ['a fraction above 1', 'the result is bigger', F(5, 4) + ' × 20 = 25']], 'Multiplying does not always make things bigger'),
+    tip('Estimate before you start. {3/4} × {2/5} is about three quarters of something less than a half. So the answer must be smaller than {2/5}. And {3/10} is.'),
     warn('<b>Watch out.</b> To multiply you do <i>not</i> need a common bottom number. That is only for adding. And you may only cancel across a multiplication, never across a plus sign.'),
     mcq('Maya says: "{1/2} × {1/3} must be bigger than {1/3}, because multiplying makes numbers bigger." What is wrong?', ['Nothing. She is right.', 'Multiplying by {1/2} means taking half of {1/3}. Half of something is less than the something. The answer is {1/6}.', 'You cannot multiply two fractions.'], 1, 'Half of a third is a sixth, and {1/6} is less than {1/3}. Multiplying by a number below 1 makes the result smaller.', 'Spot the mistake'),
+    recap([['area model', 'a square showing a product as an overlap'], ['simplest form', 'top and bottom share no factor except 1'], ['cancel', 'divide a top and a bottom by the same number before multiplying'], ['whole number as fraction', '6 = {6/1}']], [['Multiply fractions', '{a/b} × {c/d} = {(a × c)/(b × d)}']]),
   ],
 
   practice: [

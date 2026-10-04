@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const DIV360 = [3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72, 90, 120];
 const ord = (n) => ({ 3: 'triangle', 4: 'quadrilateral', 5: 'pentagon', 6: 'hexagon', 8: 'octagon', 10: 'decagon', 12: 'dodecagon' }[n] || n + '-sided polygon');
@@ -23,16 +23,24 @@ export default lesson({
   ],
 
   learn: [
-    p('<b>Triangle angle sum.</b> In any triangle, the three angles add to <b>180°</b>. Here is why. Draw a line through the top corner parallel to the base. The two alternate-interior angles at the sides match the two base angles, and together with the top angle they fill a straight line: 180°.'),
+    p('A <b>polygon</b> is a closed flat shape made of straight sides. Triangles, rectangles and hexagons are polygons. In this lesson you find out how the angles inside a polygon always add up to a fixed total, and you use that total to find missing angles.'),
+    def('interior angle', 'An angle inside a polygon at one of its corners.'),
+    def('regular polygon', 'A polygon with all sides equal and all angles equal. A square and a stop-sign octagon are regular. A rectangle that is not a square is not regular.'),
+    rule('<b>Triangle angle sum.</b> In any triangle, the three angles add to <b>180°</b>. Here is why. Draw a line through the top corner parallel to the base. The two alternate-interior angles at the sides match the two base angles, and together with the top angle they fill a straight line: 180°.'),
     widget('polygonAngles', { n: 5 }),
-    rule('<b>Polygon angle sum.</b> A polygon with n sides can be cut into <b>(n − 2)</b> triangles by drawing all diagonals from one corner. So its angles add up to <b>(n − 2) × 180°</b>.'),
+    formula('Polygon angle sum', 'sum = (n − 2) × 180°', 'n is the number of sides. Draw all diagonals from one corner: this cuts the polygon into n − 2 triangles, and each triangle contributes 180°.'),
     tbl(['Sides', 'Name', 'Triangles', 'Angle sum'], [['3', 'triangle', '1', '180°'], ['4', 'quadrilateral', '2', '360°'], ['5', 'pentagon', '3', '540°'], ['6', 'hexagon', '4', '720°'], ['8', 'octagon', '6', '1080°']], 'Each extra side adds one more triangle, so 180° more'),
-    ex('Each angle of a regular hexagon', ['A regular polygon has all sides equal and all angles equal.', 'A hexagon has 6 sides: (6 − 2) × 180 = 720° in total.', 'Six equal angles: 720 ÷ 6 = 120° each.', 'Sanity check: 120° is bigger than a right angle, which fits the wide-open corners of a honeycomb cell.']),
-    rule('<b>Exterior angles.</b> Walk around a polygon. At each corner you turn by the exterior angle, and after the full trip you have turned exactly one full circle. So the exterior angles add to <b>360°</b> for any polygon, and each exterior angle of a regular n-gon is 360 ÷ n. The interior angle and its exterior angle add to 180°.'),
-    ex('A faster way to find sides', ['Each interior angle of a regular polygon is 156°. How many sides?', 'The exterior angle is 180 − 156 = 24°.', 'The number of sides is 360 ÷ 24 = 15.', 'Check: (15 − 2) × 180 ÷ 15 = 156. Yes.']),
-    p('<b>Counting diagonals.</b> A diagonal joins two corners that are not neighbours. Each corner connects to n − 3 others (not itself and not its two neighbours). That gives n(n − 3) endpoint-pairs, but every diagonal was counted from both ends, so divide by 2: <b>n(n − 3) ÷ 2</b> diagonals.'),
-    warn('<b>Watch out.</b> The angle sum is (n − 2) × 180°, not n × 180°. A triangle has n = 3: 1 × 180, not 3 × 180. And the exterior angles always add to 360° no matter how many sides there are. Do not confuse the angle sum with the size of one angle.'),
+    ex('A missing angle', ['Four angles of a pentagon are 95°, 105°, 130° and 100°. Find the fifth.', 'A pentagon has (5 − 2) × 180 = 540° in total.', 'The four known angles add to 95 + 105 + 130 + 100 = 430.', 'Fifth angle: 540 − 430 = 110°.']),
+    ex('Each angle of a regular hexagon', ['A hexagon has 6 sides: (6 − 2) × 180 = 720° in total.', 'All six angles are equal: 720 ÷ 6 = 120° each.', 'Check: 6 × 120 = 720.']),
+    def('exterior angle', 'The angle you turn through at a corner as you walk around a polygon. It sits outside the corner on a straight line with the interior angle, so interior + exterior = 180°.'),
+    rule('<b>Exterior angles.</b> Walk once around a polygon. At each corner you turn by the exterior angle, and by the end you have turned exactly one full circle. So the exterior angles of any polygon add to <b>360°</b> (taking one at each corner). Each exterior angle of a regular n-gon is 360° ÷ n.'),
+    tip('<b>For a regular polygon, exterior angles are quicker.</b> Exterior = 360 ÷ n, and interior = 180 − exterior. For n = 8: exterior 45°, interior 135°. Going the other way, n = 360 ÷ exterior. No need for the big angle sum.'),
+    key('Two totals to remember: the interior angles of an n-sided polygon add to <b>(n − 2) × 180°</b>, and the exterior angles (one per corner) always add to <b>360°</b>. Use the first for sums of interior angles and the second to link one angle of a regular polygon to its number of sides.'),
+    ex('Finding the number of sides', ['Each interior angle of a regular polygon is 156°. How many sides?', 'The exterior angle is 180 − 156 = 24°.', 'The number of sides is 360 ÷ 24 = 15.', 'Check: (15 − 2) × 180 ÷ 15 = 2340 ÷ 15 = 156.']),
+    p('<b>Counting diagonals.</b> A diagonal joins two corners that are not neighbours. Each corner connects to n − 3 others (not itself and not its two neighbours). That gives n(n − 3) ends, but every diagonal was counted from both of its ends, so divide by 2: <b>n(n − 3) ÷ 2</b> diagonals. A hexagon has 6 × 3 ÷ 2 = 9.'),
+    warn('<b>Watch out.</b> The angle sum is (n − 2) × 180°, not n × 180°. A triangle has n = 3: 1 × 180, not 3 × 180. And do not confuse the <i>total</i> of the angles with the size of <i>one</i> angle: divide by n only when the polygon is regular. The exterior angles always total 360° whatever n is.'),
     mcq('Chloe says: "A pentagon can be cut into 5 triangles, so its angles add to 5 × 180 = 900°." What goes wrong?', ['Nothing, 5 sides means 5 triangles.', 'Triangles all coming from the middle count the 360° around the centre point too. From one corner a pentagon gives only 3 triangles: 3 × 180 = 540°.', 'A pentagon has 6 triangles.'], 1, 'Cutting from a centre point gives 5 triangles, but the 360° around the middle is not an angle of the pentagon. 5 × 180 − 360 = 540. Same as 3 × 180.', 'Spot the mistake'),
+    recap([['interior angle', 'angle inside a corner of a polygon'], ['exterior angle', 'turning angle at a corner; interior + exterior = 180°'], ['regular polygon', 'equal sides and equal angles']], [['Triangle', 'angles add to 180°'], ['Polygon angle sum', '(n − 2) × 180°'], ['Regular exterior angle', '360° ÷ n'], ['Diagonals', 'n(n − 3) ÷ 2']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const keep = (list, ans) => list.filter((x) => String(x[0]) !== String(ans));
@@ -23,16 +23,22 @@ export default lesson({
   ],
 
   learn: [
-    p('Some quantities go below zero. A freezer can be 10 degrees below zero. A diver can be 5 meters below sea level. A person can owe $20.'),
-    p('We write these with a minus sign: −10, −5, −20. They are <b>negative numbers</b>. Numbers above zero are <b>positive</b>. Zero is neither.'),
-    p('The <b>integers</b> are the whole numbers and their negatives: …, −3, −2, −1, 0, 1, 2, 3, …'),
+    p('Some quantities go below zero. A freezer can be 10 degrees below zero. A diver can be 5 meters below sea level. A person can owe $20. We need numbers for these situations, and the number line gives us a way to picture them.'),
+    def('negative number', 'A number less than zero. We write it with a minus sign: −10, −5, −20. It sits to the <b>left</b> of 0 on the number line.'),
+    def('positive number', 'A number greater than zero. It sits to the <b>right</b> of 0. Zero itself is neither positive nor negative.'),
+    def('integer', 'A whole number or its negative. The integers are …, −3, −2, −1, 0, 1, 2, 3, … Fractions such as {1/2} are not integers.'),
     widget('numberLineWalk', { a: 2, b: -5 }),
     p('On a number line, positive numbers go to the right of 0 and negative numbers to the left. The widget shows a start and a move. The dot lands where you end up.'),
+    def('opposites', 'Two numbers that are the same distance from 0 on different sides. 6 and −6 are opposites. The opposite of 0 is 0.'),
     rule('<b>Opposites.</b> Two numbers are opposites if they are the same distance from 0 on different sides. 6 and −6 are opposites. The opposite of 0 is 0.'),
+    key('A minus sign in front of a number tells you <b>which side of zero</b> it is on. The number itself tells you how many steps from zero.'),
     ex('Reading a thermometer', ['The temperature is −3. It falls 4 degrees.', 'Falling means moving down, to the left on the line.', '−3, then −4, −5, −6, −7. Four steps down.', 'The new temperature is −7.']),
     tbl(['Situation', 'Number'], [['10 degrees below zero', '−10'], ['Floor 3 below the ground floor', '−3'], ['A debt of $20', '−20'], ['15 meters above sea level', '15']], 'Everyday negatives'),
+    ex('Writing situations as integers', ['A submarine is 40 meters below the surface. Write it as −40.', 'A hiker is 40 meters above the starting point. Write it as 40.', 'The opposite of −40 is 40. The opposite of 17 is −17.']),
+    tip('Words give the sign. <b>Below, owe, lose, fall, down</b> point to negative. <b>Above, earn, gain, rise, up</b> point to positive. A thermometer turned on its side is the number line.'),
     warn('<b>Watch out.</b> −7 is not "bigger" than −2 just because 7 is bigger than 2. A bigger number in front of the minus sign means a longer way to the left. We compare numbers in the next lesson.'),
     mcq('Zed says: "The opposite of −5 is −5, because opposites of negative numbers stay negative." What is wrong?', ['Nothing. He is right.', 'The opposite of −5 is 5. It is the same distance from 0, on the other side.', 'The opposite of −5 is 0.'], 1, '−5 is 5 steps left of 0. Its opposite is 5 steps right of 0, which is 5.', 'Spot the mistake'),
+    recap([['negative', 'less than 0; left of 0'], ['positive', 'greater than 0; right of 0'], ['integer', 'whole numbers and their negatives'], ['opposites', 'same distance from 0, other side']], [['Opposite of a', '−a'], ['Opposite of 0', '0']]),
   ],
 
   practice: [

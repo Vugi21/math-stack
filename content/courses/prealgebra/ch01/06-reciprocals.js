@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a));
@@ -31,17 +31,25 @@ export default lesson({
 
   learn: [
     p('Addition has opposites: a number plus its opposite is 0. Multiplication has something similar, but the target is 1 instead of 0. For almost every number there is a partner that multiplies with it to make exactly 1.'),
-    rule('<b>Reciprocal.</b> The reciprocal of a number a is the number that makes a × (reciprocal) = 1. It is written {1/a}. For a fraction, flip it: the reciprocal of {3/5} is {5/3}, because {3/5} × {5/3} = {15/15} = 1.'),
+    def('reciprocal', 'The reciprocal of a number a is the number that makes a × (reciprocal) = 1. It is written {1/a}. Another name for it is the <b>multiplicative inverse</b>, because it plays the same role for multiplication that the opposite plays for addition.'),
+    formula('Reciprocal of a fraction', '{a/b} and {b/a}', 'Flip the fraction: the reciprocal of {3/5} is {5/3}, because {3/5} × {5/3} = {15/15} = 1. Here a and b are not 0. A whole number n is the fraction {n/1}, so its reciprocal is {1/n}.'),
     widget('fractionDivide', { a: 1, b: 1, c: 3, d: 4 }),
     p('The picture asks: how many pieces of size {3/4} fit into 1? The answer, {4/3}, is exactly the reciprocal of {3/4}. Move the sliders and see the pattern: the reciprocal tells you how many of a piece fit into 1.'),
-    ex('Finding reciprocals', ['The reciprocal of 7 is {1/7}, since 7 = {7/1} and we flip it.', 'The reciprocal of {2/9} is {9/2}.', 'The reciprocal of 0.5 = {1/2} is 2.']),
+    ex('Finding reciprocals', ['The reciprocal of 7 is {1/7}, since 7 = {7/1} and we flip it.', 'The reciprocal of {2/9} is {9/2}.', 'The reciprocal of 0.5 = {1/2} is 2, and the reciprocal of 0.25 = {1/4} is 4.', 'Check each one by multiplying: the product must be 1.']),
+    def('unit fraction', 'A fraction with 1 on top, such as {1/2}, {1/7} or {1/100}. The reciprocal of a whole number n is the unit fraction {1/n}, and the reciprocal of a unit fraction is a whole number.'),
     rule('<b>Signs stay.</b> A number and its reciprocal have the same sign. The reciprocal of −4 is −{1/4}, because (−4) × (−{1/4}) = 1. A negative times a positive would give a negative, never 1.'),
-    rule('<b>Two special facts.</b> 0 has no reciprocal, since 0 times anything is 0 and can never be 1. And 1 and −1 are their own reciprocals. Taking the reciprocal twice always returns you to the start.'),
-    ex('Cancelling with reciprocals', ['Find {3/7} × {5/9} × {7/3}.', 'Swap the order so a pair of reciprocals meet: {3/7} × {7/3} × {5/9}.', 'The first two multiply to 1, leaving 1 × {5/9} = {5/9}.']),
+    rule('<b>Size flips.</b> If a positive number is bigger than 1, its reciprocal is between 0 and 1. If it is between 0 and 1, its reciprocal is bigger than 1. For example 8 has reciprocal {1/8}, and {1/8} has reciprocal 8.'),
+    rule('<b>Two special facts.</b> 0 has no reciprocal, since 0 times anything is 0 and can never be 1. And 1 and −1 are their own reciprocals; they are the only two numbers with that property. Taking the reciprocal twice always returns you to the start.'),
+    ex('Going backwards', ['The reciprocal of a number is −{7/3}. What is the number?', 'Taking the reciprocal twice returns you to the start, so take the reciprocal of −{7/3}.', 'Flip, and keep the sign: −{3/7}.', 'Check: −{3/7} × (−{7/3}) = 1.']),
+    ex('Cancelling with reciprocals', ['Find {4/9} × {7/5} × {9/4}.', 'Swap the order so a pair of reciprocals meet: {4/9} × {9/4} × {7/5}.', 'The first two multiply to 1, leaving 1 × {7/5} = {7/5}.']),
     rule('<b>Reciprocal of a product.</b> The reciprocal of a × b is (reciprocal of a) × (reciprocal of b). Flip each factor. The reciprocal of {2/3} × {5/7} is {3/2} × {7/5} = {21/10}.'),
     tbl(['Number', 'Reciprocal', 'Check: product'], [['8', '{1/8}', '1'], ['{4/5}', '{5/4}', '1'], ['−{3/2}', '−{2/3}', '1'], ['0', 'none', '0']], 'Reciprocal pairs'),
-    warn('<b>Watch out.</b> Reciprocal is not the same as opposite. The opposite of 4 is −4 (you ADD to get 0). The reciprocal of 4 is {1/4} (you MULTIPLY to get 1).'),
+    key('The reciprocal is the number you <b>multiply by to get 1</b>. It keeps the sign, it flips the size, and 0 does not have one. This one idea will turn division into multiplication in the next lesson.'),
+    tip('The quickest test for a reciprocal pair is the product: multiply the two numbers and see if you get 1. Use it every time, especially with decimals and negatives.'),
+    tip('To flip a decimal, first write it as a fraction: 0.2 = {1/5}, so its reciprocal is 5. Notice that a reciprocal pair multiplies to 1, so you can also read it as "how many of this fit into 1".'),
+    warn('<b>Watch out.</b> Reciprocal is not the same as opposite. The opposite of 4 is −4 (you ADD to get 0). The reciprocal of 4 is {1/4} (you MULTIPLY to get 1). Do not change the sign when you flip: the reciprocal of −{3/5} is −{5/3}.'),
     mcq('Leo says "The reciprocal of −3 is 3, because a reciprocal flips the sign." What is wrong?', ['Nothing, Leo is right.', 'Flipping the sign gives the opposite. The reciprocal of −3 is −{1/3} since (−3) × (−{1/3}) = 1.', 'Negative numbers have no reciprocal.'], 1, 'Check: (−3) × 3 = −9, not 1. The reciprocal keeps the sign and flips the fraction: −{1/3}.', 'Spot the mistake'),
+    recap([['reciprocal', 'the number that multiplies with a to give 1'], ['multiplicative inverse', 'another name for the reciprocal'], ['no reciprocal', '0 has none'], ['self-reciprocal', '1 and −1']], [['Reciprocal pair', 'a × {1/a} = 1'], ['Flip a fraction', '{a/b} → {b/a}']]),
   ],
 
   practice: [

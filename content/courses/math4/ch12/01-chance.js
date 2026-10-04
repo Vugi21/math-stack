@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, text } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, text, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 const fr = (a, b) => { const g = gcd(a, b) || 1; return b / g === 1 ? String(a / g) : (a / g) + '/' + (b / g); };
@@ -25,14 +25,20 @@ export default lesson({
 
   learn: [
     p('Some things <b>must</b> happen. Some <b>cannot</b> happen. Many things fall in between. Words help us say how likely something is.'),
+    def('chance', 'How likely it is that something will happen. We can describe chance with words, like likely and unlikely, and later with numbers.'),
+    def('outcome', 'One possible result of an action. Picking a marble from a bag has one outcome for each marble you could pick.'),
     tbl(['Word', 'Meaning', 'Example'], [['Certain', 'It must happen.', 'A bag of only red marbles: you pick red.'], ['Impossible', 'It cannot happen.', 'The same bag: you pick blue.'], ['Likely', 'It will probably happen.', '9 red and 1 blue: you pick red.'], ['Unlikely', 'It probably will not happen.', '9 red and 1 blue: you pick blue.'], ['Equally likely', 'Same chance each.', '5 red and 5 blue: red or blue.']], 'Chance words'),
     rule('<b>Equally likely.</b> Two results are equally likely when each has the same number of ways to happen. For a bag, count marbles of each color. For a spinner, count equal slices.'),
     widget('spinner', { s0: 4, s1: 2, s2: 0 }),
     p('The spinner has 6 equal slices. Four are blue and two are yellow. Blue is more likely than yellow, but yellow still can happen. Spin 20 times and watch. The tally will not match exactly.'),
+    key('More ways to happen means more likely. Compare the <i>number of ways</i>, not the number of colors. A bag with 2 colors does not have a 50-50 chance unless each color has the same number of marbles.'),
     ex('Which bag is better for red?', ['Bag A has 3 red marbles out of 5. Bag B has 4 red marbles out of 7.', 'A bag with more red marbles is not always better. The bag sizes are different.', 'Compare the fractions: {3/5} and {4/7}. Use 35 as the bottom number.', '{3/5} = {21/35} and {4/7} = {20/35}.', '21 is more than 20, so Bag A gives the better chance.']),
-    rule('<b>Fair.</b> A game is fair if every player has the same chance to win. In a fair game with two players, each player wins on half of the equally likely results.'),
+    ex('Choosing the likelier color', ['A bag has 5 green, 3 purple and 2 orange marbles. Which color is most likely?', 'Count the marbles: 5, 3 and 2.', 'Green has the most marbles, so green is most likely. Orange is least likely.', 'Is orange impossible? No. There are 2 orange marbles, so it can happen.']),
+    def('fair game', 'A game is fair if every player has the same chance to win. In a fair game with two players, each player wins on half of the equally likely results.'),
+    tip('To compare two chances with different totals, turn them into fractions and give them the same bottom number, as in the bag example. Whichever fraction is bigger is the better chance.'),
     warn('<b>Two choices are not always 50-50.</b> "I win or I lose" are two results, but they are not equally likely when one has more ways. A spinner with 5 red slices and 1 blue slice lands on red or blue, but not 50-50.'),
     mcq('Ben says: "A bag has 2 red marbles and 6 blue ones. Picking red or blue are the only two results, so each has the same chance." What is wrong?', ['Nothing is wrong.', 'Blue has 6 ways to come out and red has only 2. The results are not equally likely.', 'Marbles cannot be compared.'], 1, 'Count the ways. Blue can come out 6 ways. Red can come out only 2 ways. More ways means more likely.', 'Spot the mistake'),
+    recap([['certain', 'must happen'], ['impossible', 'cannot happen'], ['equally likely', 'same number of ways to happen'], ['fair game', 'every player has the same chance to win'], ['outcome', 'one possible result']]),
   ],
 
   practice: [

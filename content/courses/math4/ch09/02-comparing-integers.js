@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
 const keep = (list, ans) => list.filter((x) => String(x[0]) !== String(ans));
@@ -23,16 +23,21 @@ export default lesson({
   ],
 
   learn: [
-    p('On a number line, numbers get bigger as you go right. Numbers get smaller as you go left. This holds for negatives too.'),
-    rule('<b>Bigger means farther right.</b> −2 is greater than −9, because −2 is to the right of −9. We write −2 > −9, or −9 < −2.'),
+    p('On a number line, numbers get bigger as you go right. Numbers get smaller as you go left. This holds for negatives too. To compare two integers, always ask which one is farther to the right.'),
+    def('greater than', 'A number is greater than another if it is farther to the right on the number line. We write 5 > 2. The other way round is less than, written 2 &lt; 5.'),
+    rule('<b>Bigger means farther right.</b> −2 is greater than −9, because −2 is to the right of −9. We write −2 > −9, or −9 &lt; −2.'),
     p('The sign > points to the smaller number. It opens toward the larger one. 5 > 2 and −1 > −6.'),
     ex('Order from least to greatest: 3, −7, 0, −2, 5', ['Negatives are less than zero. Find the negatives: −7 and −2.', 'Which is smaller, −7 or −2? −7 is farther left. So −7 comes first.', 'Then −2, then 0, then the positives 3 and 5.', 'Answer: −7, −2, 0, 3, 5.']),
-    p('<b>Absolute value</b> tells how far a number is from zero. We write |−7| = 7. It is a distance, so it is never negative.'),
+    def('absolute value', 'How far a number is from zero. We write |−7| = 7. It is a distance, so it is never negative.'),
     tbl(['Number', 'Distance from 0', 'Absolute value'], [['5', '5 steps', '|5| = 5'], ['−5', '5 steps', '|−5| = 5'], ['0', '0 steps', '|0| = 0']], 'Opposites have the same absolute value'),
-    rule('<b>Comparing two negatives.</b> The one closer to zero is greater. The one with the larger absolute value is smaller. −3 > −8 because |−3| = 3 is less than |−8| = 8.'),
-    warn('<b>Watch out.</b> Absolute value and size are different things. |−9| is bigger than |−2|, but −9 is smaller than −2.'),
+    key('Every negative number is <b>less than</b> every positive number and less than 0. Among negatives, the one <b>closer to zero</b> is greater.'),
+    rule('<b>Comparing two negatives.</b> The one closer to zero is greater. The one with the larger absolute value is smaller. −4 > −9 because |−4| = 4 is less than |−9| = 9.'),
+    ex('Order from least to greatest: −12, −3, −8, −1', ['All four are negative. The one farthest from zero is the least.', 'Absolute values: 12, 3, 8, 1. The largest is 12, so −12 is least.', 'Then −8, then −3, then −1.', 'Answer: −12, −8, −3, −1.']),
     widget('numberLineWalk', { a: -6, b: 4 }),
-    mcq('Ivy says: "−9 > −2, because 9 is bigger than 2." What is wrong?', ['Nothing. She is right.', '−9 is 9 steps left of 0 and −2 is only 2 steps left. −9 is farther left, so −9 < −2.', 'Negative numbers cannot be compared.'], 1, 'She compared the distances from 0. For negative numbers, a larger distance means a smaller number.', 'Spot the mistake'),
+    warn('<b>Watch out.</b> Absolute value and size are different things. |−9| is bigger than |−2|, but −9 is smaller than −2.'),
+    tip('Think of temperatures. −15 degrees is colder than −4 degrees, so −15 &lt; −4. Colder means smaller. You can also picture owing money: owing $9 is worse than owing $2.'),
+    mcq('Ivy says: "−9 > −2, because 9 is bigger than 2." What is wrong?', ['Nothing. She is right.', '−9 is 9 steps left of 0 and −2 is only 2 steps left. −9 is farther left, so −9 &lt; −2.', 'Negative numbers cannot be compared.'], 1, 'She compared the distances from 0. For negative numbers, a larger distance means a smaller number.', 'Spot the mistake'),
+    recap([['greater than', 'farther right on the number line'], ['less than', 'farther left on the number line'], ['absolute value', 'distance from 0; never negative']], [['Two negatives', 'the one closer to 0 is greater'], ['Absolute value', '|−a| = |a|']]),
   ],
 
   practice: [

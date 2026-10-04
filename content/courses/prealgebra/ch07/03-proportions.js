@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, R, mul, fmt } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, R, mul, fmt, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -24,14 +24,25 @@ export default lesson({
 
   learn: [
     p('A <b>proportion</b> is a statement that two ratios are equal, such as {3/5} = {12/20}. Most "how much for this many?" questions are proportions in disguise: the rate stays the same, only the amount changes.'),
+    def('proportion', 'An equation saying two ratios or fractions are equal: {a/b} = {c/d}. The four numbers a, b, c, d are said to be in proportion.'),
+    def('proportional quantities', 'Two quantities are proportional when their ratio never changes. Doubling one doubles the other, tripling one triples the other, and halving one halves the other.'),
+    def('unit rate', 'The amount of one quantity for exactly 1 unit of the other, found by division. If 7 oranges cost $4.20, the unit rate is 4.20 ÷ 7 = $0.60 per orange.'),
     widget('ratioTable', { a: 3, b: 5, k: 4 }),
     rule('<b>Three ways to solve a proportion.</b> (1) <b>Scale</b>: find what number multiplies one side and use it on the other. (2) <b>Unit rate</b>: find the amount for 1, then multiply. (3) <b>Cross-multiply</b>: {a/b} = {c/d} means a × d = b × c.'),
-    ex('Solve {3/5} = {n/40} by scaling', ['The bottoms: 5 × 8 = 40, so the scale factor is 8.', 'The tops must scale the same way: n = 3 × 8 = 24.', 'Check: {24/40} = {3/5} (divide by 8). ✓']),
+    formula('Cross-multiplication', '{a/b} = {c/d} means a × d = b × c', 'Valid when b and d are not zero. Use it to solve for any one missing value among a, b, c, d: the missing value times its diagonal partner equals the product of the other two.'),
+    ex('Solve {4/7} = {n/56} by scaling', ['The bottoms: 7 × 8 = 56, so the scale factor is 8.', 'The tops must scale the same way: n = 4 × 8 = 32.', 'Check: {32/56} = {4/7} (divide by 8). ✓']),
     ex('The unit-rate way', ['7 oranges cost $4.20. How much for 12?', 'One orange: 4.20 ÷ 7 = 0.60 dollars.', '12 oranges: 12 × 0.60 = 7.20 dollars.']),
     p('<b>Why cross-multiplying works.</b> Start with {a/b} = {c/d}. Multiply both sides by b × d. The left side becomes a × d (the b cancels) and the right side becomes c × b (the d cancels). So a × d = b × c. It is just "multiply both sides" in a fast form.'),
     ex('Cross-multiplying', ['Solve {n/12} = {35/42}.', 'Cross-multiply: n × 42 = 12 × 35 = 420.', 'Divide by 42: n = 10.']),
+    ex('A map scale', ['On a map, 3 cm stands for 4 km. A road measures 9 cm on the map. How long is the real road?', 'Set up: {3 cm/4 km} = {9 cm/n km}, with matching units on top and bottom.', 'Cross-multiply: 3 × n = 4 × 9 = 36, so n = 12.', 'The road is 12 km long. Check: 3 cm is 4 km, so 9 cm (three times as much) is 3 × 4 = 12 km.']),
+    tbl(['Hours worked', 'Pay ($)', 'Pay ÷ hours'], [['2', '30', '15'], ['3', '45', '15'], ['5', '75', '15']], 'Proportional: the ratio stays at 15 for every row'),
+    tbl(['Distance (km)', 'Taxi cost ($)', 'Cost ÷ distance'], [['1', '6', '6'], ['2', '8', '4'], ['3', '10', '3.33…']], 'Not proportional: the ratio changes from row to row'),
     warn('<b>Watch out: not everything is a proportion.</b> When Ava was 6, her cousin was 3. When Ava is 12, is the cousin 6? No: the cousin is 9. The gap in ages stays fixed (that is adding), the ratio does not. A situation is proportional only if doubling one quantity doubles the other.'),
+    warn('<b>Watch out: keep the same order on both sides.</b> If the left ratio is "cost over oranges", the right ratio must also be "cost over oranges". Writing {4.20/7} = {12/n} puts oranges on top on one side and cost on top on the other, which gives a wrong answer.'),
+    tip('<b>Test for proportionality with a table.</b> Divide each y-value by its x-value. If the answers are all the same, the quantities are proportional and that common answer is the unit rate. For a quick check of your answer, the two fractions should simplify to the same fraction in lowest terms.'),
+    key('A proportion says <b>the rate stays the same</b>. Solve it by scaling, by finding the unit rate, or by cross-multiplying. Always check that it is truly proportional first, and that the same quantity sits in the same position on both sides.'),
     mcq('A taxi charges a $4 start fee plus $2 per km. Is the cost proportional to the distance?', ['Yes, more km costs more.', 'No. 1 km costs $6 and 2 km costs $8, so doubling the distance does not double the cost.', 'Yes, because the price per km is constant.'], 1, 'Doubling the distance would double the price only if the start fee were 0. The $4 is added once and breaks the proportion.', 'Spot the mistake'),
+    recap([['proportion', 'two equal ratios: {a/b} = {c/d}'], ['proportional', 'the ratio between two quantities is constant'], ['unit rate', 'the amount for 1 unit, found by dividing']], [['Cross-multiply', 'a × d = b × c'], ['Proportional test', 'y ÷ x is the same for every pair']]),
   ],
 
   practice: [

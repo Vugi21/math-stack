@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 const fr = (a, b) => { const g = gcd(a, b) || 1; return b / g === 1 ? String(a / g) : (a / g) + '/' + (b / g); };
@@ -32,15 +32,21 @@ export default lesson({
 
   learn: [
     p('An <b>outcome</b> is one complete result. One coin has 2 outcomes: heads (H) or tails (T). A fair coin makes each equally likely. A fair die has 6 outcomes: 1, 2, 3, 4, 5, 6.'),
+    def('fair', 'A coin or die is fair if every outcome is equally likely. A fair coin lands heads as often as tails. A fair die lands on each number as often as on any other.'),
+    def('die', 'A small cube with the numbers 1 to 6 on its faces. One of them is a die. Two or more are dice.'),
     rule('<b>List the outcomes.</b> To find a probability, list every outcome, count the ones you want, and divide by the total. Two coins: HH, HT, TH, TT. Order matters: HT (first heads, second tails) and TH are different outcomes.'),
     widget('countingTree', { a: 2, b: 2, c: 2, labels: ['1st coin', '2nd coin', '3rd coin'] }),
     p('Three coins make 2 × 2 × 2 = 8 outcomes. Each path through the tree is one outcome.'),
     ex('Exactly one head', ['Two coins are flipped. What is the probability of exactly one head?', 'Outcomes: HH, HT, TH, TT.', 'Exactly one head: HT and TH. That is 2 outcomes.', 'P = {2/4} = {1/2}.']),
     p('Two dice have 36 outcomes. This table shows the sum for each one. The rows are the first die and the columns are the second die.'),
     tbl(['1st \\ 2nd', '1', '2', '3', '4', '5', '6'], SUMTABLE, 'Sums of two dice'),
-    rule('<b>Not all sums are equally likely.</b> The sum 2 has only 1 outcome (1 and 1). The sum 7 has 6 outcomes: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). So the sum 7 is the most likely.'),
+    key('<b>Not all sums are equally likely.</b> The sum 2 has only 1 outcome (1 and 1). The sum 7 has 6 outcomes: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). So the sum 7 is the most likely.'),
+    ex('Sum of 7 with two dice', ['Two fair dice are rolled. What is P(sum = 7)?', 'There are 6 × 6 = 36 equally likely outcomes.', 'Sum 7 happens in 6 of them: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1).', 'P = {6/36} = {1/6}.']),
+    formula('Counting outcomes', 'total = (outcomes of 1st) × (outcomes of 2nd)', 'Two coins: 2 × 2 = 4. A coin and a die: 2 × 6 = 12. Two dice: 6 × 6 = 36.'),
+    tip('Make the table or list in order, so you do not miss any outcome or count one twice. With two dice, go through the first die from 1 to 6 and, for each, the second die from 1 to 6.'),
     warn('<b>Do not count sums as outcomes.</b> The sums 2 to 12 are 11 possible sums, but they are not equally likely. The 36 pairs of numbers are the equally likely outcomes.'),
     mcq('Ben says: "The sum of two dice can be 2, 3, ..., 12. That is 11 sums, so P(sum = 7) = {1/11}." What is wrong?', ['Nothing is wrong.', 'The 11 sums are not equally likely. Count the 36 pairs: 6 of them have sum 7, so the probability is {6/36} = {1/6}.', 'The sum 7 is impossible.'], 1, 'Only equally likely outcomes can be counted this way. The 36 pairs are equally likely. The sums are not.', 'Spot the mistake'),
+    recap([['outcome', 'one complete result'], ['fair', 'every outcome equally likely'], ['H and T', 'heads and tails'], ['order matters', 'HT and TH are different outcomes']], [['Two coins', '4 outcomes'], ['Three coins', '8 outcomes'], ['Two dice', '36 outcomes'], ['Probability', 'P = {wanted outcomes/all outcomes}']]),
   ],
 
   practice: [

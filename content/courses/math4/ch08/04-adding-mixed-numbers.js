@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, mul, eq, fmt, fm, fmMixed, gcd, lcm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, mul, eq, fmt, fm, fmMixed, gcd, lcm, tbl, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => {
   const seen = [];
@@ -27,17 +27,23 @@ export default lesson({
   ],
 
   learn: [
-    p('To add mixed numbers, add the <b>wholes</b> and add the <b>fractions</b>. Then put the two answers together.'),
-    ex('Add 2 {1/4} + 3 {1/2}', ['Wholes: 2 + 3 = 5.', 'Fractions: {1/4} + {1/2} = {1/4} + {2/4} = {3/4}.', 'Together: 5 {3/4}.']),
+    p('A mixed number has two parts, so adding two of them is two small additions. You add the wholes, you add the fractions, and then you join the results. The only new idea is what to do when the fractions add up to a whole or more.'),
+    def('mixed number', 'A whole number and a fraction together, such as 2 {1/4}. It means 2 + {1/4}.'),
+    def('regroup', 'To take a whole out of a fraction that is 1 or more, and add it to the whole numbers. {17/12} regroups as 1 {5/12}.'),
+    ex('Add 2 {1/3} + 3 {1/6}', ['Wholes: 2 + 3 = 5.', 'Fractions: {1/3} + {1/6} = {2/6} + {1/6} = {3/6} = {1/2}.', 'Together: 5 {1/2}.']),
     p('Sometimes the fractions add up to 1 or more. Then you have extra wholes to move over.'),
     ex('Add 2 {3/4} + 1 {2/3}', ['Wholes: 2 + 1 = 3.', 'Fractions: {3/4} + {2/3} = {9/12} + {8/12} = {17/12}.', '{17/12} is 1 whole and {5/12} more.', 'So 3 + 1 {5/12} = 4 {5/12}.']),
     widget('commonDenominator', { a: 3, b: 4, c: 2, d: 3, mode: 'add' }),
     rule('<b>Regrouping.</b> When the fraction parts add up to a whole or more, take out the whole and add it to the whole numbers. {17/12} becomes 1 {5/12}, and the 1 joins the wholes.'),
+    key('Add <b>wholes with wholes</b> and <b>fractions with fractions</b>. If the fraction part comes to 1 or more, regroup, so that the final fraction part is less than 1.'),
+    ex('Add 3 {5/8} + 4 {7/8}', ['Wholes: 3 + 4 = 7.', 'Fractions: {5/8} + {7/8} = {12/8}. The bottoms already match.', '{12/8} = 1 {4/8} = 1 {1/2}.', '7 + 1 {1/2} = 8 {1/2}.']),
     p('<b>Another way.</b> Change both numbers to improper fractions, add them, and change the answer back. This works well when the numbers are small. Adding by parts is usually quicker when the wholes are large.'),
     ex('Same problem, improper fractions', ['2 {3/4} = {11/4} and 1 {2/3} = {5/3}.', 'In twelfths: {33/12} + {20/12} = {53/12}.', '53 ÷ 12 = 4 remainder 5, so 4 {5/12}.', 'Same answer as before.']),
     warn('<b>Watch out.</b> Do not write 3 {17/12} as the answer. A mixed number should have a fraction part less than 1. Take out the whole: 3 + 1 {5/12} = 4 {5/12}.'),
-    mcq('Ben says "1 {2/3} + 2 {3/4} = 3 {5/7}". Which statement explains his mistake?', ['He added the tops and added the bottoms. He should use twelfths: {8/12} + {9/12} = {17/12}, and the answer is 4 {5/12}.', 'He should have multiplied the wholes.', 'He is right.'], 0, 'The two fractions are each more than {1/2}, so together they are more than 1. Ben’s {5/7} is less than 1. That cannot be right.', 'Spot the mistake'),
+    mcq('Ben says "1 {1/2} + 2 {2/3} = 3 {3/5}". Which statement explains his mistake?', ['He added the tops and added the bottoms. He should use sixths: {3/6} + {4/6} = {7/6}, and the answer is 4 {1/6}.', 'He should have multiplied the wholes.', 'He is right.'], 0, '{1/2} + {2/3} is more than 1, so the fraction part should become a whole and be added to the wholes. Ben’s {3/5} is less than 1. That cannot be right.', 'Spot the mistake'),
     p('<b>Making a whole.</b> Look for fraction parts that fit together. In 4 {5/6} + 2 {1/6}, the two sixth-parts make exactly 1, so the answer is 4 + 2 + 1 = 7.'),
+    tip('Before you start, estimate. 2 {3/4} is almost 3 and 1 {2/3} is almost 2, so the answer should be a little under 5. The answer 4 {5/12} is a bit under 5, so it passes the check.'),
+    recap([['mixed number', 'whole number plus a fraction'], ['regroup', 'move a whole out of an improper fraction part']], [['Adding by parts', 'wholes + wholes, fractions + fractions'], ['Regroup', '{17/12} = 1 {5/12}']]),
   ],
 
   practice: [

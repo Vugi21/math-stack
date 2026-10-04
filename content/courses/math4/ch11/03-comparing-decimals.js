@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 import { dec } from '../../../../src/widgets/decimals.js';
 
@@ -31,14 +31,20 @@ export default lesson({
     p('To compare whole numbers, look at the digits from the left. The first place where they differ decides. Decimals work the same way, but you must line up the places first.'),
     rule('<b>Compare place by place.</b> Start at the left. Compare the ones, then the tenths, then the hundredths, then the thousandths. The first place where the digits differ decides which number is bigger.'),
     ex('Which is bigger: 0.45 or 0.4?', ['Ones: 0 and 0. Same.', 'Tenths: 4 and 4. Same.', 'Hundredths: 5 and (nothing). Nothing means 0.', '5 is more than 0, so 0.45 > 0.4.']),
-    rule('<b>Trailing zeros.</b> A zero on the far right of a decimal does not change its value. 0.4 = 0.40 = 0.400. Add zeros to give two decimals the same number of places, and compare.'),
-    tbl(['Number', 'Same with 3 places', 'In thousandths'], [['0.7', '0.700', '700'], ['0.65', '0.650', '650'], ['0.605', '0.605', '605'], ['0.07', '0.070', '70']], 'Writing in thousandths makes comparing easy'),
-    p('Comparing with the same number of places is like comparing whole numbers: 700 > 650 > 605 > 70. So 0.7 > 0.65 > 0.605 > 0.07.'),
+    def('trailing zero', 'A zero at the far right end of a decimal. It does not change the value: 0.4 = 0.40 = 0.400.'),
+    rule('<b>Trailing zeros.</b> A zero on the far right of a decimal does not change its value. Add zeros to give two decimals the same number of places, and compare.'),
+    tbl(['Number', 'Same with 3 places', 'In thousandths'], [['0.8', '0.800', '800'], ['0.72', '0.720', '720'], ['0.702', '0.702', '702'], ['0.08', '0.080', '80']], 'Writing in thousandths makes comparing easy'),
+    p('Comparing with the same number of places is like comparing whole numbers: 800 > 720 > 702 > 80. So 0.8 > 0.72 > 0.702 > 0.08.'),
+    key('A longer decimal is <b>not</b> a bigger decimal. 0.3 has one digit and 0.25 has two, but 0.3 = 0.30 is bigger than 0.25.'),
     rule('<b>Between two decimals.</b> There is always another decimal in between. Add one more place. Between 0.3 and 0.4 you find 0.31 to 0.39. Between 0.31 and 0.32 you find 0.311 to 0.319.'),
-    p('<b>Rounding</b> means choosing the nearest number with fewer places. To round 3.846 to the nearest tenth, ask: is it closer to 3.8 or to 3.9? Look at the next digit. If it is 5 or more, round up. If it is 4 or less, stay.'),
-    widget('roundingLine', { v: 3846, place: 1 }),
-    warn('<b>Watch out.</b> 0.3 is not smaller than 0.25. A longer decimal is not a bigger decimal. And 0.09 is smaller than 0.1, even though 9 is bigger than 1.'),
-    mcq('Ben says: "0.35 is greater than 0.4, because 35 is greater than 4." What is wrong?', ['Nothing, he is right.', 'The two decimals have different numbers of places. Written as 0.35 and 0.40, we compare 35 and 40 hundredths, and 40 is more.', 'He should compare 3 and 4 only, so they are equal.'], 1, '0.40 has 4 tenths and 0.35 has only 3 tenths. The tenths digit decides: 0.4 is greater.', 'Spot the mistake'),
+    def('rounding', 'Choosing the nearest number with fewer places. We round to the nearest tenth, hundredth, and so on.'),
+    p('To round 7.382 to the nearest tenth, ask: is it closer to 7.3 or to 7.4? Look at the next digit, the hundredths digit. If it is 5 or more, round up. If it is 4 or less, stay. Here the next digit is 8, so 7.382 rounds up to 7.4.'),
+    widget('roundingLine', { v: 7382, place: 1 }),
+    ex('Rounding to the nearest hundredth', ['Round 5.678 to the nearest hundredth.', 'The hundredths digit is 7. Look at the next digit, the thousandths: 8.', '8 is 5 or more, so round the 7 up to 8.', '5.678 rounds to 5.68.']),
+    tip('To compare quickly, write both numbers with the same number of places by adding trailing zeros. Then ignore the point and compare them as whole numbers: 0.4 and 0.35 become 0.40 and 0.35, so 40 against 35.'),
+    warn('<b>Watch out.</b> 0.3 is not smaller than 0.25. A longer decimal is not a bigger decimal. And 0.06 is smaller than 0.1, even though 6 is bigger than 1.'),
+    mcq('Ben says: "0.35 is greater than 0.4, because 35 is greater than 4." What is wrong?', ['Nothing, he is right.', 'The two decimals have different numbers of places. Written as 0.35 and 0.40, we compare 35 and 40 hundredths, and 40 is more.', 'He should compare only the first digits, 3 and 4, so the numbers are equal.'], 1, '0.40 has 4 tenths and 0.35 has only 3 tenths. The tenths digit decides: 0.4 is greater.', 'Spot the mistake'),
+    recap([['compare', 'go place by place from the left'], ['trailing zero', 'a zero at the right end, does not change the value'], ['rounding', 'nearest number with fewer places; 5 or more rounds up']], [['Equal decimals', '0.4 = 0.40 = 0.400']]),
   ],
 
   practice: [

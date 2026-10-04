@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => String(x) !== String(a));
 const bin = (n) => n.toString(2);
@@ -24,16 +24,24 @@ export default lesson({
   ],
 
   learn: [
-    p('Our usual number system is <b>base 10</b>. It uses ten digits, and each place is worth 10 times the place to its right: 1, 10, 100, 1000.'),
-    p('<b>Base 2</b> uses only two digits, 0 and 1. Each place is worth 2 times the place to its right. The place values are 1, 2, 4, 8, 16, 32, ... These are the powers of 2.'),
+    p('Computers store every number using only two symbols. To read those numbers, we need a number system that is not base 10. The idea is the same as base 10, with a smaller set of digits.'),
+    def('base 10', 'Our usual number system. It uses ten digits, 0 to 9, and each place is worth 10 times the place to its right: 1, 10, 100, 1000.'),
+    def('base 2 (binary)', 'A number system that uses only two digits, 0 and 1. Each place is worth 2 times the place to its right. The place values are 1, 2, 4, 8, 16, 32, ... These are the powers of 2.'),
+    def('bit', 'One binary digit, either 0 or 1. The word comes from "binary digit".'),
     widget('baseTwo', { bits: 6, value: 13 }),
     p('Use the switches. A 1 means "use this place value". A 0 means "skip it". The number is the sum of the place values that are on.'),
+    tip('<b>Write the base with a small number</b> after the numeral, like 1011_[2]. When there is no small number, the numeral is in base 10.'),
     ex('Base 2 to base 10: 1011_[2]', ['The places from the right are 1, 2, 4, 8.', 'The digits 1, 0, 1, 1 read from the left mean 8 on, 4 off, 2 on, 1 on.', '8 + 2 + 1 = 11.', 'So 1011_[2] = 11.']),
     ex('Base 10 to base 2: 45', ['The largest place value that fits in 45 is 32. Use it. 45 − 32 = 13.', 'Next 16 is too big (0). Then 8 fits: 13 − 8 = 5.', 'Then 4 fits: 5 − 4 = 1. Then 2 is too big (0). Then 1 fits.', 'Digits for 32, 16, 8, 4, 2, 1: 1, 0, 1, 1, 0, 1. So 45 = 101101_[2].']),
+    tip('<b>Check by converting back.</b> Add the place values that are on: 32 + 8 + 4 + 1 = 45. If the sum is wrong, redo the steps.'),
     tbl(['Base 10', '0', '1', '2', '3', '4', '5', '6', '7', '8'], [['Base 2', '0', '1', '10', '11', '100', '101', '110', '111', '1000']], 'Counting in base 2'),
-    rule('<b>Add 1.</b> In base 2, 1 + 1 = 10. You carry whenever a place reaches 2. So 111_[2] + 1 = 1000_[2]. Doubling a number just adds a 0 at the end: 101_[2] (5) doubled is 1010_[2] (10).'),
+    key('Counting in base 2 works like counting in base 10. In base 10 you carry when a place reaches ten. In base 2 you carry when a place reaches <b>two</b>.'),
+    rule('<b>Add 1.</b> In base 2, 1 + 1 = 10. You carry whenever a place reaches 2. So 1111_[2] + 1 = 10000_[2]. Doubling a number just adds a 0 at the end: 101_[2] (5) doubled is 1010_[2] (10).'),
+    ex('Adding in base 2: 101_[2] + 11_[2]', ['Ones place: 1 + 1 = 10. Write 0, carry 1.', 'Twos place: 0 + 1 + the carried 1 = 10. Write 0, carry 1.', 'Fours place: 1 + 0 + the carried 1 = 10. Write 0, carry 1.', 'The carry becomes a new digit: 1000_[2]. Check in base 10: 5 + 3 = 8.']),
+    rule('<b>How many numbers fit.</b> With n bits you can write 2^[n] different numbers, from 0 up to 2^[n] − 1. With 4 bits the largest number is 1111_[2] = 15, and 2^[4] = 16 numbers fit.'),
     warn('<b>10 in base 2 is two, not ten.</b> Always check which base a numeral is written in. The numeral 10 means "one group of the second place value". In base 2 that is 2.'),
-    mcq('Hiro says: "In base 2, 111 + 1 = 112." What is the mistake?', ['Nothing. 112 is correct.', 'The digit 2 does not exist in base 2. Each time a place reaches 2 you carry. 111_[2] + 1 = 1000_[2], which is 8.', '111 + 1 = 110.'], 1, 'The last place has 1 + 1 = 2, which is written 10: write 0 and carry 1. The carry ripples through every place. The result is 1000_[2] = 8.', 'Spot the mistake'),
+    mcq('Hiro says: "In base 2, 11 + 1 = 12." What is the mistake?', ['Nothing. 12 is correct.', 'The digit 2 does not exist in base 2. Each time a place reaches 2 you carry. 11_[2] + 1 = 100_[2], which is 4.', '11 + 1 = 10.'], 1, 'The last place has 1 + 1 = 2, which is written 10: write 0 and carry 1. The carry ripples into the next place, which also reaches 2. The result is 100_[2] = 4.', 'Spot the mistake'),
+    recap([['base 2', 'uses digits 0 and 1; places are 1, 2, 4, 8, ...'], ['bit', 'one binary digit'], ['carry', 'in base 2, carry when a place reaches 2']], [['Place values', '1, 2, 4, 8, 16, 32, 64, ...'], ['Add 1 in base 2', '1 + 1 = 10, carry'], ['n bits', '2^[n] numbers, 0 to 2^[n] − 1']]),
   ],
 
   practice: [

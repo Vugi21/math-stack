@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (ans, list) => { const seen = new Set([String(ans)]); return list.filter(([a]) => { const k = String(a); if (seen.has(k)) return false; seen.add(k); return true; }); };
 
@@ -21,18 +21,26 @@ export default lesson({
   ],
 
   learn: [
-    p('Multiplication counts rectangles. 4 × 6 means 4 rows of 6 dots. Turn your head sideways and you see 6 rows of 4: the same dots, so 4 × 6 = 6 × 4.'),
-    rule('<b>Commutative and associative.</b> Multiplication also allows swapping, a × b = b × a, and regrouping, (a × b) × c = a × (b × c). So in a long product you can multiply in any order and any grouping.'),
+    p('Multiplication counts rectangles. 4 × 6 means 4 rows of 6 dots. Turn your head sideways and you see 6 rows of 4: the same dots, so 4 × 6 = 6 × 4. The numbers being multiplied are called <b>factors</b>, and the result is the <b>product</b>.'),
+    rule('<b>Commutative and associative.</b> Multiplication also allows swapping, a × b = b × a, and regrouping, (a × b) × c = a × (b × c). In a long product you may multiply in any order and any grouping, just as with a sum.'),
     ex('Choosing a friendly order', ['Find 25 × 17 × 4.', 'Left to right means 25 × 17 = 425, then × 4. That is slow.', 'Instead regroup: (25 × 4) × 17.', '25 × 4 = 100, and 100 × 17 = 1700. Easy.']),
-    rule('<b>Identity and zero.</b> Multiplying by 1 changes nothing: a × 1 = a, so 1 is the multiplicative identity. Multiplying by 0 wipes everything out: a × 0 = 0.'),
-    p('Now the big one. Split a rectangle of dots with a vertical line. The dots on each side can be counted separately and added.'),
+    def('multiplicative identity', 'The number 1. Multiplying by it changes nothing: a × 1 = a.'),
+    def('zero property', 'Multiplying by 0 wipes everything out: a × 0 = 0. If a product is 0, at least one of its factors must be 0.'),
+    p('Now the big one. Split a rectangle of dots with a vertical line. The dots on each side can be counted separately and added, and the total does not change.'),
     widget('arrayModel', { r: 3, c1: 4, c2: 2 }),
-    rule('<b>The distributive property.</b> a × (b + c) = a × b + a × c. Multiplying a sum is the same as multiplying each part and adding. It also works backwards: a × b + a × c = a × (b + c), which is called <i>factoring out</i> a.'),
+    def('distributive property', 'Multiplication distributes over addition: a × (b + c) = a × b + a × c. Multiplying a sum is the same as multiplying each part and then adding. The rectangle of dots is the picture: one rectangle of width b + c is cut into two rectangles of widths b and c.'),
+    formula('Distributive property', 'a × (b + c) = a × b + a × c', 'a is the multiplier. Read left to right it is <i>expanding</i>. Read right to left it is <b>factoring out</b> the common factor a.'),
+    formula('Distributing over a difference', 'a × (b − c) = a × b − a × c', 'It works for subtraction too, when you can compute b − c. Use it when a number is just under a round number: 8 × 997 = 8 × 1000 − 8 × 3 = 8000 − 24 = 7976.'),
     ex('Splitting a hard product', ['Find 13 × 12.', 'Split 12 into 10 + 2: 13 × (10 + 2).', 'Distribute: 13 × 10 + 13 × 2 = 130 + 26.', 'The answer is 156.']),
     ex('Factoring out', ['Find 36 × 17 + 36 × 83.', 'Both terms have the 36. Pull it out: 36 × (17 + 83).', '17 + 83 = 100, so the answer is 36 × 100 = 3600.']),
-    tbl(['Property', 'In symbols', 'Example'], [['Commutative', 'a × b = b × a', '8 × 5 = 5 × 8'], ['Associative', '(a × b) × c = a × (b × c)', '(2 × 7) × 5 = 2 × (7 × 5)'], ['Identity', 'a × 1 = a', '47 × 1 = 47'], ['Distributive', 'a × (b + c) = a × b + a × c', '6 × (10 + 3) = 60 + 18']], 'Multiplication properties'),
+    ex('Near a power of ten', ['Find 49 × 51.', 'Write 51 as 50 + 1: 49 × (50 + 1).', 'Distribute: 49 × 50 + 49 × 1 = 2450 + 49.', 'The answer is 2499.']),
+    key('Distributing is how a hard multiplication becomes two easy ones. The same fact, read backwards, is how a long sum of products becomes one easy product. Look for a <b>common factor</b> or a <b>round number</b> nearby.'),
+    tbl(['Property', 'In symbols', 'Example'], [['Commutative', 'a × b = b × a', '8 × 5 = 5 × 8'], ['Associative', '(a × b) × c = a × (b × c)', '(2 × 7) × 5 = 2 × (7 × 5)'], ['Identity', 'a × 1 = a', '47 × 1 = 47'], ['Zero', 'a × 0 = 0', '91 × 0 = 0'], ['Distributive', 'a × (b + c) = a × b + a × c', '6 × (10 + 3) = 60 + 18']], 'Multiplication properties'),
+    tip('Learn the friendly pairs: <b>25 × 4 = 100</b> and <b>5 × 2 = 10</b>. In a product like 5 × 17 × 2 or 25 × 9 × 4, multiply the friendly pair first and the rest is easy.'),
+    tip('Two checks for a split product: the pieces must add back to the original number (10 + 2 = 12), and <i>every</i> piece must be multiplied by the outside number. Estimating also helps: 6 × 53 is a bit more than 6 × 50 = 300, so 303 is too small to be right.'),
     warn('<b>Watch out.</b> Distribute over a <i>sum</i>, and multiply the outside number by <i>every</i> piece. 5 × (20 + 3) is 5 × 20 + 5 × 3, not 5 × 20 + 3. Also, a × (b × c) is NOT a × b × a × c. Distribution only splits sums.'),
     mcq('Ava computes 6 × 53 as 6 × 50 + 3 = 303. What is wrong?', ['Nothing. 6 × 53 = 303.', 'She multiplied only the 50 by 6. The 3 also needs to be multiplied: 6 × 50 + 6 × 3 = 318.', 'She should have added 6 and 53.'], 1, 'The 6 multiplies the whole number 53, which is 50 + 3. Both pieces get multiplied: 300 + 18 = 318.', 'Spot the mistake'),
+    recap([['factor', 'a number being multiplied'], ['product', 'the result of multiplying'], ['multiplicative identity', '1, since a × 1 = a'], ['distributive property', 'multiplying a sum means multiplying each part'], ['factoring out', 'the distributive property read backwards']], [['Distributive', 'a × (b + c) = a × b + a × c'], ['Zero', 'a × 0 = 0'], ['Identity', 'a × 1 = a']]),
   ],
 
   practice: [

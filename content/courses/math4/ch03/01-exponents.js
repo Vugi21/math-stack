@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 
@@ -22,16 +22,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Writing 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 takes a lot of space. We shorten it to 2^[8]. This is called a <b>power</b>.'),
-    rule('<b>Base and exponent.</b> In 2^[8] the <b>base</b> is 2. It is the number that is multiplied. The <b>exponent</b> is 8. It tells how many copies of the base are multiplied together. 2^[8] = 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2 = 256.'),
+    p('Writing 2 × 2 × 2 × 2 × 2 × 2 × 2 takes a lot of space. We shorten it to 2^[7]. This is called a <b>power</b>.'),
+    def('power', 'A short way to write repeated multiplication of the same number. 2^[7] is read "2 to the power of 7" and means seven 2s multiplied together.'),
+    def('base', 'The number that is multiplied. In 2^[7] the base is 2.'),
+    def('exponent', 'The small raised number. It tells how many copies of the base are multiplied together. In 2^[7] the exponent is 7.'),
+    formula('Power', 'b^[n] = b × b × ... × b   (n copies of b)', '2^[7] = 2 × 2 × 2 × 2 × 2 × 2 × 2 = 128. A power with exponent 1 is just the base: 7^[1] = 7.'),
     widget('exponentTiles', { b: 3, e: 2 }),
-    p('Try the tiles with exponent 2. A power with exponent 2 is a square: 3^[2] is 3 rows of 3. We say "3 squared".'),
+    p('Try the tiles with exponent 2. A power with exponent 2 is a square: 3^[2] is 3 rows of 3. We say "3 squared". A power with exponent 3 is "cubed": 6^[3] = 6 × 6 × 6 = 216.'),
+    ex('Evaluate 7^[3]', ['Three 7s are multiplied: 7 × 7 × 7.', 'Do it in steps: 7 × 7 = 49. 49 × 7 = 343.', 'So 7^[3] = 343.']),
     ex('Evaluate 2^[10] by doubling', ['2^[1] = 2.', 'Each time the exponent goes up by 1, the number doubles: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024.', 'So 2^[10] = 1024.']),
-    tbl(['Exponent', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], [['2^[n]', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024'], ['10^[n]', '10', '100', '1000', '10,000', '100,000', '1,000,000', '10^[7]', '10^[8]', '10^[9]', '10^[10]']], 'Powers of 2 and powers of 10'),
+    key('Going up one exponent means multiplying by the base once more. For powers of 2 that is doubling. For powers of 10 it adds a zero.'),
+    tbl(['Exponent', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], [['2^[n]', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024'], ['10^[n]', '10', '100', '1000', '10,000', '100,000', '1,000,000', '10,000,000', '100,000,000', '1,000,000,000', '10,000,000,000']], 'Powers of 2 and powers of 10'),
     rule('<b>Powers of ten.</b> 10^[n] is 1 followed by n zeros. 10^[3] = 1000 has three zeros.'),
+    rule('<b>Same base, multiply.</b> When the base stays the same, the exponents add when you multiply: 2^[3] × 2^[4] has three 2s and then four more 2s, which is seven 2s in all: 2^[7]. In the same way 10^[3] × 10^[2] = 10^[5], because 3 zeros and 2 zeros make 5 zeros.'),
     warn('<b>An exponent is not a multiplier.</b> 2^[3] is 2 × 2 × 2 = 8, not 2 × 3 = 6. And 3^[2] is 9, but 2^[3] is 8. The base and exponent cannot swap.'),
-    p('When the base stays the same, exponents add when you multiply: 2^[3] × 2^[4] has three 2s and then four more 2s, which is seven 2s in all: 2^[7].'),
+    ex('Which is bigger, 2^[5] or 5^[2]?', ['2^[5] = 2 × 2 × 2 × 2 × 2 = 32.', '5^[2] = 5 × 5 = 25.', '32 is bigger than 25, so 2^[5] is bigger.']),
+    tip('<b>Learn the powers of 2.</b> 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 turn up all over math and computing. If you forget one, just double the one before it.'),
+    tip('<b>Write the multiplication out</b> whenever you are unsure what a power means. Count the copies of the base to check the exponent.'),
     mcq('Ben says: "10^[4] is 40, because 10 × 4 = 40." What is the mistake?', ['Nothing. 40 is right.', 'He multiplied the base by the exponent. 10^[4] = 10 × 10 × 10 × 10 = 10,000.', 'He should have used 10 + 4 = 14.'], 1, 'The exponent counts how many tens are multiplied. Four tens multiplied: 10 × 10 × 10 × 10 = 10,000, which is a 1 with four zeros.', 'Spot the mistake'),
+    recap([['power', 'repeated multiplication of one number'], ['base', 'the number being multiplied'], ['exponent', 'how many copies of the base'], ['squared / cubed', 'exponent 2 / exponent 3']], [['Power', 'b^[n] = n copies of b multiplied'], ['Same base, multiply', 'add the exponents'], ['Powers of ten', '10^[n] = 1 followed by n zeros']]),
   ],
 
   practice: [

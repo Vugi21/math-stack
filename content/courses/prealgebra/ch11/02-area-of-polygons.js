@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const ws = (ans, list) => list.filter(([v], i) => v !== ans && v > 0 && list.findIndex((x) => x[0] === v) === i);
 
@@ -22,17 +22,31 @@ export default lesson({
   ],
 
   learn: [
-    p('<b>Area</b> counts how many unit squares cover a shape. A rectangle that is 5 wide and 3 tall holds 3 rows of 5 squares: 3 × 5 = 15. So <b>area of a rectangle = length × width</b>, measured in square units.'),
+    p('<b>Area</b> measures how much flat surface a shape covers. We measure it by counting <b>unit squares</b>: squares that are 1 unit on each side. A square that is 1 cm on a side has an area of 1 square centimeter (written cm²), and area is always given in square units such as cm², m², or ft².'),
+    def('area', 'The number of unit squares needed to cover a shape exactly, with no gaps and no overlaps. Partial squares can be put together to make whole ones.'),
     widget('unitSquare', { w: 6, h: 4 }),
-    rule('<b>Parallelogram.</b> Slice off the slanted end and slide it to the other side. The result is a rectangle with the same base and the same <i>height</i>. So area = base × height, where height is the straight-up distance between the two parallel sides, not the slanted side.'),
+    formula('Rectangle area', 'A = length × width', 'A rectangle that is 5 wide and 3 tall holds 3 rows of 5 squares: 3 × 5 = 15. For a square of side s, A = s × s. Because multiplication can be done in either order, it does not matter which side you call the length.'),
+    def('base and height', 'The <b>base</b> is the side you choose to measure from. The <b>height</b> is the perpendicular distance from that base to the opposite side (or opposite corner for a triangle): straight up, at a right angle. For an obtuse triangle the height may fall outside the shape; it is still the straight-line distance to the line containing the base.'),
+    rule('<b>Area is preserved by cutting and moving, and areas of pieces add.</b> A shape made of non-overlapping pieces has the total of their areas. A shape with a piece removed has the whole area minus the piece.'),
+    key('Every area formula in this lesson comes from the rectangle by <b>cutting and rearranging</b>. If you forget a formula, rebuild it from the picture.'),
+    p('<b>Parallelogram.</b> Slice off the slanted end and slide it to the other side. The result is a rectangle with the same base and the same height, and cutting and sliding does not change the area.'),
     widget('areaShapes', { shape: 'parallelogram', b: 6, h: 4 }),
-    rule('<b>Triangle.</b> Two copies of any triangle fit together into a parallelogram. So a triangle is half of base × height: area = ½ × b × h.'),
+    formula('Parallelogram area', 'A = base × height', 'The height is the straight-up distance between the two parallel sides, not the length of the slanted side.'),
+    p('<b>Triangle.</b> Two copies of any triangle fit together into a parallelogram, with the same base and height as the triangle. So one triangle is half of that parallelogram.'),
     widget('areaShapes', { shape: 'triangle', b: 8, h: 5 }),
-    rule('<b>Trapezoid.</b> A trapezoid has two parallel sides. Average the parallel sides, then multiply by the height: area = ½ × (b₁ + b₂) × h. Two copies flipped together make a parallelogram with base b₁ + b₂.'),
+    formula('Triangle area', 'A = ½ × base × height', 'Any of the three sides can be the base, as long as you use the height that goes with it.'),
+    ex('Triangle area and missing height', ['A triangle has base 9 and height 6. Area = ½ × 9 × 6 = 27.', 'Now reverse it: a triangle has area 45 and base 10. Find the height.', 'Double the area first: 2 × 45 = 90 = base × height.', 'Divide by the base: 90 ÷ 10 = 9. Check: ½ × 10 × 9 = 45.']),
+    p('<b>Trapezoid.</b> A trapezoid has two parallel sides, called the bases (b₁ and b₂). Turn a second copy of the trapezoid upside down and attach it. The two together form a parallelogram whose base is b₁ + b₂ and whose height is the same h. One trapezoid is half of it.'),
     widget('areaShapes', { shape: 'trapezoid', b: 9, t: 5, h: 4 }),
+    formula('Trapezoid area', 'A = ½ × (b₁ + b₂) × h', 'This is the average of the parallel sides, times the height. If the two bases are equal, the shape is a parallelogram and the formula gives base × height.'),
+    ex('A trapezoid', ['The parallel sides are 8 and 14 and the height is 5.', 'Add the bases: 8 + 14 = 22.', 'Area = ½ × 22 × 5 = 11 × 5 = 55 square units.']),
     ex('Cut it into pieces you know', ['A shape is a 10 by 6 rectangle with a triangle sitting on its top side. The triangle has base 10 (the top of the rectangle) and height 4. Find the total area.', 'Rectangle: 10 × 6 = 60.', 'Triangle: ½ × 10 × 4 = 20.', 'Add: 60 + 20 = 80. When a shape is made of pieces, add them. When a piece is missing, subtract it.']),
-    warn('<b>Watch out.</b> The height must be perpendicular to the base (straight up, at a right angle). In a slanted shape, the slanted side is always longer than the true height, so using it overstates the area.'),
+    ex('Subtract a missing piece', ['A 9 by 7 rectangle has a 3 by 2 rectangle cut out of one corner. Find the area left.', 'Whole rectangle: 9 × 7 = 63. Missing piece: 3 × 2 = 6.', 'Area left: 63 − 6 = 57.']),
+    tip('<b>Same base, same height, same area.</b> Slide the top corner of a triangle along a line parallel to its base and the area does not change, because base and height stay the same. This lets you replace a hard triangle with an easy one.'),
+    tip('<b>Scaling.</b> If every length is multiplied by k, the area is multiplied by k × k. Doubling the sides of a rectangle makes the area 4 times as big, not 2 times: a 3 by 2 rectangle has area 6, and a 6 by 4 rectangle has area 24.'),
+    warn('<b>Watch out.</b> The height must be perpendicular to the base. In a slanted shape the slanted side is always longer than the true height, so using it overstates the area. Also do not forget the ½ for a triangle or a trapezoid.'),
     mcq('A parallelogram has a base of 10, a slanted side of 6, and a height of 5. Leo says its area is 10 × 6 = 60. What is wrong?', ['Nothing, the area is 60.', 'He used the slanted side. The height is the perpendicular 5, so the area is 10 × 5 = 50.', 'He should have added 10 + 6 + 5.'], 1, 'Height means straight-up distance between the parallel sides. The 6 is a slant. Area = base × height = 10 × 5 = 50.', 'Spot the mistake'),
+    recap([['area', 'unit squares needed to cover a shape'], ['base and height', 'height is perpendicular to the base'], ['trapezoid bases', 'its two parallel sides, b₁ and b₂'], ['square units', 'cm², m², ft²: the units of area']], [['Rectangle', 'A = l × w'], ['Parallelogram', 'A = b × h'], ['Triangle', 'A = ½ × b × h'], ['Trapezoid', 'A = ½ × (b₁ + b₂) × h']]),
   ],
 
   practice: [

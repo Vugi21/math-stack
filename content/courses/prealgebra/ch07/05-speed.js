@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, gcd, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const fx = (x) => String(Math.round(x * 1e6) / 1e6);
 const wr = (right, arr) => arr.filter(([a]) => Math.abs(Number(a) - Number(right)) > 1e-9).map(([a, m]) => [fx(a), m]);
@@ -22,15 +22,25 @@ export default lesson({
 
   learn: [
     p('<b>Speed</b> is a rate: how far you go in one unit of time. 60 km/h means 60 km each hour. Distance, speed, and time are tied together by a single idea.'),
+    def('speed', 'The distance travelled per unit of time: speed = distance ÷ time. It is a rate, and its unit is a distance unit over a time unit, such as km/h or m/s.'),
+    def('average speed', 'The total distance divided by the total time, for the whole trip. It is the one constant speed that would cover the same distance in the same time.'),
     widget('rateModel', { r: 60, t: 3, per: 'hour', what: 'km' }),
-    rule('<b>distance = speed × time.</b> Rearranged: speed = distance ÷ time, and time = distance ÷ speed. Cover the one you want in the "d, s, t" triangle and the other two show the operation. The units must agree: km/h with hours, m/s with seconds.'),
-    ex('Finding time', ['A bike path is 45 km long. Dev cycles at 18 km/h. How long does he take?', 'time = distance ÷ speed = 45 ÷ 18 = 2.5 hours.', '2.5 hours is 2 hours 30 minutes.']),
+    formula('Distance, speed, time', 'd = s × t', 'd is distance, s is speed, t is time. Rearranged: s = d ÷ t and t = d ÷ s. The units must agree: km/h goes with hours, m/s goes with seconds.'),
+    rule('<b>distance = speed × time.</b> Rearranged: speed = distance ÷ time, and time = distance ÷ speed. The units must agree: km/h with hours, m/s with seconds.'),
+    ex('Finding speed', ['A runner covers 400 m in 50 s. What is her speed in m/s, and in km/h?', 'Speed = 400 ÷ 50 = 8 m/s.', 'In one hour there are 3600 s, so she would cover 8 × 3600 = 28 800 m = 28.8 km.', 'So 8 m/s = 28.8 km/h.']),
+    ex('Finding time', ['A bike path is 40 km long. Dev cycles at 16 km/h. How long does he take?', 'time = distance ÷ speed = 40 ÷ 16 = 2.5 hours.', '2.5 hours is 2 hours 30 minutes.']),
     rule('<b>Average speed = total distance ÷ total time.</b> It is not the average of the speeds. A slow part that lasts longer drags the average down more.'),
-    ex('Two halves of a trip', ['Drive 60 km at 60 km/h, then 60 km at 30 km/h. Average speed?', 'First part: 60 ÷ 60 = 1 hour. Second part: 60 ÷ 30 = 2 hours.', 'Total: 120 km in 3 hours = 40 km/h.', 'The average of 60 and 30 would be 45, which is too high: you spent twice as long going slowly.']),
-    ex('Changing km/h to m/s', ['Convert 54 km/h to m/s.', '54 km = 54 000 m. 1 hour = 3600 s.', '54 000 ÷ 3600 = 15 m/s.', 'Shortcut: divide km/h by 3.6 to get m/s.']),
-    ex('Catching up', ['Ava leaves at 12 km/h. One hour later Ben leaves and rides 18 km/h along the same road.', 'When Ben starts, Ava is 12 km ahead.', 'Each hour Ben gains 18 − 12 = 6 km, so he closes 12 km in 2 hours.']),
+    ex('Two halves of a trip', ['Drive 120 km at 60 km/h, then 120 km at 40 km/h. Average speed?', 'First part: 120 ÷ 60 = 2 hours. Second part: 120 ÷ 40 = 3 hours.', 'Total: 240 km in 5 hours = 48 km/h.', 'The average of 60 and 40 would be 50, which is too high: you spent longer going slowly.']),
+    ex('Changing km/h to m/s', ['Convert 72 km/h to m/s.', '72 km = 72 000 m. 1 hour = 3600 s.', '72 000 ÷ 3600 = 20 m/s.', 'Shortcut: divide km/h by 3.6 to get m/s.']),
+    tbl(['Quantity', 'Common units', 'Convert'], [['speed', 'km/h, m/s, mi/h', 'km/h ÷ 3.6 = m/s;  m/s × 3.6 = km/h'], ['time', 'h, min, s', '15 min = 0.25 h;  45 min = 0.75 h;  20 min = {1/3} h'], ['distance', 'km, m, mi', '1 km = 1000 m']], 'Keep the units in agreement'),
+    ex('Catching up', ['Ava leaves at 10 km/h. One hour later Ben leaves and rides 15 km/h along the same road.', 'When Ben starts, Ava is 10 km ahead.', 'Each hour Ben gains 15 − 10 = 5 km, so he closes 10 km in 2 hours.']),
+    ex('Moving toward each other', ['Two towns are 120 km apart. Two cars leave at the same time and drive toward each other at 50 km/h and 70 km/h. When do they meet?', 'The gap closes at 50 + 70 = 120 km per hour, because both cars shrink the gap.', 'Time = 120 ÷ 120 = 1 hour.', 'Check: one car travels 50 km and the other 70 km, which together make 120 km.']),
     warn('<b>Watch out.</b> Never average the speeds of two stages unless the stages took the <i>same time</i>. If the stages cover the same <i>distance</i>, the slower speed lasts longer and the true average is lower.'),
+    warn('<b>Watch out: decimal hours are not minutes.</b> 2.5 hours means 2 hours 30 minutes, not 2 hours 50 minutes. To change the decimal part of an hour to minutes, multiply it by 60: 0.25 h × 60 = 15 min.'),
+    tip('<b>Change the units before you calculate.</b> If speed is in km/h and time is given in minutes, convert minutes to hours first (30 min = 0.5 h). As a quick check, a result in "km/h × h" must come out as km. If the units do not combine to the unit you want, something needs converting.'),
+    key('Speed is <b>distance per time</b>. All three questions use one relationship, d = s × t, so write it down and solve for what is missing. For a whole trip, average speed is <b>total distance ÷ total time</b>, never the plain average of the speeds.'),
     mcq('Lia drives to a cabin at 20 km/h and returns the same way at 30 km/h. She says her average speed is 25 km/h. What is wrong?', ['Nothing, (20 + 30) ÷ 2 = 25.', 'She spent more time at the slow speed. With 60 km each way: 3 h + 2 h = 5 h for 120 km, so 24 km/h.', 'The average should be 50 km/h.'], 1, 'Average speed is total distance over total time. The slow leg took longer, so it weighs more.', 'Spot the mistake'),
+    recap([['speed', 'distance per unit of time'], ['average speed', 'total distance ÷ total time'], ['closing speed', 'add the speeds when moving toward each other; subtract when chasing in the same direction']], [['Distance', 'd = s × t'], ['Speed', 's = d ÷ t'], ['Time', 't = d ÷ s'], ['km/h to m/s', 'divide by 3.6']]),
   ],
 
   practice: [

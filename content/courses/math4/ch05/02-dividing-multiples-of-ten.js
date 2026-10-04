@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const c = (n) => n.toLocaleString('en-US');
 const wr = (ans, list) => { const seen = new Set([String(ans)]); return list.filter(([v]) => { if (!Number.isInteger(v) || v < 0 || seen.has(String(v))) return false; seen.add(String(v)); return true; }); };
@@ -25,15 +25,21 @@ export default lesson({
 
   learn: [
     p('Place value helps us divide in our heads. 560 is 56 tens. 4,800 is 48 hundreds. 9,000 is 9 thousands.'),
-    ex('A tens division', ['Find 560 ÷ 7.', '560 is 56 tens.', '56 tens ÷ 7 = 8 tens, because 56 ÷ 7 = 8.', '8 tens is 80. So 560 ÷ 7 = 80.']),
+    def('multiple of ten', 'A number that ends in 0, such as 70, 560 or 4,800. It can be read as a count of tens, hundreds or thousands.'),
+    ex('A tens division', ['Find 640 ÷ 8.', '640 is 64 tens.', '64 tens ÷ 8 = 8 tens, because 64 ÷ 8 = 8.', '8 tens is 80. So 640 ÷ 8 = 80.']),
     rule('<b>Divide the front digits, keep the zeros.</b> To find 4,800 ÷ 6, think 48 hundreds ÷ 6 = 8 hundreds. The answer is 800.'),
-    p('Dividing a number by 10 takes one zero off the end: 740 ÷ 10 = 74. Dividing by 100 takes two zeros off: 5,300 ÷ 100 = 53.'),
-    rule('<b>Cancelling zeros.</b> You may take the same number of zeros off both numbers. 3,600 ÷ 60 becomes 360 ÷ 6, which is 60.'),
-    p('Why does this work? Suppose 3,600 pencils go in boxes of 60. Bundle the pencils in tens. Now there are 360 bundles, and each box holds 6 bundles. The number of boxes did not change: 360 ÷ 6 = 60.'),
+    key('Treat the zeros like a unit name. 48 hundreds ÷ 6 is 8 hundreds, just as 48 apples ÷ 6 is 8 apples. The unit stays; only the number in front changes.'),
+    p('Dividing a number by 10 takes one zero off the end: 830 ÷ 10 = 83. Dividing by 100 takes two zeros off: 5,300 ÷ 100 = 53.'),
+    def('cancelling zeros', 'Taking the same number of zeros off the end of both the dividend and the divisor. The quotient does not change.'),
+    rule('<b>Cancelling zeros.</b> You may take the same number of zeros off both numbers. 2,800 ÷ 40 becomes 280 ÷ 4, which is 70.'),
+    p('Why does this work? Suppose 2,800 pencils go in boxes of 40. Bundle the pencils in tens. Now there are 280 bundles, and each box holds 4 bundles. The number of boxes did not change: 280 ÷ 4 = 70.'),
     tbl(['Problem', 'Cancel zeros', 'Answer'], [['2,000 ÷ 50', '200 ÷ 5', '40'], ['72,000 ÷ 900', '720 ÷ 9', '80'], ['630 ÷ 70', '63 ÷ 7', '9']], 'Cancel the same number of zeros from both'),
+    ex('Cancel, divide, keep the rest', ['Find 48,000 ÷ 800.', 'Cancel two zeros from each number: 480 ÷ 8.', '480 is 48 tens, and 48 ÷ 8 = 6, so the answer is 6 tens = 60.', 'Check: 60 × 800 = 48,000.']),
     warn('<b>Watch out.</b> Cancel zeros from both numbers, and the same count from each. In 6,000 ÷ 30, cancel one zero from each: 600 ÷ 3 = 200. Do not cancel all three zeros from 6,000 and then forget the zero of 30.'),
     p('After cancelling, count the zeros that remain in the front numbers. They stay in the answer. 4,000 ÷ 8 = 500 because 40 hundreds ÷ 8 = 5 hundreds.'),
+    tip('Always check by multiplying back. If your quotient times the divisor does not give the dividend, count the zeros again.'),
     mcq('Ava says: "2,400 ÷ 40 = 6, because 24 ÷ 4 = 6 and the zeros just disappear." What is wrong?', ['Nothing, zeros always disappear.', 'She took off 2 zeros from 2,400 but only 1 from 40. Cancelling one zero each gives 240 ÷ 4 = 60.', 'The answer should be 600.'], 1, 'Check by multiplying: 6 × 40 = 240, not 2,400. The answer is 60, because 60 × 40 = 2,400.', 'Spot the mistake'),
+    recap([['multiple of ten', 'a number that ends in 0'], ['cancelling zeros', 'remove the same number of zeros from both numbers']], [['Divide by 10', 'remove one zero'], ['Divide by 100', 'remove two zeros'], ['Example', '2,800 ÷ 40 = 280 ÷ 4 = 70']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames, R, eq, add, sub, cmp, lcm, fmt, fm } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, twoNames, R, eq, add, sub, cmp, lcm, fmt, fm, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 
 const F = (n, d) => '{' + n + '/' + d + '}';
@@ -26,17 +26,25 @@ export default lesson({
   ],
 
   learn: [
-    p('Adding {2/7} and {3/7} is easy: 2 sevenths plus 3 sevenths is 5 sevenths. We count pieces, and we can only count pieces that are the <b>same size</b>. The size of the pieces (the bottom) does not change.'),
-    rule('<b>Same bottom.</b> Add or subtract the tops and keep the bottom. {a/c} + {b/c} = {(a + b)/c}. {a/c} − {b/c} = {(a − b)/c}.'),
-    p('What about {1/2} + {1/3}? Halves and thirds are different sizes, like adding 1 dollar and 1 euro. First we cut both into <b>smaller pieces that fit both</b>: sixths. Then {3/6} + {2/6} = {5/6}.'),
+    p(`Adding {2/7} and {3/7} is easy: 2 sevenths plus 3 sevenths is 5 sevenths. We count pieces, and we can only count pieces that are the <b>same size</b>. The size of the pieces (the bottom) does not change.`),
+    def('like fractions', `Fractions with the same denominator, such as {2/7} and {3/7}. Their pieces are the same size, so they can be added or subtracted by counting pieces. Fractions with different denominators are <b>unlike</b> fractions.`),
+    def('common denominator', `A bottom number that both denominators divide into. To add or subtract unlike fractions, first rewrite both with a common denominator. The least common denominator is the LCM of the two bottoms.`),
+    rule(`<b>Same bottom.</b> Add or subtract the tops and keep the bottom. {a/c} + {b/c} = {(a + b)/c}. {a/c} − {b/c} = {(a − b)/c}.`),
+    p(`What about {1/2} + {1/3}? Halves and thirds are pieces of different sizes, so we cannot count them together yet. First we cut both into <b>smaller pieces that fit both</b>: sixths. Then {3/6} + {2/6} = {5/6}.`),
     widget('commonDenominator', { a: 1, b: 2, c: 1, d: 3 }),
-    rule('<b>Unlike denominators.</b> (1) Find a common denominator, a number both bottoms divide into. The smallest is the LCM. (2) Rewrite each fraction with it, multiplying top and bottom by the same number. (3) Add or subtract the tops. (4) Simplify.'),
-    ex('Adding {2/3} + {3/4}', ['The LCM of 3 and 4 is 12.', '{2/3} = {8/12} and {3/4} = {9/12}.', '{8/12} + {9/12} = {17/12}.', '{17/12} is 1 and {5/12}. It cannot be simplified because 17 is prime.']),
-    ex('Subtracting {7/10} − {2/15}', ['Multiples of 10: 10, 20, 30. Multiples of 15: 15, 30. The LCM is 30.', '{7/10} = {21/30} and {2/15} = {4/30}.', '{21/30} − {4/30} = {17/30}.', 'The answer is already in simplest form.']),
+    formula('Adding unlike fractions', `{a/b} + {c/d} = {(a × d + c × b)/(b × d)}`, `This always works because b × d is a common denominator. It is not always the smallest one, so you may need to simplify at the end. Subtraction is the same with a minus sign in the top.`),
+    rule(`<b>Unlike denominators.</b> (1) Find a common denominator, a number both bottoms divide into. The smallest is the LCM. (2) Rewrite each fraction with it, multiplying top and bottom by the same number. (3) Add or subtract the tops. (4) Simplify.`),
+    ex('Adding {3/4} + {5/6}', [`The LCM of 4 and 6 is 12.`, `{3/4} = {9/12} and {5/6} = {10/12}.`, `{9/12} + {10/12} = {19/12}.`, `{19/12} is more than 1 (it is 12 twelfths and 7 more). It cannot be simplified because 19 is prime.`]),
+    ex('Subtracting {7/10} − {2/15}', [`Multiples of 10: 10, 20, 30. Multiples of 15: 15, 30. The LCM is 30.`, `{7/10} = {21/30} and {2/15} = {4/30}.`, `{21/30} − {4/30} = {17/30}.`, `The answer is already in simplest form.`]),
     tbl(['Pair of bottoms', 'LCM', 'Why'], [['4 and 6', '12', 'multiples of 6: 6, 12 (and 4 divides 12)'], ['5 and 7', '35', 'no shared factor, so multiply'], ['8 and 12', '24', 'multiples of 12: 12, 24 (and 8 divides 24)']], 'Finding a common denominator'),
-    p('<b>Whole minus fraction.</b> Write the whole as a fraction with the same bottom: 1 − {3/8} = {8/8} − {3/8} = {5/8}. For 2 − {3/7}, write 2 as {14/7}.'),
-    warn('<b>Watch out.</b> Never add the bottoms. {1/3} + {1/4} is not {2/7}. {2/7} is less than {1/3} alone! Adding fractions with the same bottom leaves the bottom unchanged, because the size of the pieces does not change.'),
-    mcq('Dev works out {5/6} − {1/2} and gets {4/4} = 1, by subtracting tops and bottoms. How can you tell right away that this is wrong?', ['It is right.', '{5/6} − {1/2} must be less than {5/6}, but 1 is bigger than {5/6}. Correct: {5/6} − {3/6} = {2/6} = {1/3}.', 'You cannot subtract fractions.'], 1, 'Subtracting something positive always makes the number smaller. The result 1 is bigger than {5/6}, which is impossible.', 'Spot the mistake'),
+    p(`<b>Whole minus fraction.</b> Write the whole as a fraction with the same bottom: 1 − {3/8} = {8/8} − {3/8} = {5/8}. For 3 − {2/5}, write 3 as {15/5}, so the answer is {13/5}.`),
+    key(`<b>You can only add or subtract pieces of the same size.</b> The bottom tells the piece size, so it stays the same in the answer. Only the number of pieces (the top) changes. Everything else in this lesson is just a way to make the sizes match.`),
+    ex('Three fractions', [`Find {1/2} + {1/3} + {1/4}.`, `The LCM of 2, 3 and 4 is 12.`, `{6/12} + {4/12} + {3/12} = {13/12}.`, `The sum is {13/12}, a little more than 1. Check: 0.5 + 0.33 + 0.25 is about 1.08. ✓`]),
+    ex('Working backwards', [`Two unit fractions add to {1/3}. One of them is {1/4}. What is the other?`, `Subtract: {1/3} − {1/4} = {4/12} − {3/12} = {1/12}.`, `The other fraction is {1/12}, so its bottom is 12.`, `Check: {1/4} + {1/12} = {3/12} + {1/12} = {4/12} = {1/3}. ✓`]),
+    tip(`<b>Estimate first.</b> If one fraction is near {1/2} and the other is near 1, the sum should be near 1 and a half. Also, you can use the LCM of the bottoms instead of their product: for {1/6} + {1/10} use 30, not 60. The smaller bottom keeps the numbers small and means less simplifying at the end.`),
+    warn(`<b>Watch out.</b> Never add the bottoms. {1/3} + {1/4} is not {2/7}. {2/7} is less than {1/3} alone! Adding fractions with the same bottom leaves the bottom unchanged, because the size of the pieces does not change. When subtracting, also keep the order: the first fraction minus the second.`),
+    mcq(`Dev works out {5/6} − {1/2} and gets {4/4} = 1, by subtracting tops and bottoms. How can you tell right away that this is wrong?`, [`It is right.`, `{5/6} − {1/2} must be less than {5/6}, but 1 is bigger than {5/6}. Correct: {5/6} − {3/6} = {2/6} = {1/3}.`, `You cannot subtract fractions.`], 1, `Subtracting something positive always makes the number smaller. The result 1 is bigger than {5/6}, which is impossible.`, 'Spot the mistake'),
+    recap([['like fractions', 'same denominator: add or subtract the tops'], ['common denominator', 'a multiple of both bottoms; the smallest is the LCM'], ['whole as a fraction', '3 = {3/1} = {12/4}']], [['Same bottom', '{a/c} + {b/c} = {(a + b)/c}'], ['Unlike bottoms', '{a/b} + {c/d} = {(a × d + c × b)/(b × d)}']]),
   ],
 
   practice: [

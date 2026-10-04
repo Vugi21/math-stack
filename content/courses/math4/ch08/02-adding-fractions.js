@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, eq, fmt, fm, fmMixed, gcd, lcm } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, choice, tpl, p, rule, warn, ex, widget, mcq, chain, R, add, sub, eq, fmt, fm, fmMixed, gcd, lcm, tbl, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => {
   const seen = [];
@@ -29,15 +29,22 @@ export default lesson({
   learn: [
     p('Adding fractions is counting pieces. 3 fifths plus 4 fifths is 7 fifths, just as 3 apples plus 4 apples is 7 apples. The piece size does not change.'),
     widget('commonDenominator', { a: 2, b: 7, c: 3, d: 7, mode: 'add' }),
+    formula('Same bottoms', '{a/c} + {b/c} = {(a + b)/c}', 'Add the tops. Keep the bottom, because the pieces stay the same size. {2/7} + {3/7} = {5/7}.'),
     rule('<b>Same bottoms.</b> Add the tops. Keep the bottom. {2/7} + {3/7} = {5/7}.'),
-    p('Different bottoms are different piece sizes. You cannot count halves and thirds together. First cut both into the same size piece.'),
+    p('Different bottoms are different piece sizes. You cannot count halves and thirds together, just as you cannot add 2 apples and 3 oranges and call the answer 5 apples. First cut both into the same size piece.'),
     widget('commonDenominator', { a: 1, b: 2, c: 1, d: 3, mode: 'add' }),
+    def('common multiple', 'A number that two numbers both divide into. It is on both lists of multiples. 12 is a common multiple of 4 and 6.'),
+    def('common denominator', 'A bottom number that two fractions can both be changed to. Any common multiple of the two bottoms will do.'),
     rule('<b>Different bottoms.</b> Find a number that both bottoms go into. This is a <b>common multiple</b>. Change both fractions to that bottom. Then add the tops.'),
     ex('Add {1/4} + {5/6}', ['Multiples of 6 are 6, 12, 18. The number 12 is also a multiple of 4. Use twelfths.', '{1/4} = {3/12} because 4 × 3 = 12 and 1 × 3 = 3.', '{5/6} = {10/12} because 6 × 2 = 12 and 5 × 2 = 10.', '{3/12} + {10/12} = {13/12}.']),
     p('A sum can be more than 1. {13/12} means 13 pieces when 12 pieces make a whole. That is one whole and {1/12} more.'),
-    ex('Any common multiple works', ['Add {1/6} + {1/4} using 24ths instead of 12ths.', '{1/6} = {4/24} and {1/4} = {6/24}.', '{4/24} + {6/24} = {10/24}.', 'Divide top and bottom by 2: {5/12}. The smallest common multiple gives {5/12} at once.']),
+    tip('To find a common bottom, list multiples of the larger bottom: 10, 20, 30, … Stop at the first one that the smaller bottom divides into. For {3/10} + {1/4}: 20 works, because 4 × 5 = 20.'),
+    ex('Add {3/10} + {1/4}', ['Multiples of 10: 10, 20. The bottom 4 goes into 20, so use twentieths.', '{3/10} = {6/20} and {1/4} = {5/20}.', '{6/20} + {5/20} = {11/20}.', 'Check: {11/20} is a little more than {1/2}, and {3/10} + {1/4} is a little more than {1/4} + {1/4}. It fits.']),
+    ex('Any common multiple works', ['Add {1/4} + {1/10} using 40ths instead of 20ths.', '{1/4} = {10/40} and {1/10} = {4/40}.', '{10/40} + {4/40} = {14/40}.', 'Divide top and bottom by 2: {7/20}. The smallest common multiple gives {7/20} at once.']),
+    key('Only pieces of the <b>same size</b> can be added. Change the bottoms to match, then add the tops and keep the bottom. Simplify at the end if you can.'),
     warn('<b>Watch out.</b> Do not add the bottoms. {1/2} + {1/3} is not {2/5}. Two fifths is smaller than one half, so adding more cannot make it smaller.'),
     mcq('Ben says "{2/5} + {3/10} = {5/15}". How can you tell at once that he is wrong?', ['The sum must be at least {2/5}, but {5/15} = {1/3} is smaller than {2/5}. He added the bottoms.', 'The answer must be a whole number.', 'He should have multiplied the tops.'], 0, 'Adding something to {2/5} cannot give a smaller number. {5/15} = {1/3}, which is less than {2/5}. Correct: {2/5} = {4/10}, and {4/10} + {3/10} = {7/10}.', 'Spot the mistake'),
+    recap([['common multiple', 'both bottoms divide into it'], ['common denominator', 'the shared bottom after changing both fractions'], ['simplify', 'divide top and bottom by a common factor']], [['Same bottoms', '{a/c} + {b/c} = {(a + b)/c}'], ['Different bottoms', 'change to a common bottom first']]),
   ],
 
   practice: [

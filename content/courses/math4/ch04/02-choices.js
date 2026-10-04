@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (ans, list) => {
   const seen = new Set([ans]);
@@ -26,15 +26,21 @@ export default lesson({
 
   learn: [
     p('Suppose you make a choice in steps. Each step has some options. A <b>tree diagram</b> shows every path. Each path from left to right is one complete outcome.'),
+    def('outcome', 'One complete result of all the steps. A shirt and a hat together make one outcome, such as "red shirt, blue hat".'),
+    def('tree diagram', 'A picture that shows every choice as a branch. Each path from the left edge to the right edge is one outcome.'),
     widget('countingTree', { a: 3, b: 2, labels: ['shirts', 'hats'] }),
     rule('<b>The multiplication principle.</b> If step 1 has a choices and step 2 has b choices (whatever you picked first), then there are <b>a × b</b> outcomes. With more steps, keep multiplying.'),
-    ex('A lunch menu', ['A lunch has 1 sandwich, 1 side and 1 drink.', 'There are 4 sandwiches, 3 sides and 2 drinks.', 'Steps: 4 × 3 × 2 = 24 lunches.', 'Check with a tree: 4 branches, each splits into 3, each of those splits into 2.']),
+    formula('Multiplication principle', 'outcomes = a × b × c × …', 'Each letter is the number of options at one step. In the tree above, 3 shirts and 2 hats give 3 × 2 = 6 outfits.'),
+    ex('A dinner menu', ['A dinner has 1 soup, 1 main dish and 1 dessert.', 'There are 3 soups, 5 main dishes and 2 desserts.', 'Steps: 3 × 5 × 2 = 30 dinners.', 'Check with a tree: 3 branches, each splits into 5, each of those splits into 2.']),
     p('Sometimes there is a rule. A rule changes how many options a step has. Count the options <i>after</i> the earlier steps are done.'),
     ex('A code with no repeats', ['A 3-digit code uses digits 0 to 9, and no digit may repeat.', 'First digit: 10 choices.', 'Second digit: 9 choices, since one digit is used.', 'Third digit: 8 choices.', '10 × 9 × 8 = 720 codes.']),
+    key('Ask the same question at every step: "How many options are left <i>now</i>?" Then multiply the answers.'),
     rule('<b>Fill the strict slot first.</b> If one slot has a restriction, fill that slot before the others. Example: how many even 3-digit numbers? The ones digit must be 0, 2, 4, 6 or 8. The first digit cannot be 0. Pick the digit with the strictest rule first.'),
     ex('Even 3-digit numbers', ['Ones digit: 5 choices (0, 2, 4, 6, 8).', 'Hundreds digit: 9 choices (1 to 9).', 'Tens digit: 10 choices.', '9 × 10 × 5 = 450 even numbers.']),
+    tip('If a number cannot start with 0, count that slot as 9 choices, not 10. Write the number of choices over each slot before multiplying. A mistake is easy to spot that way.'),
     warn('<b>Watch out.</b> Multiply when you do <i>one thing and then another</i>. Add when you pick <i>one thing or another</i>. A dessert that is cake or pie has 2 + 2 options. It is not 2 × 2.'),
-    mcq('Eli counts 3-digit numbers with no repeated digit as 9 × 9 × 9 = 729. What went wrong?', ['Nothing. 729 is right.', 'After the first digit is chosen, only 9 are left for the tens. After the second, only 8 are left for the ones. The answer is 9 × 9 × 8 = 648.', 'The first digit should have 10 choices.'], 1, 'The hundreds digit has 9 choices (not 0). The tens digit can be 0, so it has 9 choices left. The ones digit has 8 choices left. 9 × 9 × 8 = 648.', 'Spot the mistake'),
+    mcq('Eli counts 4-digit numbers with no repeated digit as 9 × 9 × 9 × 9 = 6561. What went wrong?', ['Nothing. 6561 is right.', 'Each new digit must differ from the digits already used, so the number of choices keeps dropping. The answer is 9 × 9 × 8 × 7 = 4536.', 'The first digit should have 10 choices.'], 1, 'The first digit has 9 choices (not 0). The second digit can be 0, so it has 9 choices left. The third has 8 choices left. The fourth has 7 choices left. 9 × 9 × 8 × 7 = 4536.', 'Spot the mistake'),
+    recap([['outcome', 'one complete result of all the steps'], ['tree diagram', 'a picture of every path through the steps'], ['multiplication principle', 'multiply the options at each step'], ['strict slot', 'the slot with a restriction; fill it first']], [['Multiplication principle', 'a × b × c × …'], ['No repeats, 3 slots from 10', '10 × 9 × 8']]),
   ],
 
   practice: [

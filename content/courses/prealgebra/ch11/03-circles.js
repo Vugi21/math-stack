@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const ws = (ans, list) => list.filter(([v], i) => v !== ans && v > 0 && list.findIndex((x) => x[0] === v) === i);
 
@@ -22,16 +22,26 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>circle</b> is all the points at the same distance from a center. That distance is the <b>radius</b> r. A line across through the center is the <b>diameter</b> d, and d = 2r. The distance around the circle is its <b>circumference</b>.'),
+    def('circle', 'The set of all points in a plane that are the same distance from one fixed point, the <b>center</b>.'),
+    def('radius and diameter', 'The <b>radius</b> r is the distance from the center to the circle. The <b>diameter</b> d is a segment across the circle through the center, so d = 2r and r = d ÷ 2.'),
+    def('circumference', 'The distance around a circle: its perimeter. It is a length, so it is measured in cm, m, ft and so on.'),
     widget('circleExplorer', { r: 3 }),
-    p('Slide the radius and look at the numbers. Whatever the circle, circumference ÷ diameter is the same number. We call it <b>π</b> (pi). It is about 3.14, and its decimals never end or repeat, so we usually just write the symbol π.'),
-    rule('<b>Circumference.</b> C = π × d, which is the same as C = 2 × π × r. A circle with radius 5 has circumference 10π.'),
-    rule('<b>Area.</b> A = π × r × r = πr². Note the <i>radius</i> goes in, squared. A circle with radius 5 has area 25π.'),
-    p('Answers "in terms of π" are exact: 25π is the true area, while 78.5 is only an approximation. In this lesson, answers are written as a number times π, so you type just the number in front of the π.'),
-    ex('Radius or diameter?', ['A circle has diameter 12. Find its circumference and area.', 'Circumference: C = π × 12 = 12π.', 'For area we need the radius: 12 ÷ 2 = 6.', 'A = π × 6² = 36π. (Not π × 12², which would be 144π.)']),
-    ex('A ring', ['A flat ring (washer) has outer radius 7 and inner radius 3. Find its area.', 'Outer disk: π × 49 = 49π.', 'Hole: π × 9 = 9π.', 'Ring = 49π − 9π = 40π. Subtract the areas, not the radii.']),
-    warn('<b>Watch out.</b> The two most common slips are using the diameter where the formula needs the radius, and mixing up circumference (a length, no square) with area (square units, has r²).'),
+    p('Slide the radius and look at the numbers. Whatever the size of the circle, circumference ÷ diameter comes out the same. That fixed number is called <b>π</b> (pi). It is about 3.14, a little more than 3, and its decimals never end or repeat, so we usually just write the symbol π. Walking around any circle takes a bit more than three times the distance across it.'),
+    formula('Circumference', 'C = π × d = 2 × π × r', 'd is the diameter and r the radius. The two forms are the same because d = 2r. A circle with radius 5 has circumference 10π.'),
+    p('To see where the area formula comes from, picture a square built on the radius, r by r, with area r². A circle holds exactly π of these radius-squares, about 3.14 of them, which is slightly more than 3.'),
+    formula('Area of a circle', 'A = π × r × r = πr²', 'r is the radius, and it is the radius (not the diameter) that gets squared. A circle with radius 5 has area 25π.'),
+    rule('<b>Circle formulas use the radius.</b> Circumference is C = 2πr and area is A = πr². Given a diameter, halve it first.'),
+    p('Answers "in terms of π" are exact: 25π is the true area, while 78.5 (which is 25 × 3.14) is only an approximation. In this lesson, answers are written as a number times π, so you type just the number in front of the π.'),
+    ex('Radius or diameter?', ['A circle has diameter 16. Find its circumference and area.', 'Circumference: C = π × 16 = 16π.', 'For area we need the radius: 16 ÷ 2 = 8.', 'A = π × 8² = 64π. (Not π × 16², which would be 256π.)']),
+    ex('Working backward', ['A circle has circumference 18π. Find its radius. Then a different circle has area 100π: find its radius.', 'C = 2πr, so 2r = 18 and r = 9.', 'A = πr², so r² = 100. What number times itself is 100? r = 10.', 'The first step is dividing out the π, then undoing the 2 (for circumference) or the square (for area).']),
+    ex('A ring', ['A flat ring (washer) has outer radius 8 and inner radius 5. Find its area.', 'Outer disk: π × 64 = 64π.', 'Hole: π × 25 = 25π.', 'Ring = 64π − 25π = 39π. Subtract the areas, not the radii.']),
+    ex('A half circle', ['A semicircle is half of a disk with radius 10. Find its area.', 'The full circle has area π × 100 = 100π.', 'Half of it is 50π.']),
+    tip('<b>How size changes.</b> If the radius doubles, the circumference doubles (it is a length) but the area becomes 4 times as large (it is r × r). Tripling the radius multiplies the area by 9.'),
+    tip('<b>Quick estimate.</b> To check an answer, replace π by 3. A circle with radius 5 has circumference near 2 × 3 × 5 = 30 and area near 3 × 25 = 75. Exact answers 10π and 25π are slightly bigger, which matches.'),
+    warn('<b>Watch out.</b> The two most common slips are using the diameter where the formula needs the radius, and mixing up circumference (a length, no square) with area (square units, has r²). The edge of a semicircle also includes its flat side, so its perimeter is more than half the circumference.'),
+    key('Before you use any circle formula, find the <b>radius</b>. If the problem gives the diameter, halve it. Then decide: is the question about the distance around (circumference, C = 2πr) or about the space inside (area, A = πr²)?'),
     mcq('A circle has diameter 10. Zoe writes: "Area = π × 10² = 100π." What is wrong?', ['Nothing, that is right.', 'The 10 is the diameter. The radius is 5, so the area is π × 5² = 25π.', 'The area should be 10π.'], 1, 'The area formula uses the radius. Half of 10 is 5, so A = π × 25 = 25π. Using the diameter by mistake gives 4 times too much.', 'Spot the mistake'),
+    recap([['radius', 'center to circle; r = d ÷ 2'], ['diameter', 'across through the center; d = 2r'], ['circumference', 'distance around a circle'], ['π', 'circumference ÷ diameter, about 3.14']], [['Circumference', 'C = πd = 2πr'], ['Area', 'A = πr²'], ['Semicircle area', 'A = ½πr²'], ['Ring area (outer R, inner r)', 'A = π(R² − r²)']]),
   ],
 
   practice: [

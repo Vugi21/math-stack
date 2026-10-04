@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, mcq, chain, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const wr = (a, l) => l.filter(([x]) => Number(x) !== Number(a));
 
@@ -22,14 +22,22 @@ export default lesson({
   ],
 
   learn: [
-    p('A long expression can be read in different ways. 2 + 3 × 4 could mean 20 or 14. To make sure everyone gets the same answer, we agree on an order.'),
+    p('A long expression can be read in different ways. 3 + 2 × 5 could mean 25 or 13. To make sure everyone gets the same answer, we agree on an order.'),
+    def('expression', 'A group of numbers and operation signs that stands for one value, like 3 + 2 × 4. Working out the value is called <b>evaluating</b> it.'),
+    def('parentheses', 'The curved brackets ( ). Whatever is inside them is worked out first, as if it were one number.'),
     rule('<b>The order.</b> (1) Parentheses first, working from the inside out. (2) Then exponents. (3) Then multiplication and division, from left to right. (4) Then addition and subtraction, from left to right.'),
     tbl(['Step', 'Do these', 'Direction'], [['1', 'parentheses ( )', 'innermost first'], ['2', 'exponents', ''], ['3', '× and ÷ together', 'left to right'], ['4', '+ and − together', 'left to right']], 'Multiplication and division share a step. So do addition and subtraction.'),
     ex('A full example: 3 + 2 × (7 − 5)^[2]', ['Parentheses: 7 − 5 = 2. The expression is 3 + 2 × 2^[2].', 'Exponents: 2^[2] = 4. Now it is 3 + 2 × 4.', 'Multiplication: 2 × 4 = 8. Now it is 3 + 8.', 'Addition: 11.']),
+    tip('<b>One step at a time.</b> Rewrite the whole expression after each step, with only that step done. Never try to do two steps in one jump. Most mistakes come from skipping the rewriting.'),
     rule('<b>An exponent only touches the number just before it.</b> In 2 × 3^[2], square the 3 first: 2 × 9 = 18. In (2 × 3)^[2] the parentheses make the 6 the base: 36.'),
-    warn('<b>Left to right matters.</b> 24 ÷ 4 × 2 is 6 × 2 = 12, not 24 ÷ 8 = 3. And 10 − 3 + 2 = 9, not 5. Multiplication does not beat division, and addition does not beat subtraction.'),
-    p('Parentheses let you change the order on purpose. 2 + 3 × 4 = 14, but (2 + 3) × 4 = 20. Inserting parentheses is a good way to hit a target number.'),
+    ex('Nested parentheses: 2 × (3 + (10 − 4) ÷ 2)', ['Innermost parentheses: 10 − 4 = 6. Now it is 2 × (3 + 6 ÷ 2).', 'Inside the outer parentheses, divide first: 6 ÷ 2 = 3. Now it is 2 × (3 + 3).', 'Add: 3 + 3 = 6. Now it is 2 × 6.', 'Multiply: 12.']),
+    ex('Left to right: 48 ÷ 6 × 2 + 3^[2] − 4', ['Exponent first: 3^[2] = 9. Now it is 48 ÷ 6 × 2 + 9 − 4.', 'Multiplication and division from the left: 48 ÷ 6 = 8, then 8 × 2 = 16. Now it is 16 + 9 − 4.', 'Addition and subtraction from the left: 16 + 9 = 25, then 25 − 4 = 21.']),
+    warn('<b>Left to right matters.</b> 40 ÷ 5 × 2 is 8 × 2 = 16, not 40 ÷ 10 = 4. And 10 − 3 + 2 = 9, not 5. Multiplication does not beat division, and addition does not beat subtraction.'),
+    key('Two operations on the same step are done in the order they appear, from left to right. Only a different step changes who goes first.'),
+    p('Parentheses let you change the order on purpose. 3 + 2 × 5 = 13, but (3 + 2) × 5 = 25. Inserting parentheses is a good way to hit a target number.'),
+    tip('<b>A memory aid.</b> Many people remember the order as "PEMDAS": Parentheses, Exponents, Multiplication and Division, Addition and Subtraction. Take care: the letters M and D are one step, and so are A and S. Neither letter wins just by coming first.'),
     mcq('Tara says: "36 ÷ 6 × 3 = 36 ÷ 18 = 2, because multiplication comes first." What is wrong?', ['Nothing. 2 is correct.', 'Multiplication and division share a level, so go left to right: 36 ÷ 6 = 6, then 6 × 3 = 18.', 'She should have added first.'], 1, 'Multiplication does not come before division. They are done in the order they appear, from left to right. The answer is 18.', 'Spot the mistake'),
+    recap([['expression', 'numbers and signs standing for one value'], ['parentheses', 'work out what is inside first'], ['evaluate', 'work out the value of an expression']], [['Order', 'parentheses, exponents, × and ÷, + and −'], ['Same step', 'go left to right']]),
   ],
 
   practice: [

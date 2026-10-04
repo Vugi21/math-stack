@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, eq, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 import { parseNum } from '../../../../src/engine/parse.js';
 import { dec } from '../../../../src/widgets/decimals.js';
 
@@ -28,15 +28,21 @@ export default lesson({
     p('To read a decimal, say the whole part. Say "and" for the point. Then say the digits after the point as one number, and finish with the name of the last place.'),
     tbl(['Decimal', 'How to say it'], [['3.4', 'three and four tenths'], ['3.04', 'three and four hundredths'], ['0.047', 'forty-seven thousandths'], ['12.508', 'twelve and five hundred eight thousandths']], 'Reading decimals'),
     rule('<b>The last digit names the place.</b> 0.047 ends in the thousandths place. So it is "forty-seven thousandths" and equals {47/1000}.'),
+    key('Reading the digits one by one, like "three point zero four", does not show the size of the number. "Three and four hundredths" does.'),
+    def('place name', 'The word that tells what the last digit is worth: tenths, hundredths or thousandths. It is the last word you say when you read the decimal.'),
+    def('hundredth', 'One of 100 equal parts of a whole. It is written 0.01 or {1/100}. A cent is one hundredth of a dollar.'),
     p('<b>Money</b> is a decimal. One dollar is 100 cents, so one cent is one hundredth of a dollar. $3.45 is 3 dollars and 45 hundredths of a dollar. A dime is 0.10 dollars. A penny is 0.01 dollars.'),
-    ex('Counting coins', ['I have 7 dollar bills, 3 dimes and 8 pennies. How many dollars?', 'Dimes are tenths of a dollar: 3 dimes = 0.3.', 'Pennies are hundredths: 8 pennies = 0.08.', 'Total: 7 + 0.3 + 0.08 = 7.38 dollars.']),
+    ex('Counting coins', ['I have 5 dollar bills, 4 dimes and 6 pennies. How many dollars?', 'Dimes are tenths of a dollar: 4 dimes = 0.4.', 'Pennies are hundredths: 6 pennies = 0.06.', 'Total: 5 + 0.4 + 0.06 = 5.46 dollars.']),
     p('<b>Measurements</b> use decimals too. A millimetre is a tenth of a centimetre. A centimetre is a hundredth of a metre. A metre is a thousandth of a kilometre.'),
-    rule('<b>Units are decimal places.</b> 1 cm = 0.01 m. 1 mm = 0.001 m. So 2 m 35 cm is 2.35 m. And 3 km 40 m is 3.040 km, because 40 m is 40 thousandths of a km.'),
+    formula('Metric units as decimals', '1 cm = 0.01 m   1 mm = 0.001 m   1 m = 0.001 km', 'So 2 m 48 cm is 2.48 m. And 3 km 40 m is 3.040 km, because 40 m is 40 thousandths of a km.'),
+    ex('Changing units', ['Write 4 m 7 cm in metres.', '7 cm is 7 hundredths of a metre: 0.07 m.', 'So 4 m 7 cm = 4.07 m. The zero is needed. 4.7 m would be 4 m 70 cm.']),
     widget('roundingLine', { v: 3846, place: 1 }),
     p('The number line above zooms in. Between 3.8 and 3.9 there are 10 equal steps. Each step is 0.01. A point on the 6th mark after 3.8 is at 3.86.'),
     rule('<b>Zooming in.</b> Between two neighbouring tenths, cut the gap into 10 steps of one hundredth. Between two neighbouring hundredths, cut into 10 steps of one thousandth.'),
+    tip('For money, always write two places after the point: $3.40, not $3.4. For measurements, ask which place the unit is: centimetres are hundredths of a metre, so two places.'),
     warn('<b>Watch out.</b> $3.4 is three dollars and <i>forty</i> cents, not three dollars and four cents. Money needs two places after the point, so write $3.40. Four cents is $3.04.'),
     mcq('Ben says: "Three and four hundredths is 3.4." What is wrong?', ['Nothing, he is right.', 'Four hundredths has two digits after the point, and the first is a zero. The number is 3.04.', 'It should be 34.'], 1, '3.4 is three and four tenths. Four hundredths is 0.04, so the number is 3.04.', 'Spot the mistake'),
+    recap([['say the point as "and"', '3.04 is three and four hundredths'], ['last digit', 'names the place you say at the end'], ['cent', 'one hundredth of a dollar'], ['millimetre', 'one thousandth of a metre']], [['Centimetres to metres', '1 cm = 0.01 m'], ['Millimetres to metres', '1 mm = 0.001 m']]),
   ],
 
   practice: [

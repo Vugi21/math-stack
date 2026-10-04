@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const sum = (a) => a.reduce((x, y) => x + y, 0);
@@ -24,17 +24,26 @@ export default lesson({
   ],
 
   learn: [
-    p('Numbers become easier to understand when we organize them. A <b>table</b> lists values exactly. A graph or chart turns them into a picture so patterns jump out. Each kind has a job.'),
+    p('Numbers become easier to understand when we organize them. A <b>table</b> lists values exactly. A graph or chart turns them into a picture so patterns jump out. Each kind has a job, and choosing the right one is half of understanding data.'),
+    def('frequency', 'How many times a value occurs in the data. A <b>frequency table</b> lists each value next to its frequency, which gives a compact way to hold a long list.'),
     tbl(['Kind', 'Best for', 'How to read it'], [['Bar graph', 'Comparing separate categories', 'Taller bar means a bigger count'], ['Line graph', 'Change over time', 'Slope up means rising, flat means steady'], ['Pie chart', 'Parts of a whole', 'Slice size = share of the 360° circle'], ['Dot plot / frequency table', 'How often each value occurs', 'Count the dots or read the frequency']], 'Choosing a picture'),
-    rule('<b>Pie charts.</b> A slice for a group of size k out of N total has angle (k ÷ N) × 360°. The slices always add to 360° and the percentages to 100%.'),
-    ex('Reading a pie chart', ['A budget of 720 dollars has a slice of 90°.', '90° out of 360° is {1/4} of the circle.', 'So that category got {1/4} of 720 = 180 dollars.']),
-    p('A <b>frequency table</b> shows each value and how many times it occurs. It is a compact way to hold a long list, and you can still find the mean and median from it.'),
+    formula('Pie chart slice', 'angle = (k ÷ N) × 360°', 'k is the size of the group and N is the total. The slices of a pie always add to 360° and the percentages to 100%.'),
+    rule('<b>Parts of a whole add to the whole.</b> Pie slices add to 360°, percentages add to 100%, and the frequencies in a table add to the number of items.'),
+    ex('Reading a pie chart', ['A budget of 480 dollars has a slice of 90°.', '90° out of 360° is {1/4} of the circle.', 'So that category got {1/4} of 480 = 120 dollars.']),
+    ex('Drawing a pie slice', ['In a poll of 24 students, 9 chose soccer. How many degrees is the soccer slice?', 'The share is 9 ÷ 24 = {3/8}.', '{3/8} of 360° = 135°. As a percentage, that is 37.5% of the circle.']),
+    p('<b>Line graphs</b> show how a quantity changes over time. Each point is a reading, and the line joins neighbors. A steep rise means fast growth and a flat stretch means no change. For readings 8, 10, 15, 14, 19, the changes between neighbors are +2, +5, −1, +5, so the greatest rise is 5.'),
     tbl(['Pets at home', 'Students'], [['0', '5'], ['1', '8'], ['2', '4'], ['3', '3']], 'Frequency table for 20 students'),
-    ex('Mean from a frequency table', ['Total students: 5 + 8 + 4 + 3 = 20.', 'Total pets: 0×5 + 1×8 + 2×4 + 3×3 = 0 + 8 + 8 + 9 = 25.', 'Mean = 25 ÷ 20 = 1.25 pets per student.', 'The mode is 1 (the biggest frequency). The median is the average of the 10th and 11th students: both have 1, so the median is 1.']),
+    ex('Mean, median and mode from a frequency table', ['Total students: 5 + 8 + 4 + 3 = 20.', 'Total pets: 0×5 + 1×8 + 2×4 + 3×3 = 0 + 8 + 8 + 9 = 25.', 'Mean = 25 ÷ 20 = 1.25 pets per student.', 'The mode is 1 (the biggest frequency). The median is the average of the 10th and 11th students: both have 1, so the median is 1.']),
     widget('dataPlot', { data: [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3], addable: false, lo: 0, hi: 4 }),
     p('This dot plot is the same data as the frequency table. Every dot is one student. The yellow triangle is the mean you just computed.'),
-    warn('<b>Graphs can fib.</b> If the vertical axis of a bar graph starts at 90 instead of 0, bars for 95 and 100 look like heights 5 and 10: one bar looks twice as big, but the real difference is about 5%. Always check where the axis starts and what each step means.'),
-    mcq('A bar graph\'s axis begins at 50. One bar reads 60 and another reads 80. Maya says: "The second bar is three times as tall as the first on the page, so the real value is three times as big." What is the mistake?', ['None, she is right.', 'The axis is cut off at 50, so the drawn heights are 10 and 30 (three times as tall), but the real values 60 and 80 differ by only a third. The picture exaggerates.', 'The values can not be compared on a bar graph.'], 1, 'Drawn heights are 60 − 50 = 10 and 80 − 50 = 30: the bar looks 3 times as tall. The real values compare as 80 to 60, which is only {4/3}. Cutting off the axis exaggerates differences.', 'Spot the mistake'),
+    def('two-way table', 'A table with rows for one category and columns for another, so that each group can be counted in two ways at once. The row totals and column totals both add to the grand total.'),
+    ex('Filling a two-way table', ['A class has 30 students: 17 girls and 13 boys. 20 ride the bus, and 9 of the riders are girls. How many boys do not ride the bus?', 'Boys who ride: 20 − 9 = 11.', 'Boys who do not ride: 13 − 11 = 2.', 'Check the grid: girls who ride 9, girls who walk 8, boys who ride 11, boys who walk 2. The four add to 30.']),
+    warn('<b>Graphs can mislead.</b> If the vertical axis of a bar graph starts at 90 instead of 0, bars for 95 and 100 look like heights 5 and 10: one bar looks twice as big, but the real difference is about 5%. Always check where the axis starts and what each step means.'),
+    tip('<b>Read a graph in four steps.</b> Title (what is shown), axis labels and units (what each direction means), scale (where it starts and how big each step is), then the data. Many mistakes come from skipping straight to the data.'),
+    tip('<b>Sanity checks.</b> Pie slices must add to 360° and a frequency table must add to the number of items. If the frequencies do not total the count you expected, a row is missing or miscounted.'),
+    key('A good chart shows the data <b>honestly</b>. Bars start at zero, steps are even, and the picture matches the numbers. Whenever a picture seems dramatic, go back to the actual values.'),
+    mcq('A bar graph\'s axis begins at 50. One bar reads 60 and another reads 80. Maya says: "The second bar is three times as tall as the first on the page, so the real value is three times as big." What is the mistake?', ['None, she is right.', 'The axis is cut off at 50, so the drawn heights are 10 and 30 (three times as tall), but the real values 60 and 80 differ by only a third. The picture exaggerates.', 'The values cannot be compared on a bar graph.'], 1, 'Drawn heights are 60 − 50 = 10 and 80 − 50 = 30: the bar looks 3 times as tall. The real values compare as 80 to 60, which is only {4/3}. Cutting off the axis exaggerates differences.', 'Spot the mistake'),
+    recap([['frequency', 'how many times a value occurs'], ['pie chart', 'parts of a whole, 360° in total'], ['line graph', 'change over time'], ['two-way table', 'counts by two categories at once']], [['Pie slice angle', '(k ÷ N) × 360°'], ['Mean from frequencies', 'sum of (value × frequency) ÷ total count']]),
   ],
 
   practice: [

@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => Number(x[0]) !== Number(ans));
 const dsum = (n) => String(n).split('').reduce((a, c) => a + Number(c), 0);
@@ -25,17 +25,24 @@ export default lesson({
   ],
 
   learn: [
-    p('Some counting problems are a tangle: no neat sequence of choices. <b>Casework</b> untangles them. You split the possibilities into a few separate cases, count each easily, then add.'),
+    p('Some counting problems are a tangle: there is no neat sequence of choices to multiply. <b>Casework</b> untangles them. You split the possibilities into a few separate cases, count each case with an easy method, and add the totals.'),
+    def('case', 'One of several groups that together contain every possibility. A good set of cases has no overlaps and no gaps: every possibility belongs to exactly one case.'),
+    def('casework', 'A counting method: split all the possibilities into separate cases, count each case, and add the counts.'),
     rule('<b>Casework.</b> Choose a feature that sorts every possibility into exactly one case (no overlaps, nothing left out). Count each case. Add the totals.'),
+    key('Casework is "divide and conquer" for counting. The art is choosing the feature to split on so that each case becomes easy: usually one case needs only multiplication or a short list.'),
     ex('Two dice that sum to 7', ['Case by the value of the first die: 1, 2, 3, 4, 5 or 6.', 'First die 1 needs second 6. First die 2 needs 5. And so on: each first value has exactly one partner that works.', 'That is 6 cases of 1 outcome each: 6 ways.']),
+    p('The two dice are treated as different (say one red, one blue), so (2, 5) and (5, 2) are two separate outcomes. That is why there are 36 outcomes in all, not 21. The table shows how those 36 outcomes sort by sum.'),
     tbl(['Sum of two dice', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'], [['Ways', '1', '2', '3', '4', '5', '6', '5', '4', '3', '2', '1']], 'The 36 outcomes sorted by sum'),
-    ex('Making change', ['Ways to make 30¢ from nickels, dimes, quarters.', 'Case 0 quarters: 30¢ from dimes and nickels: 0, 1, 2 or 3 dimes, nickels fill the rest. 4 ways.', 'Case 1 quarter: 5¢ left: only a nickel. 1 way.', 'Total 4 + 1 = 5.']),
-    p('Tip: pick the case split that makes each case <i>easy</i>. For coins, split by the largest coin first. For numbers, split by the first digit. For paths, split by the first step or the last step.'),
+    ex('Making change', ['Ways to make 30¢ from nickels (5¢), dimes (10¢) and quarters (25¢).', 'Case 0 quarters: 30¢ from dimes and nickels: 0, 1, 2 or 3 dimes, nickels fill the rest. 4 ways.', 'Case 1 quarter: 5¢ left: only a nickel. 1 way.', 'Total 4 + 1 = 5.']),
+    tip('Pick the case split that makes each case <i>easy</i>. For coins, split by the largest coin first. For numbers, split by the first digit. For paths, split by the first step or the last step.'),
     ex('Digit sums', ['How many two-digit numbers have digits that add to 9?', 'Case by tens digit: 1 → 18, 2 → 27, 3 → 36, 4 → 45, 5 → 54, 6 → 63, 7 → 72, 8 → 81, 9 → 90.', 'One number per case, 9 cases, 9 numbers.']),
+    ex('Multiplying inside a case', ['How many 3-digit numbers have all three digits different and a first digit of 1 or 2?', 'Case 1: first digit 1. Middle digit: any of the other 9 digits. Last digit: any of the remaining 8. That is 9 × 8 = 72.', 'Case 2: first digit 2. The same count: 9 × 8 = 72.', 'The cases cannot overlap (the first digits differ): 72 + 72 = 144.']),
     widget('countingTree', { a: 3, b: 2, c: 2, labels: ['first choice', 'second choice', 'third (0 = none)'] }),
-    p('Casework can include multiplication inside each case. When the cases are separate, add; when you have stages inside a case, multiply.'),
+    p('Casework often mixes the two main rules. <b>Between cases, add</b> (a thing is in one case <i>or</i> another). <b>Inside a case, multiply</b> when there are stages (one choice <i>and then</i> another).'),
     warn('<b>Two ways to fail.</b> Cases that overlap (you count something twice) or cases that leave a possibility out. Before you add, ask: "Could one thing be in two of my cases? Is anything in none?"'),
+    warn('<b>Distinguishable objects.</b> If the two dice (or two people, or two coins) are different, then swapping them gives a different outcome: (2, 6) and (6, 2) are both counted. Only treat swaps as the same if the problem says order does not matter.'),
     mcq('Leo counts the ways two dice sum to 8: "(2,6), (3,5), (4,4) so 3 ways." What did he miss?', ['Nothing, 3 is right.', 'The dice are different, so (6,2) and (5,3) are separate outcomes. The answer is 5.', 'He should have counted (1,7).'], 1, 'With two distinguishable dice, (2,6) and (6,2) are different. The outcomes are (2,6), (3,5), (4,4), (5,3), (6,2): 5 ways.', 'Spot the mistake'),
+    recap([['case', 'one separate group of possibilities'], ['no overlap, no gaps', 'every possibility lies in exactly one case'], ['distinguishable', 'the objects can be told apart, so swaps count as new outcomes']], [['Casework', 'total = case 1 + case 2 + ...'], ['Inside a case', 'multiply the stage choices']]),
   ],
 
   practice: [

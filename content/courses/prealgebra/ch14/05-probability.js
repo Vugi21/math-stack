@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const W = (ans, list) => list.filter((x) => String(x[0]) !== String(ans));
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
@@ -26,17 +26,25 @@ export default lesson({
   ],
 
   learn: [
-    p('<b>Probability</b> measures how likely something is, using a number from 0 (impossible) to 1 (certain). It is usually a fraction.'),
-    rule('<b>Probability.</b> When all outcomes are equally likely, P(event) = (number of outcomes that make the event happen) ÷ (total number of outcomes). The top counts the good ones; the bottom counts all of them. Counting is the heart of probability.'),
+    p('Probability measures how likely something is. It turns the counting skills of this chapter into a number that tells you what to expect. Throughout, we assume the situation is <b>fair</b>: every basic outcome is just as likely as every other one.'),
+    def('outcome and event', 'An <b>outcome</b> is one possible result, such as rolling a 4. An <b>event</b> is a collection of outcomes you care about, such as "rolling an even number" (the outcomes 2, 4, 6).'),
+    def('probability', 'A number from 0 to 1 that says how likely an event is. 0 means impossible, 1 means certain. It is usually written as a fraction. The closer to 1, the more likely.'),
+    formula('Probability', 'P(event) = good outcomes ÷ all outcomes', 'This works only when all outcomes are equally likely. The top counts the outcomes that make the event happen; the bottom counts every possible outcome. Counting is the heart of probability.'),
+    ex('A single die', ['What is the probability of rolling a number greater than 4 on a fair die?', 'All outcomes: 1, 2, 3, 4, 5, 6, which is 6, all equally likely.', 'Good outcomes: 5 and 6, which is 2.', 'P = 2 ÷ 6 = {1/3}.']),
     widget('spinner', { s0: 3, s1: 2, s2: 1 }),
     p('Try the spinner. The probability of each color equals its share of slices. Spin 20 times, then compare the tally with the prediction. Predictions are not guarantees: the results wobble around them and settle down only after very many spins.'),
-    rule('<b>Complement.</b> P(not A) = 1 − P(A). If it rains with probability {3/10}, it stays dry with probability {7/10}. This is "total minus unwanted", again.'),
+    rule('<b>Complement.</b> P(not A) = 1 − P(A). If it rains with probability {3/10}, it stays dry with probability {7/10}. This is "total minus unwanted" again, with the total probability equal to 1.'),
+    tip('For "at least one" questions, find the chance of <b>none</b> and subtract from 1. The chance of at least one 6 in two dice is easiest as 1 − (chance of no 6 at all) = 1 − {25/36} = {11/36}.'),
     ex('Two dice', ['Roll two dice. What is the probability the sum is 7?', 'All outcomes: 6 × 6 = 36, all equally likely.', 'Sum 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1): 6 outcomes.', 'P = 6 ÷ 36 = {1/6}.']),
+    def('independent events', 'Two events are independent when the result of one does not change the chance of the other. A coin flip and a die roll are independent.'),
     rule('<b>Two steps (independent events).</b> If one event does not affect the other, multiply: P(A then B) = P(A) × P(B). Flip a coin and roll a die: P(heads and a 6) = {1/2} × {1/6} = {1/12}. This is the multiplication principle in probability form.'),
-    ex('Without putting back', ['A bag has 3 red and 2 blue marbles. You take two, one after another, without putting any back. P(both red)?', 'First red: {3/5}. Now the bag has 2 red and 2 blue, so second red: {2/4}.', 'P = {3/5} × {2/4} = {6/20} = {3/10}.']),
+    ex('Without putting back', ['A bag has 4 red and 3 blue marbles. You take two, one after another, without putting any back. P(both red)?', 'First red: {4/7}. Now the bag has 3 red and 3 blue, so second red: {3/6}.', 'P = {4/7} × {3/6} = {12/42} = {2/7}.', 'Check by counting pairs: the bag has 7 × 6 ÷ 2 = 21 pairs, and 4 × 3 ÷ 2 = 6 are both red: {6/21} = {2/7}.']),
     tbl(['Probability', 'Meaning'], [['0', 'Impossible'], ['{1/4}', 'Unlikely, 1 in 4'], ['{1/2}', 'Even chance'], ['{3/4}', 'Likely'], ['1', 'Certain']], 'The probability scale'),
     warn('<b>"Either it happens or it does not" is not 50-50.</b> Winning a raffle or rolling a 6 is "either yes or no", but the outcomes are not equally likely. Equal likelihood is a condition you must check, not an assumption you can make.'),
+    warn('<b>Probability is not a promise.</b> If a fair coin has landed heads five times in a row, the chance of heads next is still {1/2}. The coin has no memory. Also, a probability can never be below 0 or above 1: if you get {7/5}, you have counted something wrongly.'),
+    key('Probability = counting, then dividing. Count the outcomes you want, count all the (equally likely) outcomes, and write the fraction. When events happen in sequence and do not affect each other, multiply their probabilities.'),
     mcq('Maya says: "A die lands on 6 or not on 6, so the probability of a 6 is {1/2}." What is wrong?', ['Nothing, it is 1/2.', 'The two outcomes "6" and "not 6" are not equally likely. 1 outcome is a 6 and 5 are not, so the probability is {1/6}.', 'Dice cannot be analyzed with probability.'], 1, 'Count equally likely outcomes: 1, 2, 3, 4, 5, 6. Only 1 of 6 is a six. "6 or not 6" are two events, but not two equally likely outcomes.', 'Spot the mistake'),
+    recap([['probability', 'a number from 0 (impossible) to 1 (certain)'], ['event', 'a set of outcomes you care about'], ['complement', 'the event "not A"'], ['independent', 'one result does not change the other\'s chance']], [['Probability', 'good outcomes ÷ all outcomes'], ['Complement', 'P(not A) = 1 − P(A)'], ['Independent events', 'P(A then B) = P(A) × P(B)']]),
   ],
 
   practice: [

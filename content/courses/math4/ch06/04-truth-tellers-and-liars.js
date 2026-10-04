@@ -1,4 +1,4 @@
-import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, NAMES } from '../../../../src/content/dsl.js';
+import { lesson, text, num, mc, N, T, choice, tpl, p, rule, warn, ex, widget, mcq, chain, NAMES, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const people = (r, n) => r.distinct(n, 0, NAMES.length - 1).map((i) => NAMES[i]);
 const list = (a) => a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
@@ -62,14 +62,20 @@ export default lesson({
 
   learn: [
     p(IS + ' You cannot see which is which. You only hear what they say.'),
+    def('truth-teller', 'A person who always tells the truth. Every sentence a truth-teller says is true.'),
+    def('liar', 'A person who always lies. Every sentence a liar says is false. A liar does not mix true and false: the whole sentence is false.'),
     rule('<b>The two rules.</b> Everything a truth-teller says is true. Everything a liar says is false. A statement from a liar must be completely false.'),
-    ex('Test one case', ['Ben says: "Ava and I are both liars."', 'Suppose Ben is a truth-teller. Then his sentence is true, so Ben is a liar. That cannot be: a contradiction.', 'So Ben is a liar. His sentence is false, so Ava and Ben are not both liars.', 'Ben is a liar, so Ava is not. Ava is a truth-teller.']),
+    ex('Test one case', ['Eli says: "Dee is a truth-teller and I am a liar."', 'Suppose Eli is a truth-teller. Then his sentence is true, so Eli is a liar. That cannot be: a contradiction.', 'So Eli is a liar. His sentence is false. The part "I am a liar" is true, so the other part must be false.', 'So Dee is not a truth-teller. Dee is a liar.']),
+    def('contradiction', 'Two things that cannot both be true at once, such as "Ben is a truth-teller" and "Ben is a liar".'),
     rule('<b>Contradiction.</b> Suppose something is true and follow it. If you reach something impossible, a contradiction, the thing you supposed was false. Then the other case must be true.'),
     p('Use a grid to keep track. One row for each person. Mark ✓ in "truth-teller" or in "liar". Several people can share a column, so each row has exactly one ✓.'),
     widget('logicGrid', { rows: ['Ava', 'Ben'], cols: ['truth-teller', 'liar'], partial: true }),
+    tip('Start with a person and try "truth-teller". Follow what that forces. If you reach a contradiction, that person is a liar. If not, also try "liar", since a puzzle can only be trusted if you test both.'),
+    key('To use a statement: if the speaker is a truth-teller, the statement is true. If the speaker is a liar, the <b>opposite</b> of the statement is true. Always turn the statement into a fact about the people.'),
     warn('<b>Careful with "both".</b> The opposite of "we are both liars" is not "we are both truth-tellers". It is "at least one of us is a truth-teller". A liar who says "Ben and I are both truth-tellers" tells you only that the two of them are not both truth-tellers.'),
-    ex('A chain of statements', ['Ava: "Ben is a liar." Ben: "Cy is a liar." Cy: "Ava is a liar."', 'Suppose Ava is a truth-teller. Then Ben is a liar. Ben\'s sentence is false, so Cy is a truth-teller. Cy says Ava is a liar. That is false. A contradiction.', 'So Ava is a liar. Then Ben is a truth-teller, and Cy is a liar.', 'Check Cy: Cy is a liar and says "Ava is a liar", which is true. A contradiction again!', 'No assignment works, so nobody on the island could make these three statements. A good puzzle always has an answer, so always check that yours does.']),
+    ex('A chain of statements', ['Dee: "Eli is a liar." Eli: "Fay is a truth-teller." Fay: "Dee and Eli are both liars."', 'Suppose Dee is a liar. Her sentence is false, so Eli is a truth-teller. Then Eli\'s sentence is true, so Fay is a truth-teller. Then Fay\'s sentence is true, so Dee and Eli are both liars. But Eli is a truth-teller. That is a contradiction.', 'So Dee is a truth-teller. Her sentence is true, so Eli is a liar.', 'Eli is a liar, so his sentence is false, and Fay is not a truth-teller. Fay is a liar. Check Fay: her sentence says Dee and Eli are both liars. That is false, since Dee is a truth-teller, and a liar must say something false.', 'Dee is a truth-teller, Eli is a liar, Fay is a liar. Always finish by checking every statement.']),
     mcq('Maya says: "A liar said \'Ben and I are both truth-tellers.\' So Ben is a liar." What is wrong?', ['Nothing is wrong.', 'The liar\'s sentence is false whatever Ben is, because the liar himself is not a truth-teller. Ben could be either.', 'Liars do not talk about other people.'], 1, 'The sentence needs both people to be truth-tellers. The speaker is a liar, so the sentence is already false. Ben may be a truth-teller or a liar. Nothing more can be told.', 'Spot the mistake'),
+    recap([['truth-teller', 'always tells the truth'], ['liar', 'always lies; every sentence is false'], ['contradiction', 'two things that cannot both be true'], ['case test', 'suppose one case, follow it, and look for a contradiction']], []),
   ],
 
   practice: [
