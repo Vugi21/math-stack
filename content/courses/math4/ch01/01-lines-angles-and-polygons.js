@@ -1,4 +1,4 @@
-import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, mc, N, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const POLY = { 3: 'triangle', 4: 'quadrilateral', 5: 'pentagon', 6: 'hexagon', 7: 'heptagon', 8: 'octagon', 9: 'nonagon', 10: 'decagon' };
 
@@ -22,18 +22,28 @@ export default lesson({
   ],
 
   learn: [
-    p('A <b>point</b> is an exact spot. It has no size. We name points with capital letters, like A and B.'),
-    p('A <b>line</b> goes on forever in both directions. A <b>ray</b> has one end and goes on forever the other way. A <b>segment</b> has two ends. You can measure a segment.'),
+    p('Geometry has its own small vocabulary. Each word means exactly one thing. If you learn these words carefully now, every later lesson on shapes, angles and area will be much easier to read.'),
+    def('point', 'An exact spot. It has no size at all. We name points with capital letters, like A and B.'),
+    def('line', 'A straight path that goes on forever in <b>both</b> directions. It has no ends, so it cannot be measured.'),
+    def('ray', 'A straight path with <b>one</b> end that goes on forever the other way. It starts at a point and never stops.'),
+    def('segment', 'A straight path with <b>two</b> ends. It has a length, so you can measure it with a ruler.'),
     tbl(['Name', 'Ends', 'Can you measure it?'], [['line', '0 ends', 'no, it never stops'], ['ray', '1 end', 'no, it never stops'], ['segment', '2 ends', 'yes']], 'Three kinds of straight paths'),
-    p('An <b>angle</b> is made by two rays that start at the same point. That point is the <b>vertex</b>. The angle tells how far one ray must turn to land on the other. We measure turning in <b>degrees</b>. A full turn is 360 degrees.'),
+    tip('To remember: a <b>segment</b> is a <b>section</b> cut off at both ends. Anything that never stops cannot have a length you can write down.'),
+    def('angle', 'Two rays that start at the same point. The shared point is called the <b>vertex</b>. The angle tells how far one ray must turn to land on the other.'),
+    def('degree', 'The unit for measuring angles. A full turn all the way around is <b>360 degrees</b>, written 360°. A half turn is 180°. A quarter turn is 90°.'),
     rule('<b>Kinds of angle.</b> A <b>right</b> angle is exactly 90°, a quarter turn. <b>Acute</b> means smaller than 90°. <b>Obtuse</b> means bigger than 90° and smaller than 180°. A <b>straight</b> angle is exactly 180°. A <b>reflex</b> angle is bigger than 180°.'),
     widget('angleExplorer', { a: 50 }),
-    p('A <b>polygon</b> is a closed flat shape made only of straight segments. The segments are <b>sides</b>. Two sides meet at a <b>vertex</b> (plural: vertices, or corners). A polygon always has as many vertices as sides.'),
+    tip('<b>Acute</b> sounds like "a cute little angle", and it is the small one. Obtuse is the wide, blunt one.'),
+    def('polygon', 'A closed flat shape made only of straight segments. The segments are its <b>sides</b>. Two sides meet at a <b>vertex</b> (plural: vertices, also called corners).'),
+    key('A polygon always has the <b>same number of sides and vertices</b>. Count one and you know the other.'),
     tbl(['Sides', 'Name'], [['3', 'triangle'], ['4', 'quadrilateral'], ['5', 'pentagon'], ['6', 'hexagon'], ['7', 'heptagon'], ['8', 'octagon'], ['9', 'nonagon'], ['10', 'decagon']], 'Polygon names'),
-    rule('<b>Regular polygon.</b> All sides are equal <i>and</i> all angles are equal. A regular hexagon with side 5 has perimeter 6 × 5 = 30.'),
+    def('regular polygon', 'A polygon whose sides are <b>all equal</b> and whose angles are <b>all equal</b>.'),
+    formula('Perimeter of a regular polygon', 'perimeter = number of sides × side length', 'A regular hexagon with side 5 has perimeter 6 × 5 = 30.'),
     warn('<b>Watch out.</b> Equal sides are not enough. A thin diamond can have 4 equal sides, but its angles are not all equal. So it is not regular.'),
     ex('Counting diagonals', ['A <b>diagonal</b> joins two corners that are not next to each other. How many diagonals does a pentagon have?', 'From one corner you can reach 4 other corners. Two of them are neighbors. So 2 diagonals start at each corner.', '5 corners × 2 = 10. But each diagonal has two ends, so we counted each one twice.', '10 ÷ 2 = 5 diagonals.']),
+    ex('Counting segments between dots', ['Five dots, no three on one straight line. How many segments join every pair?', 'Dot A joins 4 others. Dot B adds 3 new ones. Dot C adds 2. Dot D adds 1.', '4 + 3 + 2 + 1 = 10 segments.']),
     mcq('Priya says: "A ray is shorter than a line, so I can measure it." What is wrong?', ['Nothing. Rays can be measured.', 'A ray goes on forever in one direction, so it has no length. Only a segment can be measured.', 'A ray has two ends.'], 1, 'A ray has one end and never stops on the other side. It has no length. A segment on the ray can be measured.', 'Spot the mistake'),
+    recap([['line', 'no ends, goes on both ways'], ['ray', 'one end, goes on one way'], ['segment', 'two ends, can be measured'], ['angle', 'two rays from one vertex'], ['polygon', 'closed shape made of straight segments'], ['regular', 'all sides equal and all angles equal']], [['Right angle', '90°'], ['Straight angle', '180°'], ['Full turn', '360°'], ['Perimeter, regular polygon', 'sides × side length']]),
   ],
 
   practice: [

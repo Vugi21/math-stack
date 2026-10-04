@@ -93,8 +93,21 @@ for (const course of courses) {
         if (l.learn.length < MIN.learn) E.push('learn: needs at least ' + MIN.learn + ' blocks');
         if (!l.learn.some((b) => b.t === 'rule')) E.push('learn: needs a rule box');
         if (!l.learn.some((b) => b.t === 'warn' || b.t === 'mc')) E.push('learn: needs a watch-out box or a spot-the-mistake question');
+        // Reading depth: once a lesson uses the reading blocks, it must use them properly.
+        if (l.learn.some((b) => ['def', 'key', 'formula', 'tip', 'recap'].includes(b.t)) || process.env.DEPTH_ALL) {
+          const n = (t) => l.learn.filter((b) => b.t === t).length;
+          if (l.learn.length < 10) E.push('depth: needs at least 10 learn blocks');
+          if (n('def') < 2) E.push('depth: needs 2+ definitions');
+          if (n('key') < 1) E.push('depth: needs a key idea');
+          if (n('tip') < 1) E.push('depth: needs a tip');
+          if (n('recap') !== 1 || l.learn[l.learn.length - 1].t !== 'recap') E.push('depth: needs exactly one recap, as the last block');
+          if (l.learn.filter((b) => b.t === 'ex').length < 2) E.push('depth: needs 2+ worked examples');
+        }
         l.learn.forEach((b, i) => {
-          if (b.t === 'p' || b.t === 'rule' || b.t === 'warn') checkText('learn[' + i + ']', b.html, E);
+          if (['p', 'rule', 'warn', 'key', 'tip'].includes(b.t)) checkText('learn[' + i + ']', b.html, E);
+          if (b.t === 'def') { checkText('learn[' + i + '] term', b.term, E); checkText('learn[' + i + ']', b.html, E); }
+          if (b.t === 'formula') { checkText('learn[' + i + '] formula name', b.name, E); checkText('learn[' + i + '] formula', b.expr, E); }
+          if (b.t === 'recap') { if (!b.terms.length && !b.formulas.length) E.push('learn[' + i + ']: empty recap'); b.terms.concat(b.formulas).forEach(([a, c], k) => { checkText('learn[' + i + '] recap ' + k + ' a', a, E); checkText('learn[' + i + '] recap ' + k + ' b', c, E); }); }
           if (b.t === 'ex') { checkText('learn[' + i + '] title', b.title, E); b.steps.forEach((s, k) => checkText('learn[' + i + '] step ' + k, s, E)); }
           if (b.t === 'tbl') b.rows.forEach((r) => { if (r.length !== b.head.length) E.push('learn[' + i + ']: table row width mismatch'); });
           if (b.t === 'mc') {
@@ -102,7 +115,7 @@ for (const course of courses) {
             if (!(b.ok >= 0 && b.ok < b.opts.length)) E.push('learn[' + i + ']: bad mc ok index');
             if (b.opts.length < 3) E.push('learn[' + i + ']: mc needs 3+ options');
           }
-          if (!['p', 'rule', 'warn', 'ex', 'tbl', 'mc', 'widget'].includes(b.t)) E.push('learn[' + i + ']: unknown block type ' + b.t);
+          if (!['p', 'rule', 'warn', 'ex', 'tbl', 'mc', 'widget', 'def', 'key', 'formula', 'tip', 'recap'].includes(b.t)) E.push('learn[' + i + ']: unknown block type ' + b.t);
           if (b.t === 'widget') {
             if (!WIDGETS[b.kind]) E.push('learn[' + i + ']: unknown widget ' + b.kind);
             else { try { const el = WIDGETS[b.kind](b.opts || {}); if (!el || !el.querySelector('.readout')) E.push('widget ' + b.kind + ' rendered nothing'); } catch (e) { E.push('widget ' + b.kind + ' threw: ' + e.message); } }

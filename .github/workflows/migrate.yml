@@ -1,4 +1,4 @@
-name: Database migrations and functions
+name: Database migrations
 # Manual on purpose: you decide when the database changes.
 on:
   workflow_dispatch:
@@ -17,6 +17,3 @@ jobs:
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-      - run: supabase functions deploy notify-access-request
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}

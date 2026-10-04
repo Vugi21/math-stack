@@ -2,7 +2,7 @@
 //
 //   Problems:  num / expr / text / ratio / set / mc   (id, question, answer, options)
 //   options:   h: hints[]   w: [[wrongAnswer, message], ...]   s: solution   (plus unit, mixed, simplify, tag)
-//   Blocks:    p / rule / warn / ex / tbl / widget / mcq
+//   Blocks:    p / rule / warn / ex / tbl / widget / mcq   and for reading: def / key / formula / tip / recap
 //   Challenge: chain(title, intro, parts[], close)
 //   Quiz:      tpl(id, rng => problem)   at least 6 per lesson. Use N()/E()/... inside to build the problem.
 export * from '../engine/rational.js';
@@ -51,6 +51,16 @@ export const warn = (html) => ({ t: 'warn', html });
 export const ex = (title, steps) => ({ t: 'ex', title, steps });
 /** table: head is an array of column titles, rows is an array of arrays (markup allowed) */
 export const tbl = (head, rows, cap) => ({ t: 'tbl', head, rows, cap });
+/** Definition card: a term and what it means. */
+export const def = (term, html) => ({ t: 'def', term, html });
+/** The one idea to remember from a section. */
+export const key = (html) => ({ t: 'key', html });
+/** A named formula. expr is shown large; where explains the letters. */
+export const formula = (name, expr, where) => ({ t: 'formula', name, expr, where: where || '' });
+/** A practical tip or shortcut. */
+export const tip = (html) => ({ t: 'tip', html });
+/** End-of-reading summary: terms [[term, meaning]], formulas [[name, expr]] (formulas optional). */
+export const recap = (terms, formulas = []) => ({ t: 'recap', terms, formulas });
 export const widget = (kind, opts = {}) => ({ t: 'widget', kind, opts });
 export const mcq = (q, opts, ok, why, label) => ({ t: 'mc', kind: 'mc', q, opts, ok, why, label });
 export const chain = (title, intro, parts, close) => ({ kind: 'chain', title, intro, parts, close });

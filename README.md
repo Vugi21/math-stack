@@ -44,7 +44,7 @@ Without Supabase keys the app runs in guest mode and saves progress in the brows
 | 6 | Set Site URL and Redirect URLs to `https://<user>.github.io/<repo>/` (add `http://localhost:5173/` for development) | Supabase, Auth settings |
 | 7 | Add the secrets `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` | GitHub, Actions secrets |
 | 8 | Set Pages source to GitHub Actions, then push to `main` | GitHub |
-| 9 | Run `supabase/migrations/0002_access_requests.sql` (or run the **Database migrations and functions** workflow). Only your first parent email needs to be in `seed.sql`; after that, students are added from the Family tab | Supabase |
+| 9 | Run `supabase/migrations/0002_access_requests.sql` (or run the **Database migrations** workflow). Only your first parent email needs to be in `seed.sql`; after that, students are added from the Family tab | Supabase |
 
 The anon key is meant to be public. Row-level security protects the data: students read and write only their own rows, parents read their linked students, and the `allowed_emails` list gates everyone else.
 
@@ -52,7 +52,6 @@ The anon key is meant to be public. Row-level security protects the data: studen
 
 - Someone who signs in but is not on the list sees a **Request access** screen. The request lands in the Family tab, where a parent approves or denies it.
 - A parent can also add a student's email directly in the Family tab. When that student first signs in, they are linked to the parent automatically.
-- Optional email alert on each new request: create a free [Resend](https://resend.com) account, then run `supabase secrets set RESEND_API_KEY=... NOTIFY_EMAIL=you@example.com SITE_URL=https://<user>.github.io/<repo>/`. The function ships with the migrations workflow. Without these secrets, requests still appear in the app.
 
 ## Workflows
 
@@ -60,7 +59,7 @@ The anon key is meant to be public. Row-level security protects the data: studen
 |---|---|---|
 | `ci.yml` | Every PR and push | Content checks, tests, build |
 | `deploy.yml` | Push to `main` | Tests, build with secrets, publish to Pages |
-| `migrate.yml` | Manually | Applies database migrations and deploys the email function |
+| `migrate.yml` | Manually | Applies database migrations (`supabase db push`) |
 
 The migration workflow needs three more secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF` and `SUPABASE_DB_PASSWORD`.
 

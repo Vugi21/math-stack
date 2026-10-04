@@ -1,4 +1,4 @@
-import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name } from '../../../../src/content/dsl.js';
+import { lesson, num, set, mc, N, S, choice, tpl, p, rule, warn, ex, tbl, widget, mcq, chain, name, def, key, formula, tip, recap } from '../../../../src/content/dsl.js';
 
 const m = (n) => (n < 0 ? '−' + Math.abs(n) : String(n)); // minus sign for display
 
@@ -22,15 +22,26 @@ export default lesson({
   ],
 
   learn: [
-    p('The <b>number line</b> puts every number at a spot. Right means bigger, left means smaller. The whole numbers and their negative twins make the <b>integers</b>: …, −3, −2, −1, 0, 1, 2, 3, …'),
+    p('Every number you will meet in algebra lives on one picture: the <b>number line</b>. Before any rules about adding or comparing, it pays to get this picture exactly right, because almost every mistake with negative numbers comes from forgetting what the picture says.'),
+    def('number line', 'A straight line on which every number has one exact spot. Equal steps along the line mean equal changes in the number. <b>Right means bigger, left means smaller.</b>'),
+    def('integer', 'A whole number, its negative twin, or zero: …, −3, −2, −1, 0, 1, 2, 3, … Fractions and decimals such as 2.5 sit <i>between</i> integers and are not integers.'),
     widget('numberLineWalk', { a: 3, b: -5 }),
-    rule('<b>Opposites.</b> The opposite of a number sits the same distance from 0 on the other side. The opposite of 7 is −7, and the opposite of −7 is 7. Zero is its own opposite.'),
-    p('<b>Absolute value</b> is a distance. |x| means "how far is x from 0?" Distance is never negative, so |−9| = 9 and |9| = 9.'),
-    ex('Distance between two points', ['How far apart are −5 and 8?', 'Walk from −5 up to 0: that is 5 steps.', 'Walk from 0 up to 8: that is 8 more steps.', 'Total: 5 + 8 = 13. When the points are on opposite sides of 0, add the distances to 0.']),
-    rule('<b>Bigger means to the right.</b> −2 is bigger than −9, because −2 is farther right. A negative number with a small absolute value is closer to 0, so it is the bigger one.'),
-    tbl(['Number', 'Opposite', 'Absolute value'], [['6', '−6', '6'], ['−11', '11', '11'], ['0', '0', '0']], 'Three views of the same numbers'),
+    p('A <b>negative number</b> is a number less than 0. It is not a mysterious new kind of number. It simply continues the line past 0, to the left. A <b>positive number</b> is greater than 0. Zero is neither positive nor negative.'),
+    tbl(['Situation', 'Number', 'Meaning'], [['5 degrees below zero', '−5', 'left of 0'], ['A debt of $20', '−20', 'you owe, so below 0'], ['Basement level 2', '−2', 'two floors under ground'], ['3 degrees above zero', '3', 'right of 0']], 'Negative numbers describe "below zero" in many settings'),
+    def('opposite', 'The opposite of a number sits the same distance from 0 on the other side. The opposite of 7 is −7, and the opposite of −7 is 7. Zero is its own opposite.'),
+    rule('<b>Opposites.</b> Taking the opposite twice returns you to the start: the opposite of the opposite of x is x.'),
+    def('absolute value', 'The distance between a number and 0 on the number line. We write it with bars: |x|. Because it is a distance, it is never negative.'),
+    formula('Absolute value', '|x| = x if x is 0 or positive;  |x| = −x if x is negative', 'For a negative x, −x is the opposite of x, which is positive. So |−9| = −(−9) = 9.'),
     warn('<b>Watch out.</b> |−5| is not −5 and it is not "minus the absolute value". It is just 5. The bars ask for a distance, and a distance is never negative.'),
+    key('A minus sign tells you <b>which side of 0</b> a number is on. The size of the number, its absolute value, tells you <b>how far</b> from 0. Every question in this lesson is about side, distance, or both.'),
+    ex('Comparing negatives', ['Which is greater, −12 or −3?', 'Place both on the line. −12 is 12 steps left of 0. −3 is only 3 steps left of 0.', '−3 is farther to the right, so −3 is greater.', 'Check: −12 &lt; −3. The number with the bigger absolute value is the <i>smaller</i> number when both are negative.']),
+    rule('<b>Bigger means to the right.</b> A negative number with a small absolute value is closer to 0, so it is the bigger one: −2 is bigger than −9.'),
+    tip('To compare two negative numbers, ignore the minus signs, find which is bigger, then <b>flip</b> your answer. 12 is bigger than 3, so −12 is smaller than −3.'),
+    ex('Distance between two points', ['How far apart are −5 and 8?', 'Walk from −5 up to 0: that is 5 steps.', 'Walk from 0 up to 8: that is 8 more steps.', 'Total: 5 + 8 = 13. When the points are on opposite sides of 0, add the distances to 0.']),
+    tip('Same side of 0: <b>subtract</b> the absolute values (the distance from 2 to 9 is 9 − 2 = 7). Opposite sides: <b>add</b> them (the distance from −2 to 9 is 2 + 9 = 11). If unsure, sketch a quick line.'),
+    tbl(['Number', 'Opposite', 'Absolute value'], [['6', '−6', '6'], ['−11', '11', '11'], ['0', '0', '0']], 'Three views of the same numbers'),
     mcq('Maya says "−12 is greater than −3 because 12 is greater than 3." What is wrong?', ['Nothing, she is right.', 'She compared the sizes of the numbers, but −12 is farther left on the line, so it is smaller.', 'Negative numbers cannot be compared.'], 1, 'On the number line −12 is left of −3. Farther left means smaller. The absolute values compare 12 and 3, but the numbers themselves compare the other way.', 'Spot the mistake'),
+    recap([['integer', 'whole numbers, their negatives, and 0'], ['opposite', 'same distance from 0, other side'], ['absolute value', '|x|, the distance from 0, never negative'], ['greater than', 'farther to the right on the number line']], [['Absolute value', '|−x| = |x|'], ['Distance, opposite sides of 0', '|a| + |b|'], ['Distance, same side of 0', 'bigger |·| − smaller |·|']]),
   ],
 
   practice: [

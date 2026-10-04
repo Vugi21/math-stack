@@ -8,7 +8,6 @@ create table if not exists public.access_requests (
   name        text,
   message     text check (message is null or char_length(message) <= 300),
   status      text not null default 'pending' check (status in ('pending', 'approved', 'denied')),
-  notified_at timestamptz,
   created_at  timestamptz not null default now(),
   decided_at  timestamptz,
   decided_by  uuid references auth.users (id) on delete set null
@@ -36,19 +35,6 @@ begin
   insert into public.access_requests (email, name, message)
   values (em, left(nullif(trim(p_name), ''), 100), left(nullif(trim(p_message), ''), 300));
   return 'sent';
-end;
-$$;
-
--- Marks the request as notified; the email function calls this once per request so repeats cannot spam you.
-create or replace function public.claim_request_notification() returns bigint
-language plpgsql security definer set search_path = public as $$
-declare rid bigint;
-begin
-  update public.access_requests set notified_at = now()
-  where id = (select id from public.access_requests where lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
-              and status = 'pending' and notified_at is null limit 1)
-  returning id into rid;
-  return rid;
 end;
 $$;
 
@@ -113,5 +99,4 @@ begin
 end;
 $$;
 
-grant execute on function public.request_access(text, text), public.claim_request_notification(),
-  public.parent_invite(text, text), public.parent_deny_request(bigint), public.parent_pending_invites() to authenticated;
+grant execute on function public.request_access(text, text), public.parent_invite(text, text), public.parent_deny_request(bigint), public.parent_pending_invites() to authenticated;

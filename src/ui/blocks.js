@@ -7,6 +7,13 @@ export function blockEl(b) {
   switch (b.t) {
     case 'p': return mh('p', {}, b.html);
     case 'rule': return mh('p', { class: 'rule' }, b.html);
+    case 'def': return h('div', { class: 'def' }, h('span', { class: 'plabel' }, 'Definition'), mh('b', { class: 'term' }, b.term), mh('p', {}, b.html));
+    case 'key': return h('div', { class: 'keyidea' }, h('span', { class: 'plabel' }, 'Key idea'), mh('p', {}, b.html));
+    case 'formula': return h('div', { class: 'formula' }, h('span', { class: 'plabel' }, b.name), mh('div', { class: 'fx' }, b.expr), b.where ? mh('p', { class: 'where' }, b.where) : null);
+    case 'tip': return h('div', { class: 'tipbox' }, h('span', { class: 'plabel' }, 'Tip'), mh('p', {}, b.html));
+    case 'recap': return h('div', { class: 'recap' }, h('span', { class: 'plabel' }, 'Remember this'),
+      b.terms.length ? h('dl', {}, b.terms.map(([t, d]) => [mh('dt', {}, t), mh('dd', {}, d)])) : null,
+      b.formulas.length ? h('ul', { class: 'rf' }, b.formulas.map(([n, e]) => h('li', {}, h('span', { class: 'rn' }, n), mh('span', { class: 'fx' }, e)))) : null);
     case 'warn': return mh('p', { class: 'warn' }, b.html);
     case 'ex': return h('div', { class: 'worked' }, h('span', { class: 'plabel' }, 'Worked example'), mh('p', { class: 'wt' }, b.title),
       h('ol', {}, b.steps.map((s) => mh('li', {}, s))));
